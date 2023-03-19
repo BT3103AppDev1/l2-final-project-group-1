@@ -1,1 +1,1 @@
-# l2-final-project-group-1
+# BT3103-thrive
