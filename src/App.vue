@@ -22,8 +22,10 @@ export default {
   --grey: #77798c;
   --dark-alt: #334155;
   --purple: #8c96ca;
-  --lighter-purple: #afa7c6;
-  --sidebar-width: 300px;
+  --light-green: #d8e2dc;
+  --lighter-purple: #afa7c6; 
+  --primary-light: #f2baba; 
+  --sidebar-width: 300px; 
   --font-family: "ColfaxAI",-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
 }
 * {
