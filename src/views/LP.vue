@@ -53,6 +53,9 @@
                             No more confusion, no more missed messages, everyone is on the same page. </span>
                     </div>
                 </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-collab.png" style="width:45%;"/>
+                </div>
             </div>
             <div class="feature" id="feature2">
                 <div class="feature-text">
@@ -63,6 +66,9 @@
                         <span class="text"> Thrive's task management system allows you to create, assign, and manage tasks all in one place. <br>
                             Stay organized and on top of your to-do list, no matter how many projects you're working on. </span>
                     </div>
+                </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-task.png" style="width:45%;"/>
                 </div>
             </div>
             <div class="feature" id="feature3">
@@ -75,6 +81,9 @@
                              Keep everyone in the loop, gather feedback, and ensure your project is on track to meet its goals. </span>
                     </div>
                 </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-stakeholders.png" style="width:45%;"/>
+                </div>
             </div>
             <div class="feature" id="feature4">
                 <div class="feature-text">
@@ -85,6 +94,9 @@
                         <span class="text"> Thrive's deadline reminder system ensures you never miss a deadline again. <br>
                             Set up reminders for yourself or your team, and keep your projects on track. </span>
                     </div>
+                </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-deadline.png" style="width:45%;"/>
                 </div>
             </div>
             <div class="feature" id="feature5">
@@ -97,6 +109,9 @@
                             Stay on top of project risks with real-time monitoring, analysis, and reporting, and ensure your projects stay on track. </span>
                     </div>
                 </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-risk.png" style="width:45%;"/>
+                </div>
             </div> 
             <div class="feature" id="feature6">
                 <div class="feature-text">
@@ -107,6 +122,9 @@
                         <span class="text"> With Thrive's Clear Project Scope feature, you can define your project's scope and prevent scope creep. <br>
                             Set clear expectations, avoid misunderstandings, and ensure your team stays focused on delivering what was promised. </span>
                     </div>
+                </div>
+                <div class="feature-pic">
+                    <img id="feature-pic" src="../assets/features-scope.png" style="width:45%;"/>
                 </div>
             </div> 
         </div>
@@ -191,6 +209,10 @@
                     </div>
                 </div>
             </div>
+            <button class="start-button" v-on:click="getStarted()" style="background-color:var(--primary-alt);">
+                    <span class="material-icons-round" id="join"> touch_app </span> 
+                    <span class="button-text"> Get Started </span>
+            </button>
         </div> 
         <div class="right-container-3">
             <div class="story-slider">
@@ -320,7 +342,7 @@ export default {
 }
 
 #section2 {   
-    min-height: 200vh;
+    min-height: 250vh;
     display: flex;  
     align-items: center;  
     flex-flow: column wrap; 
@@ -507,11 +529,19 @@ export default {
 .feature {
     margin-top: 50px;
     padding-left: 100px;
-    flex-direction: row; 
-    flex-flow: row wrap;
     display: flex;
+    flex-direction: row; 
+    flex-flow: row wrap; 
+    width: 100%;
 }
 
+.feature-text {
+    width: 70%; 
+}
+
+.feature-pic {
+    width: 30%;
+}
 .feature-title {
     font-weight: 800;
     font-size: 25px;
@@ -770,7 +800,7 @@ input[type=text i] input {
   cursor: pointer;
   height: 45px;
   background-color: var(--dark);
-  color: var(--primary-alt);
+  color: var(--purple);
   margin: 20px;
   border-radius: 10px; 
   transition: 0.2s ease-out;
