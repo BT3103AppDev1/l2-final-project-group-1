@@ -1,0 +1,532 @@
+<template>
+  <div class="sections">
+    <div class="header">
+      <img class="top-logo" src="../assets/icon-no-slogan.png" alt="" />
+      <div
+        id="email"
+        class="text"
+        style="float: right; margin-right: 50px; margin-top: 18px"
+      >
+        support@thrive.com
+      </div>
+    </div> 
+    <div class="section" id="section1" :style="{ top: scrollTop + 'px' }">    
+        <div class="left-container">  
+            <div class="slogan">
+                <h1> Achieve Better, Thrive Together </h1>
+            </div>
+            <div class="thrive-text">
+                <span class="text"> <i> THRIVE </i> </span>
+            </div>
+            <div class="caption">
+                <span class="text"> Introducing Thrive - a revolutionary omni-platform for project management. <br> 
+                    With effective communication channels, risk management features and <br>
+                    efficient resource allocation, Thrive will increase the chances of project success, <br>
+                    benefiting organisations as a whole. </span>
+            </div>
+            <div class="button-menu"> 
+                <button class="start-button" v-on:click="getStarted()">
+                    <span class="material-icons-round" id="join"> touch_app </span> 
+                    <span class="button-text"> Get Started </span>
+                </button>
+                <button class="benefits-button" v-on:click="scrollToSection('section2')"> 
+                    <span class="material-icons-round" id="benefits"> open_in_full </span> 
+                    <span class="button-text"> See Benefits </span>
+                </button>
+            </div>
+        </div> 
+        <div class="right-container">  
+            <!-- some cool motion thing-->   
+            
+        </div> 
+    </div>  
+    <div class="section" id="section2">
+        <h1> <span style="color: var(--primary)"> Thrive </span> on our features </h1>
+    </div> 
+    <div class="section" id="section3">
+        <div class="left-container-3">
+            <div class="title-3"> See what our <span style="color: var(--primary)"> thriving </span> <br> community* has to say </div>
+            <div class="caption-3"> *2,825,000+ users in 121 countries from companies including </div>
+            <div class="slider">
+                <div class="slide-track">
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-daikin.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-amazon.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-bytedance.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-DBS.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-apple.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-dettol.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-google.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-macdonalds.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-micron.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-microsoft.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-netflix.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-salesforce.png'/>
+                    </div> 
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-daikin.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-amazon.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-bytedance.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-DBS.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-apple.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-dettol.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-google.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-macdonalds.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-micron.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-microsoft.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-netflix.png'/>
+                    </div>
+                    <div class="slide"> 
+                        <img id="company" src='../assets/slide-salesforce.png'/>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="right-container-3">
+            <div class="story-slider">
+                <div class="story-slide-track">
+                    <img id="stories" src='../assets/user-stories.png'/>
+                    <img id="stories" src='../assets/user-stories.png'/>
+                    <img id="stories" src='../assets/user-stories.png'/>
+                    <img id="stories" src='../assets/user-stories.png'/>
+                    <img id="stories" src='../assets/user-stories.png'/>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="section" id="section4">
+        <h1> Join the millions of users who are already <span style="color: var(--primary)"> thriving </span>  with <span style="color: var(--primary)"> Thrive </span> </h1>
+        <div class="email-container">
+            <div class="left-container4">
+            </div>
+            <div class="right-container4">
+                <div class="caption-4"> From exclusive promotions to early access to new features, <br>
+                    our newsletter subscribers are always the first to know. <br> <br>
+                    Don't miss out on all the exciting updates and join our thriving community now! 
+                </div>
+            </div>
+        </div>
+    </div>   
+  </div>
+  <scroll-progress-bar @scroll="setBoxShadowOpacityOnScroll()" />
+</template> 
+
+<script>  
+import ScrollProgressBar from '../components/ScrollProgressBar.vue';  
+
+export default {   
+    mounted() {
+      window.addEventListener('scroll', this.setBoxShadowOpacityOnScroll); 
+      window.addEventListener("scroll", this.handleScroll); 
+    },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.setBoxShadowOpacityOnScroll);
+      window.removeEventListener("scroll", this.handleScroll); 
+    },
+    components: {
+        'scroll-progress-bar': ScrollProgressBar,
+    }, 
+    methods: {
+        scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.scrollIntoView({ behavior: 'smooth' });
+        },
+        handleScroll() {
+            const section = document.getElementsByClassName('section');
+            const sectionOffsetTop = section.offsetTop;
+            const windowScrollY = window.scrollY;
+            if (windowScrollY > sectionOffsetTop) {
+                this.showShadow = true;
+            } else {
+                this.showShadow = false;
+            }
+        }, 
+        getStarted() {
+            this.$router.push("/login");
+        },
+        setBoxShadowOpacityOnScroll() {
+            console.log('Scroll event detected!')
+            const header = document.querySelector(".header");
+            const section1 = document.getElementById('section1'); 
+            section1.style.position = 'sticky';
+            section1.style.top = '0';
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;  
+            const opacity = scrollTop > 0 ? 1 : 0;   
+            header.style.boxShadow = `0 0 10px rgba(0, 0, 0, ${opacity})`;
+        }, 
+    }, 
+} 
+</script>
+
+<style scoped>
+.header { 
+    margin-top: 5px;
+    width: 100%; 
+    position: fixed; 
+    top: 0; left: 0; right: 0; 
+    z-index: 1000;
+    background-color: var(--light);   
+}  
+
+.sections {
+    display: flex; 
+    flex-direction: column; 
+    height: 100%;  
+    width: 100%;
+} 
+
+.section {  
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+    flex-flow: column wrap; 
+    position: relative; 
+    flex-direction: row;     
+    background-color: var(--light);
+}    
+
+/*.section#section1 {  
+    position: sticky; 
+    top: 0;
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+    flex-flow: column wrap;  
+    flex-direction: row;     
+    z-index: 100;
+}*/
+
+#section1 {
+  position: -webkit-sticky !important;  
+  position: sticky !important;
+  top: 20px;
+  z-index: 1;
+  height: 100vh; 
+}
+
+#section2 {   
+    min-height: 200vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+    flex-flow: column wrap; 
+    position: relative; 
+    flex-direction: row;    
+    z-index: 2;  
+}   
+
+.section#section3 {  
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+    flex-flow: column wrap; 
+    position: relative; 
+    flex-direction: row;    
+    z-index: 4;
+}   
+
+.section#section4 {  
+    min-height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;  
+    flex-flow: column wrap; 
+    position: relative; 
+    flex-direction: row;    
+    z-index: 2;
+}   
+
+
+.left-container { 
+    width: 50%; 
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;  
+}
+
+.right-container {
+  width: 50%;
+  height: 100%;
+  padding: 20px; 
+  background-color: blue;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.top-logo {
+  margin-left: 30px;
+  width: 10%;
+}
+
+.slogan {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.thrive-text {
+  text-transform: uppercase;
+  background-image: linear-gradient(
+    45deg,
+    var(--dark),
+    var(--purple),
+    var(--primary),
+    var(--purple),
+    var(--dark)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 300%;
+  background-position: -100%;
+  font-weight: 900;
+  font-size: 6rem;
+  text-align: center;
+  animation: animatedText 10s infinite;
+}
+
+@keyframes animatedText {
+  from {
+    background-position: 0%;
+  }
+  to {
+    background-position: 150%;
+  }
+}
+
+.caption {
+  margin-top: 30px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  text-align: center;
+}
+.button-menu {
+  margin-top: 50px;
+  padding-left: 7vw;
+  flex-direction: row;
+  display: inline-flex;
+}
+
+.start-button {
+  border: none;
+  padding: 15px;
+  width: 170px;
+  min-width: 170px;
+  font-size: 15px;
+  text-decoration: none;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 50px;
+  background-color: var(--dark-alt);
+  color: var(--light);
+  margin: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.2s ease-out;
+}
+.start-button:hover {
+  background-color: var(--dark);
+}
+
+.benefits-button {
+  border: 2px solid var(--purple);
+  padding: 15px;
+  width: 170px;
+  min-width: 170px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 50px;
+  background-color: var(--light);
+  color: var(--purple);
+  margin: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.benefits-button:hover {
+  background-color: var(--light-grey);
+}
+
+.material-icons-round#join {
+  font-size: 30px;
+  color: var(--light);
+}
+
+.material-icons-round#benefits {
+  font-size: 30px;
+  color: var(--purple);
+}
+
+.button-text {
+  padding-left: 10px;
+  font-weight: 500;
+} 
+
+.left-container-3 {
+    width: 42%; 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;  
+}
+
+.slider {
+    height: 80px; 
+    margin-top: 40px; 
+    margin-left: 30px; 
+    position: left; 
+    width: 90%; 
+    display: grid; 
+    place-items: center;
+    overflow: hidden;
+}
+
+.story-slider { 
+    height: 100vh;  
+    width: 70vw;
+    position: top;
+    display: grid; 
+    place-items: center;
+    overflow: hidden;
+}
+
+.slide-track {
+    display: flex; 
+    width: calc(80px * 26);
+    animation: scroll 40s linear infinite;
+}
+
+.story-slide-track { 
+    display: flex;
+    flex-direction: column;
+    height: calc(800px * 4);
+    animation: scrollstory 40s linear infinite;
+}
+
+@keyframes scrollstory {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(calc(-800px * 2))
+    }
+}
+#stories {
+    width: 80%; 
+}
+
+.slide-track:hover {
+    animation-play-state: paused;
+}
+
+.slide {
+    height: 60px; 
+    width: 80px; 
+    display: flex; 
+    align-items: center; 
+    padding: 2px; 
+}
+
+#company{
+    width: 80%; 
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0); 
+    }
+    100% {
+        transform: translateX(calc(-80px * 13));
+    }
+}
+
+.right-container-3 {
+    width: 58%;  
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;   
+}
+
+.title-3 {
+    font-size: 40px;
+    font-weight: 900;
+    padding-left: 30px;
+}
+ 
+.caption-3 {
+    padding-left: 30px;
+    margin-top: 10px;
+}
+
+.caption-4 {
+    text-align: center;
+}
+</style> 
