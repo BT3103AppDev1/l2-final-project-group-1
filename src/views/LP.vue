@@ -41,7 +41,64 @@
         </div> 
     </div>  
     <div class="section" id="section2">
-        <h1> <span style="color: var(--primary)"> Thrive </span> on our features </h1>
+        <div class="title-2"> <span style="color: var(--primary)"> Thrive </span> on our features </div>
+        <div class="features">
+            <div class="feature" id="feature1">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Collaborate and Conquer </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> Thrive brings all your chats and project management tools into one place, creating a single source of truth for your team. <br>
+                            No more confusion, no more missed messages, everyone is on the same page. </span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature" id="feature2">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Task Master </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> Thrive's task management system allows you to create, assign, and manage tasks all in one place. <br>
+                            Stay organized and on top of your to-do list, no matter how many projects you're working on. </span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature" id="feature3">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Tailored Notifications </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> With Thrive's customizable notification system, you can choose exactly which notifications you receive. <br>
+                            Get alerts for the things that matter most to you, and stay focused on the work that needs your attention. </span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature" id="feature4">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Deadline Watchdog </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> Thrive's deadline reminder system ensures you never miss a deadline again. <br>
+                            Set up reminders for yourself or your team, and keep your projects on track. </span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature" id="feature5">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Risk Radar </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> With Thrive's Risk Radar, you can identify potential risks before they become issues. <br>
+                            Stay on top of project risks with real-time monitoring, analysis, and reporting, and ensure your projects stay on track. </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div> 
     <div class="section" id="section3">
         <div class="left-container-3">
@@ -253,12 +310,11 @@ export default {
 
 #section2 {   
     min-height: 200vh;
-    display: flex; 
-    justify-content: center;
+    display: flex;  
     align-items: center;  
     flex-flow: column wrap; 
     position: relative; 
-    flex-direction: row;    
+    flex-direction: column;    
     z-index: 2;  
 }   
 
@@ -428,6 +484,32 @@ export default {
   font-weight: 500;
 } 
 
+.features {
+    display: flex;
+    flex-direction: flex column; 
+    flex-flow: column wrap; 
+    align-items: left;
+    width: 100%; 
+    height: 100%;
+}
+
+.feature {
+    margin-top: 50px;
+    padding-left: 100px;
+    flex-direction: row; 
+    flex-flow: row wrap;
+    display: flex;
+}
+
+.feature-title {
+    font-weight: 800;
+    font-size: 25px;
+    margin-bottom: 20px;
+} 
+
+.feature-desc {
+    line-height: 2;
+}
 .left-container-3 {
     width: 42%; 
     padding-left: 20px;
@@ -534,6 +616,12 @@ export default {
     font-weight: 900; 
     text-align: center;
     padding-top: 100px;
+}
+
+.title-2 {
+    font-size: 38px;
+    font-weight: 900; 
+    text-align: center; 
 }
 
 .email-container {
