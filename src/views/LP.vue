@@ -158,6 +158,9 @@
                         <span class="text"> Subscribe Now </span>
                     </button>
                 </form>  
+                <div class="copyright">
+                    <span class="text"> © 2023 Thrive. All rights reserved. Various trademarks held by their respective owners. </span> 
+                </div>
             </div>
         </div>
     </div>   
@@ -646,6 +649,11 @@ input[type=text i]:focus::placeholder {
 input[type=text i] input {
     width: 100%;
     padding: 20px;
+}
+
+.copyright { 
+    font-size: 11px;
+    text-align: center; 
 }
 
 .subscribeNow {  
