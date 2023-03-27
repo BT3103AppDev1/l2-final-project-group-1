@@ -389,7 +389,9 @@ export default {
   width: 50%;
   height: 100%;
   padding: 20px; 
-  background-color: blue;
+  background: linear-gradient(-45deg, var(--primary-light), var(--lighter-purple), var(--purple), var(--primary-light), var(--dark-purple), var(--purple), var(--light-green));
+  background-size: 400% 400%;
+  animation: gradient 20s ease infinite;
 }
 
 @keyframes gradient {
