@@ -769,8 +769,8 @@ input[type=text i] input {
   align-items: center;
   cursor: pointer;
   height: 45px;
-  background-color: var(--light);
-  color: var(--purple);
+  background-color: var(--dark);
+  color: var(--primary-alt);
   margin: 20px;
   border-radius: 10px; 
   transition: 0.2s ease-out;
