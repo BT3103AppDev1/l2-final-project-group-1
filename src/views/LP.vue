@@ -148,14 +148,15 @@
                 </div>
                 <form class="infoForm"> 
                     <div class="nameForm"> 
-                        <input type="text" id="fname" name="fname" required placeholder="First name" style="width:250px;height:50px;">   
-                        <input type="text" id="lname" name="lname" required placeholder="Last name" style="width:250px;height:50px;"> 
+                        <input type="text" id="fname" name="fname" required placeholder="First name" style="width:250px;height:50px;outline:none;border-radius:15px;">   
+                        <div class="filler" style="width: 10px;"> </div>
+                        <input type="text" id="lname" name="lname" required placeholder="Last name" style="width:250px;height:50px;outline:none;border-radius:15px;"> 
                     </div>
-                    <input type="text" id="lp-email" name="lp-email" required placeholder="Email address" style="width:500px;height:50px;">
-                </form> 
-                <button class="subscribeNow">
-                    <span class="text"> Subscribe Now </span>
-                </button>
+                    <input type="text" id="lp-email" name="lp-email" required placeholder="Email address" style="width:510px;height:50px;outline:none;border-radius:15px;">
+                    <button class="subscribeNow">
+                        <span class="text"> Subscribe Now </span>
+                    </button>
+                </form>  
             </div>
         </div>
     </div>   
@@ -237,18 +238,6 @@ export default {
     flex-direction: row;     
     background-color: var(--light);
 }    
-
-/*.section#section1 {  
-    position: sticky; 
-    top: 0;
-    min-height: 100vh;
-    display: flex; 
-    justify-content: center;
-    align-items: center;  
-    flex-flow: column wrap;  
-    flex-direction: row;     
-    z-index: 100;
-}*/
 
 #section1 {
   position: -webkit-sticky !important;  
@@ -550,6 +539,21 @@ export default {
     background-color: var(--primary);
     display: flex; 
     flex-direction: row;
+    background: linear-gradient(-45deg, var(--primary-light), var(--lighter-purple), var(--purple), var(--light-green));
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .left-container4 {
@@ -583,19 +587,69 @@ export default {
 .infoForm {
     display: flex; 
     flex-direction: column;
-    max-height: 600px;
-    padding-left: 50px;
+    max-height: 680px; 
+    align-items: center;
 }
 
 .nameForm {
     display: flex; 
     flex-direction: row; 
-    margin-top: 50px;
-} 
+    margin-top: 50px; 
+    margin-bottom: 20px;
+}  
 
 input[type=text i] {
-    border-radius: 10px;
-    outline: none;
-    outline-color: var(--light);
+    opacity: 0.7;
+    background-color: var(--light);  
+    padding: 20px; 
+    border: 1px var(--light);
+    color: var(--dark);
+    font: var(--font-family);
+    font-size: 14px; 
+    text-transform: uppercase;  
 }
+
+input[type=text i] span {
+    position: absolute;
+    left: 0; 
+}
+
+input[type=text i]:focus {
+    opacity: 0.9;   
+    font: var(--font-family);
+    transition: 0.4s;
+}
+
+input[type=text i]:focus::placeholder { 
+    transform: translateY(-18px);
+    font-size: 10px;
+}
+
+input[type=text i] input {
+    width: 100%;
+    padding: 20px;
+}
+
+.subscribeNow {  
+  text-align: center;
+  display: flex; 
+  justify-content: center;
+  border: none;
+  padding: 10px;
+  width: 510px; 
+  font-size: 16px; 
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 45px;
+  background-color: var(--light);
+  color: var(--purple);
+  margin: 20px;
+  border-radius: 10px; 
+  transition: 0.2s ease-out;
+}
+.subscribeNow:hover {
+  background-color: var(--dark-alt);
+}  
 </style> 
