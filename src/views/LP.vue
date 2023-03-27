@@ -68,11 +68,11 @@
             <div class="feature" id="feature3">
                 <div class="feature-text">
                     <div class="feature-title">  
-                        <span class="text"> Tailored Notifications </span>
+                        <span class="text"> Stakeholder Collaboration </span>
                     </div>
                     <div class="feature-desc">
-                        <span class="text"> With Thrive's customizable notification system, you can choose exactly which notifications you receive. <br>
-                            Get alerts for the things that matter most to you, and stay focused on the work that needs your attention. </span>
+                        <span class="text"> Thrive's stakeholder collaboration feature makes it easy to engage with your project's stakeholders. <br>
+                             Keep everyone in the loop, gather feedback, and ensure your project is on track to meet its goals. </span>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,18 @@
                             Stay on top of project risks with real-time monitoring, analysis, and reporting, and ensure your projects stay on track. </span>
                     </div>
                 </div>
-            </div>
+            </div> 
+            <div class="feature" id="feature6">
+                <div class="feature-text">
+                    <div class="feature-title">  
+                        <span class="text"> Clear Project Scope </span>
+                    </div>
+                    <div class="feature-desc">
+                        <span class="text"> With Thrive's Clear Project Scope feature, you can define your project's scope and prevent scope creep. <br>
+                            Set clear expectations, avoid misunderstandings, and ensure your team stays focused on delivering what was promised. </span>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div> 
     <div class="section" id="section3">
@@ -622,6 +633,7 @@ export default {
     font-size: 38px;
     font-weight: 900; 
     text-align: center; 
+    margin-bottom: 50px;
 }
 
 .email-container {
