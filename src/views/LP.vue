@@ -137,7 +137,7 @@
         </div>
     </div> 
     <div class="section" id="section4">
-        <h1> Join the millions of users who are already <span style="color: var(--primary)"> thriving </span>  with <span style="color: var(--primary)"> Thrive </span> </h1>
+        <div class="title-4"> Join the millions of users who are <br> already <span style="color: var(--primary)"> thriving </span>  with <span style="color: var(--primary)"> Thrive </span> </div>
         <div class="email-container">
             <div class="left-container4">
             </div>
@@ -146,6 +146,16 @@
                     our newsletter subscribers are always the first to know. <br> <br>
                     Don't miss out on all the exciting updates and join our thriving community now! 
                 </div>
+                <form class="infoForm"> 
+                    <div class="nameForm"> 
+                        <input type="text" id="fname" name="fname" required placeholder="First name" style="width:250px;height:50px;">   
+                        <input type="text" id="lname" name="lname" required placeholder="Last name" style="width:250px;height:50px;"> 
+                    </div>
+                    <input type="text" id="lp-email" name="lp-email" required placeholder="Email address" style="width:500px;height:50px;">
+                </form> 
+                <button class="subscribeNow">
+                    <span class="text"> Subscribe Now </span>
+                </button>
             </div>
         </div>
     </div>   
@@ -516,7 +526,7 @@ export default {
 }
 
 .title-3 {
-    font-size: 40px;
+    font-size: 38px;
     font-weight: 900;
     padding-left: 30px;
 }
@@ -526,7 +536,66 @@ export default {
     margin-top: 10px;
 }
 
-.caption-4 {
+.title-4 {
+    font-size: 38px;
+    font-weight: 900; 
     text-align: center;
+    padding-top: 100px;
+}
+
+.email-container {
+    width: 80vw; 
+    height: 60vh;
+    border-radius: 25px;
+    background-color: var(--primary);
+    display: flex; 
+    flex-direction: row;
+}
+
+.left-container4 {
+    width: 30%;  
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;   
+}
+
+.right-container4 {
+    width: 70%;  
+    height: 100%; 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;   
+}
+
+.caption-4 {
+    font-size: 16px;
+    font-weight: 500; 
+    text-align: center; 
+} 
+
+.infoForm {
+    display: flex; 
+    flex-direction: column;
+    max-height: 600px;
+    padding-left: 50px;
+}
+
+.nameForm {
+    display: flex; 
+    flex-direction: row; 
+    margin-top: 50px;
+} 
+
+input[type=text i] {
+    border-radius: 10px;
+    outline: none;
+    outline-color: var(--light);
 }
 </style> 
