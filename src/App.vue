@@ -22,6 +22,7 @@ export default {
   --grey: #77798c;
   --dark-alt: #334155;
   --purple: #8c96ca;
+  --dark-purple: #6d79b4; 
   --light-green: #d8e2dc;
   --lighter-purple: #afa7c6; 
   --primary-light: #f2baba; 
