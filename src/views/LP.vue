@@ -140,11 +140,12 @@
         <div class="title-4"> Join the millions of users who are <br> already <span style="color: var(--primary)"> thriving </span>  with <span style="color: var(--primary)"> Thrive </span> </div>
         <div class="email-container">
             <div class="left-container4">
+                <img id="collab" src="../assets/collab.png">
             </div>
             <div class="right-container4">
                 <div class="caption-4"> From exclusive promotions to early access to new features, <br>
                     our newsletter subscribers are always the first to know. <br> <br>
-                    Don't miss out on all the exciting updates and join our thriving community now! 
+                    Don't miss out on exciting updates and join our thriving community now! 
                 </div>
                 <form class="infoForm"> 
                     <div class="nameForm"> 
@@ -576,6 +577,23 @@ export default {
     display: flex; 
     flex-direction: column; 
     justify-content: center;   
+}
+
+#collab {
+    width: 130%;
+    height: 300px;
+    margin-top: 20px;
+    height: calc(300px * 1.05);
+    animation: bounce 2s linear infinite;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    5% {
+        transform: translateY(calc(-8px));  
+    }
 }
 
 .caption-4 {
