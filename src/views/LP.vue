@@ -342,7 +342,7 @@ export default {
 }
 
 #section2 {   
-    min-height: 250vh;
+    min-height: 210vh;
     display: flex;  
     align-items: center;  
     flex-flow: column wrap; 
@@ -383,6 +383,7 @@ export default {
     display: flex; 
     flex-direction: column; 
     justify-content: center;  
+    background-image: url("../assets/sect1bg.png")
 }
 
 .right-container {
