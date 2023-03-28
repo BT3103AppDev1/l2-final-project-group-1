@@ -153,6 +153,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "../firebase.js";
 import { auth, db } from "../firebase.js";
 import uploadImage from "../assets/upload.png";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
 export default {
   name: "Register",
   data() {
@@ -205,7 +207,7 @@ export default {
             projects: [], //input project name
             to_do: [],
             follow_up: [],
-            profilepic: this.imagePreview, //still need to save picture into firebase storage
+            profilepic: this.imageName,
           });
         } catch (error) {
           console.error("Error adding document: ", error);
@@ -232,8 +234,16 @@ export default {
       reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview = e.target.result;
+        this.imageName = files[0].name;
       };
       reader.readAsDataURL(files[0]);
+      const file = e.target.files[0];
+      const storage = getStorage();
+      const storageRef = ref(storage, "profilepics/" + file.name);
+
+      uploadBytes(storageRef, file).then((snapshot) => {
+        console.log("Uploaded!");
+      });
     },
   },
 };
