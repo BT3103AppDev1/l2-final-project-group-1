@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { Collapse } from "vue-collapsed";
 import Sidebar from "../components/Sidebar.vue";
+import ProfileDisplay from "../components/ProfileDisplay.vue";
 
 export default {
   data() {
@@ -53,12 +54,14 @@ export default {
   components: {
     Collapse,
     Sidebar,
+    ProfileDisplay,
   },
 };
 </script>
 
 <template>
   <Sidebar />
+  <ProfileDisplay />
   <main id="home-page">
     <div>
       <div class="container">
