@@ -1,21 +1,19 @@
 <template>
-  <header>
-    <div id="profile">
-      <div id="profile-image">
-        <!-- <img
+  <div id="profile">
+    <div id="profile-image">
+      <!-- <img
           src="https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg"
           alt="Profile Picture"
         /> -->
-        <img :src="userPic" alt="Profile Picture" />
-      </div>
-      <div id="profile-text">
-        <p id="accountTitle">{{ userAccount }}</p>
-        <p id="accountName">
-          <b>{{ userName }}</b>
-        </p>
-      </div>
+      <img v-bind:src="userPic" alt="Profile Picture" />
     </div>
-  </header>
+    <div id="profile-text">
+      <p id="accountTitle">{{ userAccount }}</p>
+      <p id="accountName">
+        <b>{{ userName }}</b>
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -67,41 +65,26 @@ export default {
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
 #profile-image {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 3%;
+  left: 93%;
   border-radius: 50%;
   overflow: hidden;
-  width: 70px;
-  height: 70px;
+  width: 6%;
+  height: 10%;
+  border: 1px solid grey;
 }
 #profile-text {
   position: absolute;
-  top: 38px;
-  right: 120px;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  top: 5%;
+  left: 81%;
+  width: 11%;
+  text-align: right;
 }
 #profile-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-#projectTitle {
-  font-size: 32pt;
-}
-#accountTitle {
-  margin: 0px;
-}
-#accountName {
-  margin: 0px;
+  object-fit: contain;
 }
 </style>
