@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="../assets/icon.png" alt="" />
+    <img id="bg" src="/src/assets/icon.png" alt="" />
   </div>
   <router-view>
     <div class="container">
@@ -31,14 +31,21 @@
   </router-view>
 </template>
 
-<script>
-import firebaseApp from "../firebase.js";
-import { auth, db } from "../firebase.js";
+<script> 
+import firebaseApp from "/src/firebase.js";
+import { auth, db } from "/src/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { loginRest } from "./api"; 
 export default {
   name: "Login",
-  methods: {
+  methods: { 
     async login() {
+      loginRest(this.email, this.password) 
+      .then((response) => 
+        this.$emit("onAuth", { ...response.data, secret: this.password})
+      )
+      .catch((error) => console.log("Login error", error));  
+  
       let email = document.getElementById("email").value;
       let password = document.getElementById("password").value;
       const inputs = [email, password];

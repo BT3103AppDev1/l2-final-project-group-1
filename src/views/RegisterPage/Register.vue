@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="../assets/icon.png" alt="" />
+    <img id="bg" src="/src/assets/icon.png" alt="" />
   </div>
   <div class="container">
     <form id="myform">
@@ -150,20 +150,45 @@
 <script>
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseApp from "../firebase.js";
-import { auth, db } from "../firebase.js";
-import uploadImage from "../assets/upload.png";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import firebaseApp from "/src/firebase.js";
+import { auth, db } from "/src/firebase.js";
+import uploadImage from "/src/assets/upload.png";
+import { signupRest } from "./api"; 
 
 export default {
   name: "Register",
   data() {
     return {
+      name: "", 
+      type: "", 
+      dob: "",
+      email: "", 
+      number: "", 
+      gender: "", 
+      salutation:  "", 
+      password: "",  
       imagePreview: uploadImage,
     };
   },
   methods: {
     signup() {
+      
+      signupRest( 
+        this.name, 
+        this.type, 
+        this.dobYear,
+        this.dobMonth, 
+        this.dobDay,  
+        this.email, 
+        this.number, 
+        this.gender, 
+        this.salutation,
+        this.password,  
+      )
+      .then((response) => this.$emit("onAuth", { ... response.data, secret: this.password})
+      )
+      .catch((error) => console.log("Sign up error"))
+
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
       let dob_year = document.getElementById("year").value;
@@ -207,7 +232,7 @@ export default {
             projects: [], //input project name
             to_do: [],
             follow_up: [],
-            profilepic: this.imageName,
+            profilepic: this.imagePreview, //still need to save picture into firebase storage
           });
         } catch (error) {
           console.error("Error adding document: ", error);
@@ -234,16 +259,8 @@ export default {
       reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview = e.target.result;
-        this.imageName = files[0].name;
       };
       reader.readAsDataURL(files[0]);
-      const file = e.target.files[0];
-      const storage = getStorage();
-      const storageRef = ref(storage, "profilepics/" + file.name);
-
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log("Uploaded!");
-      });
     },
   },
 };
