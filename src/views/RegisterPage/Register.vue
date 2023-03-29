@@ -23,7 +23,7 @@
           type="text"
           id="name"
           required=""
-          placeholder="Name" 
+          placeholder="Name"
           v-model="name"
         /><br /><br />
         <select id="type" v-model="type">
@@ -38,7 +38,13 @@
           even if this account is for business
         </label>
         <br /><br />
-        <input type="number" id="year" required="" placeholder="Year" v-model="dobYear" />
+        <input
+          type="number"
+          id="year"
+          required=""
+          placeholder="Year"
+          v-model="dobYear"
+        />
         <select id="month" v-model="dobMonth">
           <option value="">Month</option>
           <option value="january">January</option>
@@ -157,44 +163,44 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
 import uploadImage from "/src/assets/upload.png";
-import { signupRest } from "/src/views/RegisterPage/api.js"; 
+import { signupRest } from "/src/views/RegisterPage/api.js";
 
 export default {
   name: "Register",
   data() {
     return {
-      name: "", 
-      type: "", 
+      name: "",
+      type: "",
       dobYear: "",
-      dobMonth: "", 
-      dobDay: "", 
-      email: "", 
-      number: "", 
-      gender: "", 
-      salutation:  "", 
-      password: "",  
+      dobMonth: "",
+      dobDay: "",
+      email: "",
+      number: "",
+      gender: "",
+      salutation: "",
+      password: "",
       imagePreview: uploadImage,
     };
   },
   methods: {
     signup() {
-      
-      signupRest( 
-        this.name, 
-        this.type, 
+      signupRest(
+        this.name,
+        this.type,
         this.dobYear,
-        this.dobMonth, 
-        this.dobDay,  
-        this.email, 
-        this.number, 
-        this.gender, 
+        this.dobMonth,
+        this.dobDay,
+        this.email,
+        this.number,
+        this.gender,
         this.salutation,
-        this.password,  
-        this.imagePreview, 
+        this.password,
+        this.imagePreview
       )
-      .then((response) => this.$emit("onAuth", { ... response.data, secret: this.password})
-      )
-      .catch((error) => console.log("Sign up error")); 
+        .then((response) =>
+          this.$emit("onAuth", { ...response.data, secret: this.password })
+        )
+        .catch((error) => console.log("Sign up error"));
 
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
