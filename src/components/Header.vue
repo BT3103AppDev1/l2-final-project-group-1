@@ -36,10 +36,8 @@ export default {
 
 <style scoped>
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
 }
 #profile-image {
         position: absolute;
