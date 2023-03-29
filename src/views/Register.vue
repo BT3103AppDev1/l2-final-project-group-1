@@ -152,7 +152,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "../firebase.js";
 import { auth, db } from "../firebase.js";
-import uploadImage from "../assets/upload.png";
+import uploadImage from "../assets/upload.png"; 
 export default {
   name: "Register",
   data() {
