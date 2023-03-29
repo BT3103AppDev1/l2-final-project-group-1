@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { Collapse } from "vue-collapsed";
 import Sidebar from "../components/Sidebar.vue";
+import ProfileDisplay from "../components/ProfileDisplay.vue";
 
 export default {
   data() {
@@ -53,17 +54,20 @@ export default {
   components: {
     Collapse,
     Sidebar,
+    ProfileDisplay,
   },
 };
 </script>
 
 <template>
   <Sidebar />
+  <ProfileDisplay />
   <main id="home-page">
-    <div class="container">
-      <img src="src\assets\todo.png" alt="Image description" />
-
-      <h1 class="header" id="currDate">{{ today }}</h1>
+    <div>
+      <div class="container">
+        <img src="../assets/todo.png" alt="Image description" />
+        <h1 class="header" id="currDate">{{ today }}</h1>
+      </div>
       <br />
       <br />
       <br />
@@ -128,16 +132,19 @@ export default {
   transition: height var(--vc-auto-duration) cubic-bezier(0.3, 0, 0.6, 1);
 }
 
-img {
-  float: left;
-  width: 100px;
-  height: 100px;
+.container {
+  display: flex;
+  align-items: center;
 }
 
-.header {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 20px; /* adjust as needed */
+.container img {
+  margin-right: 10px;
+  height: 100px;
+  width: 100px;
+}
+
+.container .header {
+  margin: 0;
 }
 
 button {
