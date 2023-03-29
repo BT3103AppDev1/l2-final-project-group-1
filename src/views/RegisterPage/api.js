@@ -1,11 +1,16 @@
-import axios from "axios"; 
+import axios from "axios";    
+
+const config = {
+    'Content-Type': 'application/json',
+    "Accept": "application/json",
+  } 
 
 const loginRest = async (name, secret) => {
-    return await axios.get("https://api.chatengine.io/users/me/", {
-        headers: {
-            "Project-ID": import.meta.env.VITE_CHAT_ENGINE_PROJECT_ID, 
-            "User-Name": name, 
-            "User-Secret": secret,
+    return await axios.get("https://api.chatengine.io/users/me", { 
+        headers: {      
+            'Project-ID': "3d82dfcc-f509-4c52-8214-0998a3f07da0", 
+            "user-name": name, 
+            "user-secret": secret, 
         },
     });
 };
@@ -14,7 +19,7 @@ const signupRest = async (name, type, dobYear, dobMonth, dobDay, email, number, 
     return await axios.post(
         "https://api.chatengine.io/users/", 
         { name, type, dobYear, dobMonth, dobDay, email, number, gender, salutation, secret }, 
-        { headers: { "Private-Key": import.meta.env.VITE_CHAT_ENGINE_PRIVATE_KEY }}
+        { headers: { "Private-Key": "f0f58726-ef77-4940-b827-cf756fe81009" }}
     );
 };
 
