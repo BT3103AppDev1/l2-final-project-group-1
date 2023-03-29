@@ -160,6 +160,7 @@ export default {
   data() {
     return {
       imagePreview: uploadImage,
+      imageName: "default_profile.png",
     };
   },
   methods: {
