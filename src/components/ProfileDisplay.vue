@@ -67,12 +67,12 @@ export default {
 <style scoped>
 #profile-image {
   position: absolute;
-  top: 3%;
+  top: 3.5%;
   left: 93%;
   border-radius: 50%;
   overflow: hidden;
-  width: 6%;
-  height: 10%;
+  width: 5%;
+  height: 9%;
   border: 1px solid grey;
 }
 #profile-text {
