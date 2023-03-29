@@ -23,9 +23,10 @@
           type="text"
           id="name"
           required=""
-          placeholder="Name"
+          placeholder="Name" 
+          v-model="name"
         /><br /><br />
-        <select id="type">
+        <select id="type" v-model="type">
           <option value="">Account Type</option>
           <option value="Employee">Employee</option>
           <option value="Employer">Employer</option>
@@ -37,8 +38,8 @@
           even if this account is for business
         </label>
         <br /><br />
-        <input type="number" id="year" required="" placeholder="Year" />
-        <select id="month">
+        <input type="number" id="year" required="" placeholder="Year" v-model="dobYear" />
+        <select id="month" v-model="dobMonth">
           <option value="">Month</option>
           <option value="january">January</option>
           <option value="february">February</option>
@@ -53,7 +54,7 @@
           <option value="november">November</option>
           <option value="december">December</option>
         </select>
-        <select id="day">
+        <select id="day" v-model="dobDay">
           <option value="">Day</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -92,20 +93,22 @@
           id="email"
           required=""
           placeholder="Email"
+          v-model="email"
         /><br /><br />
         <input
           type="text"
           id="number"
           required=""
           placeholder="Phone number"
+          v-model="number"
         /><br /><br />
-        <select id="gender">
+        <select id="gender" v-model="gender">
           <option value="">Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
         <br /><br />
-        <select id="salutation">
+        <select id="salutation" v-model="salutation">
           <option value="">Salutation</option>
           <option value="mr">Mr</option>
           <option value="ms">Ms</option>
@@ -119,6 +122,7 @@
           id="password"
           required=""
           placeholder="Password"
+          v-model="password"
         /><br /><br />
         <input
           type="text"
@@ -153,7 +157,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
 import uploadImage from "/src/assets/upload.png";
-import { signupRest } from "./api"; 
+import { signupRest } from "/src/views/RegisterPage/api.js"; 
 
 export default {
   name: "Register",
@@ -161,7 +165,9 @@ export default {
     return {
       name: "", 
       type: "", 
-      dob: "",
+      dobYear: "",
+      dobMonth: "", 
+      dobDay: "", 
       email: "", 
       number: "", 
       gender: "", 
@@ -184,10 +190,11 @@ export default {
         this.gender, 
         this.salutation,
         this.password,  
+        this.imagePreview, 
       )
       .then((response) => this.$emit("onAuth", { ... response.data, secret: this.password})
       )
-      .catch((error) => console.log("Sign up error"))
+      .catch((error) => console.log("Sign up error")); 
 
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;

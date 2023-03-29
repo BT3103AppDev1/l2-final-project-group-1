@@ -27,7 +27,7 @@ export default {
   },
   methods: {},
   props: {
-    username: {
+    name: {
       type: String,
       required: true,
     },

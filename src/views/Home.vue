@@ -1,8 +1,8 @@
 <script>
 import { ref } from "vue";
 import { Collapse } from "vue-collapsed";
-import Sidebar from "../components/Sidebar.vue";
-import ProfileDisplay from "../components/ProfileDisplay.vue";
+import Sidebar from "/src/components/Sidebar.vue";
+import ProfileDisplay from "/src/components/ProfileDisplay.vue";
 
 export default {
   data() {
@@ -59,9 +59,9 @@ export default {
 };
 </script>
 
-<template>
-  <Sidebar />
+<template> 
   <ProfileDisplay />
+  <Sidebar />
   <main id="home-page">
     <div>
       <div class="container">
