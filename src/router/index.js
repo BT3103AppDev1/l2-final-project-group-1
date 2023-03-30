@@ -35,11 +35,6 @@ const router = createRouter({
       component: () => import("../views/Projects.vue"),
     },
     {
-      path: "/login/projects/completed",
-      name: "Completed",
-      component: (Completed) => import("../views/Completed.vue"),
-    },
-    {
       path: "/login/alerts",
       component: () => import("../views/Alerts.vue"),
     },
