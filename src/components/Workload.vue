@@ -1,10 +1,10 @@
 <template>
-<p id = "projectTitle">  &#91;Metaverse Project&#93; Competitor Analysis</p>
-<hr>
-<p id = "header">Workload Tracker</p>
-<p id = "mywork"> &nbsp; My Work</p>
-<hr>
-<div id="tasktable">
+    <p id = "projectTitle">  &#91;Metaverse Project&#93; Competitor Analysis</p>
+    <hr>
+    <p id = "header">Workload Tracker</p>
+    <p id = "mywork"> &nbsp; My Work</p>
+    <hr>
+    <div id="tasktable">
         <table>
             <thead>
                 <tr>
@@ -28,13 +28,20 @@
         <br>
         <button @click="deleteCompletedTasks">Confirm changes</button>
     </div>
-    <div id = "profile">
-        <div id="profile-image">
-            <img src="https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/profile-photos-4.jpg" alt="Profile Picture">
-        </div>
-        <div id = "profile-text">
-            <p id = "accountTitle">Developer</p>
-            <p id = "accountName"><b>Sarah Doe</b></p>
+    <div v-if =" this.userAccount = 'Employer'">
+        <br>
+        <br>
+        <div>
+            <h2>Add New Task</h2>
+            <form @submit.prevent="addTask">
+                <label for="title">Title:</label>
+                <input type="text" id="title" v-model="newTask.title">
+                <label for="scope">Scope:</label>
+                <input type="text" id="scope" v-model="newTask.scope">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" v-model="newTask.endDate">
+                <button type="submit">Assign Task</button>
+            </form>
         </div>
     </div>
 </template>
@@ -48,7 +55,9 @@ export default {
                 { id: 1, title: 'Task 1', scope: 'Project A', endDate: '2023-03-30', completed: false },
                 { id: 2, title: 'Task 2', scope: 'Project B', endDate: '2023-04-15', completed: false },
                 { id: 3, title: 'Task 3', scope: 'Project C', endDate: '2023-04-30', completed: false },
-            ]
+            ],
+            newTask: { title: '', scope: '', endDate: '' },
+            nextTaskId: 4
         }
     },
     methods: {
@@ -56,8 +65,24 @@ export default {
             this.tasks = this.tasks.filter(function(task) {
                 return !task.completed;
             });
+        },
+        addTask: function() {
+            if (!this.newTask.title || !this.newTask.scope || !this.newTask.endDate) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            this.tasks.push({
+                id: this.nextTaskId++,
+                title: this.newTask.title,
+                scope: this.newTask.scope,
+                endDate: this.newTask.endDate,
+                completed: false
+            });
+            this.newTask.title = '';
+            this.newTask.scope = '';
+            this.newTask.endDate = '';
         }
-    }
+    } 
 }
 </script>
 
