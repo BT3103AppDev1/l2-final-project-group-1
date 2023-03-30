@@ -47,8 +47,12 @@
 </template>
 
 <script>
-export default {
+import { auth, db } from "../firebase";
+import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
+export default {
+ 
     data() {
         return {
             tasks: [
@@ -57,7 +61,8 @@ export default {
                 { id: 3, title: 'Task 3', scope: 'Project C', endDate: '2023-04-30', completed: false },
             ],
             newTask: { title: '', scope: '', endDate: '' },
-            nextTaskId: 4
+            nextTaskId: 4,
+            userAccount:""
         }
     },
     methods: {
@@ -81,8 +86,23 @@ export default {
             this.newTask.title = '';
             this.newTask.scope = '';
             this.newTask.endDate = '';
+        },
+        async displayaccount(useremail) {
+            const Snapshot = await getDocs(collection(db, "userinfo"));
+            Snapshot.forEach((doc) => {
+                if (doc.data().email === useremail) {
+                this.userAccount = doc.data().account_type;
+                }
+            });
         }
-    } 
+    },
+        async mounted() {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    this.displayaccount(user.email)
+                }
+            })
+        },
 }
 </script>
 
