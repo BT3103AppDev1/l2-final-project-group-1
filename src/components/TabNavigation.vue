@@ -19,39 +19,19 @@
 <script>
 import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
-import { auth, db } from "../firebase";
-import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+
 
 export default {
   data() {
     return {
       activeTab: 0,
       tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About'],
-      userAccount: ""
     };
   },
   components: {
     Workload,
     ProfileDisplay
   },
-  async mounted() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.displayaccount(user.email)
-      }
-    })
-  },
-  methods: {
-    async displayaccount(useremail) {
-      const Snapshot = await getDocs(collection(db, "userinfo"));
-      Snapshot.forEach((doc) => {
-        if (doc.data().email === useremail) {
-          this.userAccount = doc.data().account_type;
-        }
-      });
-    }
-  }
 }
 </script>
 
