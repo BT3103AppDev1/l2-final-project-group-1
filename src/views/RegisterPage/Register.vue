@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="/src/assets/icon.png" alt="" />
+    <img id="bg" src="../assets/icon.png" alt="" />
   </div>
   <div class="container">
     <form id="myform">
@@ -24,9 +24,8 @@
           id="name"
           required=""
           placeholder="Name"
-          v-model="name"
         /><br /><br />
-        <select id="type" v-model="type">
+        <select id="type">
           <option value="">Account Type</option>
           <option value="Employee">Employee</option>
           <option value="Employer">Employer</option>
@@ -38,14 +37,8 @@
           even if this account is for business
         </label>
         <br /><br />
-        <input
-          type="number"
-          id="year"
-          required=""
-          placeholder="Year"
-          v-model="dobYear"
-        />
-        <select id="month" v-model="dobMonth">
+        <input type="number" id="year" required="" placeholder="Year" />
+        <select id="month">
           <option value="">Month</option>
           <option value="january">January</option>
           <option value="february">February</option>
@@ -60,7 +53,7 @@
           <option value="november">November</option>
           <option value="december">December</option>
         </select>
-        <select id="day" v-model="dobDay">
+        <select id="day">
           <option value="">Day</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -99,22 +92,20 @@
           id="email"
           required=""
           placeholder="Email"
-          v-model="email"
         /><br /><br />
         <input
           type="text"
           id="number"
           required=""
           placeholder="Phone number"
-          v-model="number"
         /><br /><br />
-        <select id="gender" v-model="gender">
+        <select id="gender">
           <option value="">Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
         <br /><br />
-        <select id="salutation" v-model="salutation">
+        <select id="salutation">
           <option value="">Salutation</option>
           <option value="mr">Mr</option>
           <option value="ms">Ms</option>
@@ -128,7 +119,6 @@
           id="password"
           required=""
           placeholder="Password"
-          v-model="password"
         /><br /><br />
         <input
           type="text"
@@ -170,41 +160,12 @@ export default {
   name: "Register",
   data() {
     return {
-      name: "",
-      type: "",
-      dobYear: "",
-      dobMonth: "",
-      dobDay: "",
-      email: "",
-      number: "",
-      gender: "",
-      salutation: "",
-      password: "",
       imagePreview: uploadImage,
       imageName: "default_profile.png",
     };
   },
   methods: {
     signup() {
-      signupRest(
-        this.name,
-        this.type,
-        this.dobYear,
-        this.dobMonth,
-        this.dobDay,
-        this.email,
-        this.number,
-        this.gender,
-        this.salutation,
-        this.password,
-        this.imagePreview,
-        this.imageName
-      )
-        .then((response) =>
-          this.$emit("onAuth", { ...response.data, secret: this.password })
-        )
-        .catch((error) => console.log("Sign up error"));
-
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
       let dob_year = document.getElementById("year").value;

@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="/src/assets/icon.png" alt="" />
+    <img id="bg" src="../assets/icon.png" alt="" />
   </div>
   <router-view>
     <div class="container">
@@ -12,9 +12,9 @@
         <router-view />
         <br /><br />
         <div class="formli">
-          <input type="text" id="email" required="" placeholder="Email" v-model="email"/>
+          <input type="text" id="email" required="" placeholder="Email" />
           <br /><br />
-          <input type="text" id="password" required="" placeholder="Password" v-model="password"/>
+          <input type="text" id="password" required="" placeholder="Password" />
           <br /><br />
           <h4 id="forgotpassword">Forgot Password?</h4>
           <br /><br />
@@ -31,28 +31,16 @@
   </router-view>
 </template>
 
-<script> 
+<script>
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { loginRest } from "/src/views/RegisterPage/api.js"; 
+import { loginRest } from "/src/views/RegisterPage/api.js";
 
 export default {
   name: "Login",
-  data() {
-    return {
-      email: "", 
-      password: ""
-    };
-  }, 
-  methods: { 
+  methods: {
     async login() {
-      loginRest(this.email, this.password) 
-      .then((response) => 
-        this.$emit("onAuth", { ...response.data, secret: this.password})
-      )
-      .catch((error) => console.log("Login error", error));  
-  
       let email = document.getElementById("email").value;
       let password = document.getElementById("password").value;
       const inputs = [email, password];
