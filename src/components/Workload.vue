@@ -26,9 +26,11 @@
             </tbody>
         </table>
         <br>
+        <div id = "confirm-changes">
         <button @click="deleteCompletedTasks">Confirm changes</button>
+        </div>
     </div>
-    <div v-if =" this.userAccount = 'Employer'">
+    <div v-if =" this.userAccount == 'Employer'">
         <br>
         <br>
         <div>
@@ -110,7 +112,9 @@ export default {
     #app {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Set the height to fill the entire viewport */
     }
     table {
         border-collapse: collapse;
@@ -136,7 +140,7 @@ export default {
         font-weight: bold;
         margin: 0px;
     }
-    button {
+    #confirm-changes {
         align-self: flex-end;
         background-color: #4a4e69;
         color: #FFFFFF;
@@ -148,38 +152,7 @@ export default {
         border-style: solid;
         border-color: #4a4e69;
         float: right;
-    }
-    #profile-image {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        border-radius: 50%;
-        overflow: hidden;
-        width: 70px;
-        height: 70px;
-    }
-    #profile-text {
-        position: absolute;
-        top: 38px;
-        right: 120px;
-        border-radius: 50%;
-        width: 70px;
-        height: 70px;
-    }
-    #profile-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    #projectTitle {
-        font-size: 32pt;
-    }
-    #accountTitle {
-        margin: 0px;
-    }
-    #accountName {
-        margin: 0px;   
-    }
+    } 
 </style>
 
 
