@@ -12,9 +12,9 @@
         <router-view />
         <br /><br />
         <div class="formli">
-          <input type="text" id="email" required="" placeholder="Email" />
+          <input type="text" id="email" required="" placeholder="Email" v-model="email"/>
           <br /><br />
-          <input type="text" id="password" required="" placeholder="Password" />
+          <input type="text" id="password" required="" placeholder="Password" v-model="password"/>
           <br /><br />
           <h4 id="forgotpassword">Forgot Password?</h4>
           <br /><br />
@@ -35,9 +35,16 @@
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { loginRest } from "./api"; 
+import { loginRest } from "/src/views/RegisterPage/api.js"; 
+
 export default {
   name: "Login",
+  data() {
+    return {
+      email: "", 
+      password: ""
+    };
+  }, 
   methods: { 
     async login() {
       loginRest(this.email, this.password) 

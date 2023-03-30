@@ -1,14 +1,30 @@
 <template>
-  <div class="app">
+  <div class="app"> 
     <!-- <Sidebar />
     <router-view /> -->
-    <router-view />
+    <Register @onAuth="handleAuth" /> 
+    <LogIn @onAuth="handleAuth" /> 
+
+    <router-view /> 
   </div>
 </template>
 
-<script>
+<script>  
+import Register from '/src/views/RegisterPage/Register.vue'; 
+import LogIn from '/src/views/RegisterPage/Login.vue';   
+
 export default {
-  name: "App"
+  name: "App", 
+  data () {
+    return {
+      user: undefined,
+    };
+  }, 
+  methods: {
+    handleAuth(user) {
+      this.user=user;
+    }
+  }
 };
 </script>
 
