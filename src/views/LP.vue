@@ -2,12 +2,7 @@
   <div class="sections">
     <div class="header">
       <img class="top-logo" src="../assets/icon-no-slogan.png" alt="" />
-      <div
-        id="email"
-        class="text"
-        style="float: right; margin-right: 50px; margin-top: 18px"
-      >
-        support@thrive.com
+      <div id="supportemail"> support@thrive.com
       </div>
     </div> 
     <div class="section" id="section1" :style="{ top: scrollTop + 'px' }">    
@@ -307,6 +302,8 @@ export default {
 
 <style scoped>
 .header { 
+    display: flex; 
+    flex-direction: row; 
     margin-top: 5px;
     width: 100%; 
     position: fixed; 
@@ -315,6 +312,12 @@ export default {
     background-color: var(--light);   
 }  
 
+#supportemail { 
+    margin-left: 800px; 
+    margin-top: 10px;
+    background-color: var(--light); 
+    outline: none; 
+}
 .sections {
     display: flex; 
     flex-direction: column; 
