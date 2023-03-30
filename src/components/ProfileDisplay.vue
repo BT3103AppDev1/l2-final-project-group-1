@@ -27,7 +27,6 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
-
 export default {
   data() {
     return {

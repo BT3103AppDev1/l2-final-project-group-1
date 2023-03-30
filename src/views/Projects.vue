@@ -1,46 +1,42 @@
 <template>
   <Sidebar />
-  <Header
-    @toggle-add-project="toggleAddProject"
-    title="My Projects"
-    :showAddProject="showAddProject"
-  />
-  <div v-show="showAddProject">
-    <AddProject @add-project="addProject" />
-  </div>
-  <br />
+  <header>
+    <h1> My projects </h1>
+    <br>
+    <input type="text" v-model="text" name="text" placeholder="Search..." />
+    <div class="nav_bar">
+      <div class="tab">
+        <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
+      </div>
+      <div class="content">
+        <div v-show="activeTab === 0">Ongoing projects</div>
+        <div v-show="activeTab === 1">Completed projects</div>
+      </div>
+    </div>
+    <ProfileDisplay />
+  </header>
+
   <div class="projects">
-    <Projects
-      @toggle-reminder="toggleReminder"
-      @delete-project="deleteProject"
-      :projects="projects"
-    />
+
   </div>
-  <div id="nav">
-    <router-link to="/projects/ongoing">Ongoing</router-link>
-    <router-link to="/projects/completed">Completed</router-link>
-  </div>
-  <router-view />
+
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import Projects from "../components/Projects.vue";
-import AddProject from "../components/AddProject.vue";
+import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
 
 export default {
-  name: "App",
+  name: "Projects",
   components: {
-    Header,
-    Projects,
-    AddProject,
     Sidebar,
+    ProfileDisplay
   },
   data() {
     return {
       tasks: [],
-      showAddProject: false,
+      activeTab: 0,
+      tabs: ['Ongoing', 'Completed']
     };
   },
   methods: {
@@ -68,17 +64,17 @@ export default {
       {
         id: 1,
         text: "[Metaverse Project] Competitor Analysis",
-        reminder: true,
+        ongoing: true,
       },
       {
         id: 2,
         text: "[Crypto Project] Product Management",
-        reminder: true,
+        ongoing: true,
       },
       {
         id: 3,
         text: "[Operational Project] Customer Relations",
-        reminder: false,
+        ongoing: false,
       },
     ];
   },
@@ -92,6 +88,39 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+header {
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.nav_bar {
+  display: block;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.tab {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+.tab button {
+  background-color: #f2f2f2;
+  color: #444;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.tab button.active {
+  background-color: #ddd;
+  color: #444;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
