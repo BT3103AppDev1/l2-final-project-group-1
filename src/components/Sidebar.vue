@@ -52,9 +52,9 @@
 
 <script setup>
 import { ref } from "vue";
-import { auth } from "../firebase.js";
+import { auth } from "/src/firebase.js";
 import { signOut } from "firebase/auth";
-import router from "../router";
+import router from "/src/router"; 
 
 const is_expanded = ref(localStorage.getItem("is_expanded") == "true");
 
@@ -66,7 +66,7 @@ const ToggleMenu = () => {
 const Logout = () => {
   signOut(auth, auth.currentUser);
   router.push({ name: "Landing Page" });
-};
+}; 
 </script>
 
 <style lang="scss" scoped>
