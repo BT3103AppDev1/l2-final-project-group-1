@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="../assets/icon.png" alt="" />
+    <img id="bg" src="/src/assets/icon.png" alt="" />
   </div>
   <div class="container">
     <form id="myform">
@@ -23,9 +23,10 @@
           type="text"
           id="name"
           required=""
-          placeholder="Name"
+          placeholder="Name" 
+          v-model="name"
         /><br /><br />
-        <select id="type">
+        <select id="type" v-model="type">
           <option value="">Account Type</option>
           <option value="Employee">Employee</option>
           <option value="Employer">Employer</option>
@@ -37,8 +38,8 @@
           even if this account is for business
         </label>
         <br /><br />
-        <input type="number" id="year" required="" placeholder="Year" />
-        <select id="month">
+        <input type="number" id="year" required="" placeholder="Year" v-model="dobYear" />
+        <select id="month" v-model="dobMonth">
           <option value="">Month</option>
           <option value="january">January</option>
           <option value="february">February</option>
@@ -53,7 +54,7 @@
           <option value="november">November</option>
           <option value="december">December</option>
         </select>
-        <select id="day">
+        <select id="day" v-model="dobDay">
           <option value="">Day</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -92,20 +93,22 @@
           id="email"
           required=""
           placeholder="Email"
+          v-model="email"
         /><br /><br />
         <input
           type="text"
           id="number"
           required=""
           placeholder="Phone number"
+          v-model="number"
         /><br /><br />
-        <select id="gender">
+        <select id="gender" v-model="gender">
           <option value="">Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
         <br /><br />
-        <select id="salutation">
+        <select id="salutation" v-model="salutation">
           <option value="">Salutation</option>
           <option value="mr">Mr</option>
           <option value="ms">Ms</option>
@@ -119,6 +122,7 @@
           id="password"
           required=""
           placeholder="Password"
+          v-model="password"
         /><br /><br />
         <input
           type="text"
@@ -152,20 +156,29 @@ import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
-import uploadImage from "/src/assets/upload.png";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { signupRest } from "/src/views/RegisterPage/api.js";
+import uploadImage from "/src/assets/upload.png"; 
+  
 
 export default {
   name: "Register",
   data() {
     return {
+      name: "", 
+      type: "", 
+      dobYear: "",
+      dobMonth: "", 
+      dobDay: "", 
+      email: "", 
+      number: "", 
+      gender: "", 
+      salutation:  "", 
+      password: "",  
       imagePreview: uploadImage,
-      imageName: "default_profile.png",
     };
   },
   methods: {
-    signup() {
+    signup() { 
+
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
       let dob_year = document.getElementById("year").value;
@@ -209,7 +222,7 @@ export default {
             projects: [], //input project name
             to_do: [],
             follow_up: [],
-            profilepic: this.imageName,
+            profilepic: this.imagePreview, //still need to save picture into firebase storage
           });
         } catch (error) {
           console.error("Error adding document: ", error);
@@ -236,15 +249,8 @@ export default {
       reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview = e.target.result;
-        this.imageName = files[0].name;
       };
       reader.readAsDataURL(files[0]);
-      const file = e.target.files[0];
-      const storage = getStorage();
-      const storageRef = ref(storage, "profilepics/" + file.name);
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log("Uploaded!");
-      });
     },
   },
 };
