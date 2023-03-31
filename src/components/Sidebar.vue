@@ -52,7 +52,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { auth } from "/src/firebase.js";
+import { auth } from "/src/database/firebase.js";
 import { signOut } from "firebase/auth";
 import router from "/src/router"; 
 
@@ -76,6 +76,7 @@ const Logout = () => {
 }
 
 aside {
+  z-index: 10000;
   display: flex;
   flex-direction: column;
 

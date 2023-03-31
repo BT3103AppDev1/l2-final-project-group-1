@@ -32,8 +32,8 @@
 </template>
 
 <script> 
-import firebaseApp from "/src/firebase.js";
-import { auth, db } from "/src/firebase.js";
+import firebaseApp from "/src/database/firebase.js";
+import { auth, db } from "/src/database/firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth"; 
 
 export default {
