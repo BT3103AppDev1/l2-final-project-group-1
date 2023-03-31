@@ -1,13 +1,10 @@
 <template>
-  <div class="app"> 
-    <!-- <Sidebar />
-    <router-view /> --> 
+  <div class="app">  
     <router-view /> 
   </div>
 </template>
 
-<script>    
-
+<script>     
 export default {
   name: "App", 
   data () {
