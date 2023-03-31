@@ -40,6 +40,10 @@ const router = createRouter({
       component: (Completed) => import("../views/Completed.vue"),
     },
     {
+      path: "/login/projects/tabnavigation",
+      component: () => import("../components/TabNavigation.vue"),
+    },
+    {
       path: "/login/alerts",
       component: () => import("../views/Alerts.vue"),
     },
