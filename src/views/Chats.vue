@@ -5,7 +5,17 @@
 			class="app-container" style="width: 100%"
 			:class="{ 'app-mobile': isDevice, 'app-mobile-dark': theme === 'dark' }"
 		>
-			<span
+      <div class="DLcont">
+        <span v-if="showOptions" class="button-theme">
+          <button class="button-light" @click="theme = 'light'">
+            Light
+          </button>
+          <button class="button-dark" @click="theme = 'dark'">
+            Dark
+          </button> 
+			  </span>
+      </div>
+			<!--<span
 				v-if="showOptions"
 				class="user-logged"
 				:class="{ 'user-logged-dark': theme === 'dark' }"
@@ -16,21 +26,7 @@
 				<option v-for="user in users" :key="user._id" :value="user._id">
 					{{ user.username }}
 				</option>
-			</select>
-
-			<div v-if="showOptions" class="button-theme">
-				<button class="button-light" @click="theme = 'light'">
-					Light
-				</button>
-				<button class="button-dark" @click="theme = 'dark'">
-					Dark
-				</button>
-				<button class="button-github">
-					<a href="https://github.com/antoine92190/vue-advanced-chat">
-						<img src="/src/assets/github.svg" />
-					</a>
-				</button>
-			</div>
+			</select>--> 
 
 			<chat-container
 				v-if="showChat"
@@ -120,8 +116,10 @@ input {
 }
 
 .app-container {  
-  padding-top: 30px; 
+  padding-top: 10px; 
 	font-family: 'Quicksand', sans-serif; 
+  display: flex; 
+  flex-direction: column;
 }
 
 .app-mobile {
