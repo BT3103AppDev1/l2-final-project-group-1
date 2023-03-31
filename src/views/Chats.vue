@@ -1,103 +1,234 @@
 <template>
-  <Sidebar /> 
-  <div class="chat">
-    <div class="messages">
-      <div v-for="message in messages" :key="message.id" class="message">
-        <div class="avatar">
-          <img :src="message.avatar" alt="Avatar" />
-        </div>
-        <div class="content">
-          <div class="name">{{ message.name }}</div>
-          <div class="text">{{ message.text }}</div>
-        </div>
-      </div>
-    </div>
-    <form class="input" @submit.prevent="sendMessage">
-      <input type="text" v-model="newMessage" placeholder="Type a message..." />
-      <button type="submit">Send</button>
-    </form>
-  </div>
+	<div class="big-con">
+    <Sidebar /> 
+		<div
+			class="app-container" style="width: 100%"
+			:class="{ 'app-mobile': isDevice, 'app-mobile-dark': theme === 'dark' }"
+		>
+			<span
+				v-if="showOptions"
+				class="user-logged"
+				:class="{ 'user-logged-dark': theme === 'dark' }"
+			>
+				Logged as
+			</span>
+			<select v-if="showOptions" v-model="currentUserId">
+				<option v-for="user in users" :key="user._id" :value="user._id">
+					{{ user.username }}
+				</option>
+			</select>
+
+			<div v-if="showOptions" class="button-theme">
+				<button class="button-light" @click="theme = 'light'">
+					Light
+				</button>
+				<button class="button-dark" @click="theme = 'dark'">
+					Dark
+				</button>
+				<button class="button-github">
+					<a href="https://github.com/antoine92190/vue-advanced-chat">
+						<img src="/src/assets/github.svg" />
+					</a>
+				</button>
+			</div>
+
+			<chat-container
+				v-if="showChat"
+				:current-user-id="currentUserId"
+				:theme="theme"
+				:is-device="isDevice"
+				@show-demo-options="showDemoOptions = $event"
+			/>
+
+		</div>
+	</div>
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar.vue"; 
+import Sidebar from '/src/components/Sidebar.vue'
+import ChatContainer from '/src/components/ChatContainer.vue'
+
 export default {
-  name: "Chats",
-  components: {
-    Sidebar
-  }, 
-  data() {
-    return {
-      messages: [
-        { id: 1, name: "John", text: "Hello!", avatar: "https://i.pravatar.cc/50?img=1" },
-        { id: 2, name: "Jane", text: "Hi there!", avatar: "https://i.pravatar.cc/50?img=2" },
-        { id: 3, name: "John", text: "How are you?", avatar: "https://i.pravatar.cc/50?img=1" },
-        { id: 4, name: "Jane", text: "I'm good, thanks!", avatar: "https://i.pravatar.cc/50?img=2" }
-      ],
-      newMessage: ""
-    };
-  },
-  methods: {
-    sendMessage() {
-      if (!this.newMessage) return;
-      const message = {
-        id: this.messages.length + 1,
-        name: "You",
-        text: this.newMessage,
-        avatar: "https://i.pravatar.cc/50?img=3"
-      };
-      this.messages.push(message);
-      this.newMessage = "";
-    }
-  }
-};
+	components: {
+    Sidebar,
+		ChatContainer
+	},
+
+	data() {
+		return {
+			theme: 'light',
+			showChat: true,
+			users: [
+				{
+					_id: '6R0MijpK6M4AIrwaaCY2',
+					username: 'Luke',
+					avatar: 'https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj'
+				},
+				{
+					_id: 'SGmFnBZB4xxMv9V4CVlW',
+					username: 'Leia',
+					avatar: 'https://avatarfiles.alphacoders.com/184/thumb-184913.jpg'
+				},
+				{
+					_id: '6jMsIXUrBHBj7o2cRlau',
+					username: 'Yoda',
+					avatar:
+						'https://vignette.wikia.nocookie.net/teamavatarone/images/4/45/Yoda.jpg/revision/latest?cb=20130224160049'
+				}
+			],
+			currentUserId: '6R0MijpK6M4AIrwaaCY2',
+			isDevice: false,
+			showDemoOptions: true
+		}
+	},
+
+	computed: {
+		showOptions() {
+			return !this.isDevice || this.showDemoOptions
+		}
+	},
+
+	watch: {
+		currentUserId() {
+			this.showChat = false
+			setTimeout(() => (this.showChat = true), 150)
+		}
+	},
+
+	mounted() {
+		this.isDevice = window.innerWidth < 500
+		window.addEventListener('resize', ev => {
+			if (ev.isTrusted) this.isDevice = window.innerWidth < 500
+		})
+	}
+}
 </script>
 
-<style>
-.chat {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%; 
-}
-.messages {
-  flex: 1;
-  overflow: auto;
-}
-.message {
-  display: flex;
-  margin-bottom: 10px;
-}
-.avatar {
-  margin-right: 10px;
-}
-.avatar img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-}
-.name {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.input {
-  display: flex;
-  padding: 10px;
-  background-color: #f2f2f2;
-}
-input[type="text"] {
-  flex: 1;
-  margin-right: 10px;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-}
-button[type="submit"] {
-  padding: 10px;
+<style lang="scss">
+body {
+	background: #fafafa; 
 }
 
+input {
+	appearance: none;
+}
+
+.big-con {
+  display: flex; 
+  flex-direction: row;
+  width: 100vw;
+}
+
+.app-container {  
+  padding-top: 30px; 
+	font-family: 'Quicksand', sans-serif; 
+}
+
+.app-mobile {
+	padding: 0;
+
+	&.app-mobile-dark {
+		background: #131415;
+	}
+
+	.user-logged {
+		margin: 10px 5px 0 10px;
+	}
+
+	select {
+		margin: 10px 0;
+	}
+
+	.button-theme {
+		margin: 10px 10px 0 0;
+
+		.button-github {
+			height: 23px;
+
+			img {
+				height: 23px;
+			}
+		}
+	}
+}
+
+.user-logged {
+	font-size: 12px;
+	margin-right: 5px;
+	margin-top: 10px;
+
+	&.user-logged-dark {
+		color: #fff;
+	}
+}
+
+select {
+	height: 20px;
+	outline: none;
+	border: 1px solid #e0e2e4;
+	border-radius: 4px;
+	background: #fff;
+	margin-bottom: 20px;
+}
+
+.button-theme {
+	float: right;
+	display: flex;
+	align-items: center;
+
+	.button-light {
+		background: #fff;
+		border: 1px solid #46484e;
+		color: #46484e;
+	}
+
+	.button-dark {
+		background: #1c1d21;
+		border: 1px solid #1c1d21;
+	}
+
+	button {
+		color: #fff;
+		outline: none;
+		cursor: pointer;
+		border-radius: 4px;
+		padding: 6px 12px;
+		margin-left: 10px;
+		border: none;
+		font-size: 14px;
+		transition: 0.3s;
+		vertical-align: middle;
+
+		&.button-github {
+			height: 30px;
+			background: none;
+			padding: 0;
+			margin-left: 20px;
+
+			img {
+				height: 30px;
+			}
+		}
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&:active {
+			opacity: 0.6;
+		}
+
+		@media only screen and (max-width: 768px) {
+			padding: 3px 6px;
+			font-size: 13px;
+		}
+	}
+}
+
+.version-container {
+	padding-top: 20px;
+	text-align: right;
+	font-size: 14px;
+	color: grey;
+}
 </style>
