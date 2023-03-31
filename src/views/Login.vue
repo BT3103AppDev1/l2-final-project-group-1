@@ -34,8 +34,7 @@
 <script> 
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { loginRest } from "/src/views/RegisterPage/api.js"; 
+import { signInWithEmailAndPassword } from "firebase/auth"; 
 
 export default {
   name: "Login",
@@ -44,14 +43,9 @@ export default {
       email: "", 
       password: ""
     };
-  }, 
+  },  
   methods: { 
-    async login() {
-      loginRest(this.email, this.password) 
-      .then((response) => 
-        this.$emit("onAuth", { ...response.data, secret: this.password})
-      )
-      .catch((error) => console.log("Login error", error));  
+    async login() { 
   
       let email = document.getElementById("email").value;
       let password = document.getElementById("password").value;

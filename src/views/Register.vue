@@ -156,8 +156,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "/src/firebase.js";
 import { auth, db } from "/src/firebase.js";
-import uploadImage from "/src/assets/upload.png";
-import { signupRest } from "/src/views/RegisterPage/api.js"; 
+import uploadImage from "/src/assets/upload.png"; 
+  
 
 export default {
   name: "Register",
@@ -177,24 +177,7 @@ export default {
     };
   },
   methods: {
-    signup() {
-      
-      signupRest( 
-        this.name, 
-        this.type, 
-        this.dobYear,
-        this.dobMonth, 
-        this.dobDay,  
-        this.email, 
-        this.number, 
-        this.gender, 
-        this.salutation,
-        this.password,  
-        this.imagePreview, 
-      )
-      .then((response) => this.$emit("onAuth", { ... response.data, secret: this.password})
-      )
-      .catch((error) => console.log("Sign up error")); 
+    signup() { 
 
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
