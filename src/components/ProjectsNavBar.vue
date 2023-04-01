@@ -84,13 +84,14 @@ export default {
 }
 
 .container {
-max-width: 1000px;
+max-width: 500px;
 margin: 30px auto;
 overflow: auto;
 min-height: 300px;
 border: 1px solid steelblue;
-padding: 30px;
+padding: 30px 150px 30px 150px;
 border-radius: 5px;
 }
+
 
 </style>
