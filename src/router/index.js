@@ -11,12 +11,12 @@ const router = createRouter({
     },
     {
       path: "/login",
-      component: () => import("../views/RegisterPage/Login.vue"),
+      component: () => import("../views/Login.vue"),
       name: "Login",
     },
     {
       path: "/register",
-      component: () => import("../views/RegisterPage/Register.vue"),
+      component: () => import("../views/Register.vue"),
     },
     {
       path: "/login/calendar",
@@ -24,7 +24,7 @@ const router = createRouter({
     },
     {
       path: "/login/chats",
-      component: () => import("../views/ChatsPage/Chats.vue"),
+      component: () => import("../views/Chats.vue"),
     },
     {
       path: "/login/home",
@@ -35,9 +35,8 @@ const router = createRouter({
       component: () => import("../views/Projects.vue"),
     },
     {
-      path: "/login/projects/completed",
-      name: "Completed",
-      component: (Completed) => import("../views/Completed.vue"),
+      path: "/login/projects/tabnavigation",
+      component: () => import("../components/TabNavigation.vue"),
     },
     {
       path: "/login/projects/tabnavigation",

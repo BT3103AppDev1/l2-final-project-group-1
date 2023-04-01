@@ -1,47 +1,27 @@
 <template>
   <Sidebar />
-  <Header
-    @toggle-add-project="toggleAddProject"
-    title="My Projects"
-    :showAddProject="showAddProject"
-  />
-  <div v-show="showAddProject">
-    <AddProject @add-project="addProject" />
-  </div>
-  <br />
-  <div class="projects">
-    <Projects
-      @toggle-reminder="toggleReminder"
-      @delete-project="deleteProject"
-      :projects="projects"
-    />
-  </div>
-  <div id="nav">
-    <router-link to="/projects/ongoing">Ongoing</router-link>
-    <router-link to="/projects/completed">Completed</router-link>
-  </div>
-  <router-view />
+  <header>
+    <h1> My projects </h1>
+    <br>
+    <input type="text" v-model="text" name="text" placeholder="Search..." />
+    <button id="addProBut" @click="toggleAddProject">+</button>
+    <ProjectsNavBar />
+    <ProfileDisplay />
+  </header>
+
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import Projects from "../components/Projects.vue";
-import AddProject from "../components/AddProject.vue";
+import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
+import ProjectsNavBar from "../components/ProjectsNavBar.vue";
 
 export default {
-  name: "App",
+  name: "Projects",
   components: {
-    Header,
-    Projects,
-    AddProject,
     Sidebar,
-  },
-  data() {
-    return {
-      tasks: [],
-      showAddProject: false,
-    };
+    ProjectsNavBar,
+    ProfileDisplay,
   },
   methods: {
     toggleAddProject() {
@@ -68,17 +48,17 @@ export default {
       {
         id: 1,
         text: "[Metaverse Project] Competitor Analysis",
-        reminder: true,
+        ongoing: true,
       },
       {
         id: 2,
         text: "[Crypto Project] Product Management",
-        reminder: true,
+        ongoing: true,
       },
       {
         id: 3,
         text: "[Operational Project] Customer Relations",
-        reminder: false,
+        ongoing: false,
       },
     ];
   },
@@ -92,6 +72,53 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+header {
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.nav_bar {
+  display: block;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.tab {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+.tab button {
+  background-color: #f2f2f2;
+  color: #444;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.tab button.active {
+  background-color: #ddd;
+  color: #444;
+}
+
+#addProBut {
+  background-color:grey; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

@@ -1,4 +1,5 @@
 <template>
+
   <header>
     <h1>{{ title }}</h1>
     <ProfileDisplay />
@@ -39,3 +40,4 @@ header {
   font-size: 32pt;
 }
 </style>
+
