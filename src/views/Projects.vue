@@ -49,8 +49,8 @@
 import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
 import { doc, setDoc } from "firebase/firestore";
-import firebaseApp from "/src/firebase.js";
-import { auth, db } from "/src/firebase.js";
+import firebaseApp from "/src/database/firebase.js";
+import { auth, db } from "/src/database/firebase.js";
 import Popup from "../components/Popup.vue"
 
 export default {
