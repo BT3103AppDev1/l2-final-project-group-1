@@ -168,8 +168,8 @@ export default {
       gender: "",
       salutation: "",
       password: "",
-      imagePreview: uploadImage,
-      imageName: "default_profile.png",
+      imagePreview: uploadImage, 
+      imageName: "default_profile.png", 
     };
   },
   methods: {
@@ -216,8 +216,8 @@ export default {
             salutation: salutation,
             projects: [], //input project name
             to_do: [],
-            follow_up: [],
-            profilepic: this.imageName,
+            follow_up: [], 
+            profilepic: this.imageName, //still need to save picture into firebase storage 
           });
         } catch (error) {
           console.error("Error adding document: ", error);
