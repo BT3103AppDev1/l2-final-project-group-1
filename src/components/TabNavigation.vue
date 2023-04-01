@@ -27,6 +27,7 @@ import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
 
 
+
 export default {
   data() {
     return {
@@ -55,6 +56,7 @@ export default {
   width: 100%;
 }
 
+
 .tab {
   display: flex;
   justify-content: space-between;
@@ -62,6 +64,7 @@ export default {
   max-width: 700px;
   margin-bottom: 20px;
 }
+
 
 .tab button {
   background-color: #f2f2f2;

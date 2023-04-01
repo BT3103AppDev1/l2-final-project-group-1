@@ -1,18 +1,10 @@
 <template>
-  <div class="app"> 
-    <!-- <Sidebar />
-    <router-view /> -->
-    <Register @onAuth="handleAuth" /> 
-    <LogIn @onAuth="handleAuth" /> 
-
+  <div class="app">  
     <router-view /> 
   </div>
 </template>
 
-<script>  
-import Register from '/src/views/RegisterPage/Register.vue'; 
-import LogIn from '/src/views/RegisterPage/Login.vue';   
-
+<script>     
 export default {
   name: "App", 
   data () {
@@ -20,10 +12,7 @@ export default {
       user: undefined,
     };
   }, 
-  methods: {
-    handleAuth(user) {
-      this.user=user;
-    }
+  methods: { 
   }
 };
 </script>

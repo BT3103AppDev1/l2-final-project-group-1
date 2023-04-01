@@ -49,9 +49,10 @@
 </template>
 
 <script>
-import { auth, db } from "../firebase";
+import { auth, db } from "../database/firebase";
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+ 
 
 export default {
  

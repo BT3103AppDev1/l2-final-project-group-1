@@ -259,7 +259,7 @@ import ScrollProgressBar from '../components/ScrollProgressBar.vue';
 export default {   
     mounted() {
       window.addEventListener('scroll', this.setBoxShadowOpacityOnScroll); 
-      window.addEventListener("scroll", this.handleScroll); 
+      window.addEventListener("scroll", this.handleScroll);  
     },
     beforeDestroy() {
       window.removeEventListener('scroll', this.setBoxShadowOpacityOnScroll);
@@ -286,15 +286,18 @@ export default {
         getStarted() {
             this.$router.push("/login");
         },
-        setBoxShadowOpacityOnScroll() {
-            console.log('Scroll event detected!')
+        setBoxShadowOpacityOnScroll() { 
             const header = document.querySelector(".header");
             const section1 = document.getElementById('section1'); 
             section1.style.position = 'sticky';
-            section1.style.top = '0';
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;  
-            const opacity = scrollTop > 0 ? 1 : 0;   
-            header.style.boxShadow = `0 0 10px rgba(0, 0, 0, ${opacity})`;
+            section1.style.top = '0'; 
+            if (window.pageYOffSet > 0 || document.documentElement.scrollTop > 0) {
+                const opacity = 1;
+                header.style.boxShadow = `0 0 10px rgba(0, 0, 0, ${opacity})`;
+
+            }
+            // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;  
+            // const opacity = scrollTop > 0 ? 1 : 0;    
         }, 
     }, 
 } 
