@@ -5,13 +5,13 @@
       </div>
       <div class="content">
         <div v-show="activeTab === 0">
-            <ul>
-                <li v-for="project in this.projects" :key="project.id">
-                    {{ project.text }}
-                </li>
-            </ul>
-
-
+            <div :key="project.id" v-for= "project in this.projects">
+                <div class= "container">
+                    <div @click="redirectToOtherComponent">
+                        <h3>{{project.text}} </h3>
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-show="activeTab === 1">Completed projects</div>
       </div>
@@ -81,6 +81,16 @@ export default {
 .tab button.active {
   background-color: #ddd;
   color: #444;
+}
+
+.container {
+max-width: 500px;
+margin: 30px auto;
+overflow: auto;
+min-height: 300px;
+border: 1px solid steelblue;
+padding: 30px;
+border-radius: 5px;
 }
 
 </style>
