@@ -17,7 +17,9 @@
 </template>
 
 <script>
+
 import { auth, db } from "/src/database/firebase.js";
+
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import {

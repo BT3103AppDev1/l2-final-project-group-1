@@ -18,6 +18,7 @@
 <script>
 import Workload from './Workload.vue'
 
+
 export default {
   data() {
     return {
@@ -39,6 +40,7 @@ export default {
   margin: 20px;
 }
 
+
 .tab {
   display: flex;
   justify-content: space-between;
@@ -46,6 +48,7 @@ export default {
   max-width: 700px;
   margin-bottom: 20px;
 }
+
 
 .tab button {
   background-color: #f2f2f2;
@@ -62,10 +65,12 @@ export default {
   color: #444;
 }
 
+
 /*. content {
   width: 100%;
   max-width: 700px;
   padding: 20px;
   border: 1px solid #ddd;
 } */
+
 </style>
