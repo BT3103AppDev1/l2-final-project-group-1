@@ -30,7 +30,7 @@
         <button @click="deleteCompletedTasks">Confirm changes</button>
         </div>
     </div>
-    <div v-if =" this.userAccount == 'Employer'">
+    <div v-if =" this.userAccount === 'Employer'">
         <br>
         <br>
         <div>

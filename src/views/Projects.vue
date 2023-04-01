@@ -4,6 +4,9 @@
     <h1> My projects </h1>
     <br>
     <input type="text" v-model="text" name="text" placeholder="Search..." />
+    <button @click="showAddProjectPopup = true; verify;" >
+      <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
+    </button>
     <div class="nav_bar">
       <div class="tab">
         <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
@@ -16,15 +19,35 @@
     <ProfileDisplay />
   </header>
 
-  <div class="projects">
+  <div v-if="showAddProjectPopup" class="popup">
+  <form @submit.prevent="addNewProject">
+    <label for="project_name">Project Name:</label>
+    <input type="text" v-model="formData.name" name="project_name">
+    <label for="start-date">Start Date</label>
+    <input type="date" v-model="formData.startDate" name="start-date">
+    <label for="end-date">End Date</label>
+    <input type="date" v-model="formData.endDate" name="end-date">
+    <label for="goal">Goal</label>
+    <input id="goal" v-model="formData.goal" name="goal">
+    <label for="scope">Scope</label>
+    <input id="scope" v-model="formData.scope" name="scope">
+    <label for="team-members">Team Members</label>
+    <input type="text" v-model="formData.teamMembers" name="team-members">
+    <label for="add-clients">Add Clients</label>
+    <input type="text" v-model="formData.clients" name="add-clients">
+    <button type="submit">Add Project</button>
+  </form>
+</div>
 
-  </div>
 
 </template>
 
 <script>
 import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
+import { doc, setDoc } from "firebase/firestore";
+import firebaseApp from "/src/firebase.js";
+import { db } from "/src/firebase.js";
 
 export default {
   name: "Projects",
@@ -36,8 +59,10 @@ export default {
     return {
       tasks: [],
       activeTab: 0,
-      tabs: ['Ongoing', 'Completed']
-    };
+      tabs: ['Ongoing', 'Completed'],
+      showAddProjectPopup: false,
+      formData: {name: "", startDate: "", endDate: "", goal: "", scope: "", teamMembers:"", clients:""}, 
+    }
   },
   methods: {
     toggleAddProject() {
@@ -58,6 +83,21 @@ export default {
           : project
       );
     },
+    async addNewProject(formData) {
+      const docRef = await setDoc(doc(db, "projects", formData.name),{ 
+        project_name: formData.name,
+        startdate: formData.startDate,
+        enddate: formData.endDate,
+        goal: formData.goal,
+        scope: formData.scope,
+        team_members: formData.teamMembers,
+        clients: formData.clients
+      })
+      this.showAddProjectPopup = false
+    },
+    verify() {
+      console.log("hi")
+    }
   },
   created() {
     this.projects = [
@@ -156,4 +196,24 @@ body {
   display: block;
   width: 100%;
 }
+.project-button {
+  height: 20px; 
+  margin: 0px 10px -4px 10px; 
+}
+.popup {
+  width: 800px;
+  height: 600px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+  z-index: 9999;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
 </style>
