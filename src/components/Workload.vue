@@ -5,7 +5,6 @@
     <p id = "mywork"> &nbsp; My Work</p>
     <hr>
     <div id="tasktable">
-
         <table>
             <thead>
                 <tr>
@@ -31,7 +30,7 @@
         <button @click="deleteCompletedTasks">Confirm changes</button>
         </div>
     </div>
-    <div v-if =" this.userAccount == 'Employer'">
+    <div v-if =" this.userAccount === 'Employer'">
         <br>
         <br>
         <div>
@@ -53,9 +52,10 @@
 import { auth, db } from "../database/firebase";
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-export default {
  
 
+export default {
+ 
     data() {
         return {
             tasks: [
@@ -116,7 +116,6 @@ export default {
         justify-content: center;
         align-items: center;
         height: 100vh; /* Set the height to fill the entire viewport */
-
     }
     table {
         border-collapse: collapse;
@@ -156,3 +155,6 @@ export default {
         float: right;
     } 
 </style>
+
+
+
