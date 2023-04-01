@@ -74,8 +74,7 @@
 	</div>
 </template>
 
-<script>
-import Sidebar from '/src/components/Sidebar.vue'
+<script> 
 import * as firestoreService from '/src/database/firestore'
 import * as firebaseService from '/src/database/firebase'
 import * as storageService from '/src/database/storage'
