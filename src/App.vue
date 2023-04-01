@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
+:root { 
   --primary: #dd9595;
   --primary-alt: #c57575;
   --dark: #242038;
@@ -30,6 +30,7 @@ export default {
   --dark-purple: #6d79b4; 
   --light-green: #d8e2dc;
   --lighter-purple: #afa7c6; 
+  --message-purple: #d4c7fa; 
   --primary-light: #f2baba; 
   --sidebar-width: 300px; 
   --font-family: "ColfaxAI",-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
