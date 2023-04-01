@@ -112,14 +112,14 @@ input {
 .big-con {
   display: flex; 
   flex-direction: row;
-  width: 100vw;
+  width: 100vw; 
 }
 
 .app-container {  
   padding-top: 10px; 
 	font-family: 'Quicksand', sans-serif; 
   display: flex; 
-  flex-direction: column;
+  flex-direction: column; 
 }
 
 .app-mobile {
