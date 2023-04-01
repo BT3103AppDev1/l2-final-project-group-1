@@ -4,40 +4,24 @@
     <h1> My projects </h1>
     <br>
     <input type="text" v-model="text" name="text" placeholder="Search..." />
-    <div class="nav_bar">
-      <div class="tab">
-        <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
-      </div>
-      <div class="content">
-        <div v-show="activeTab === 0">Ongoing projects</div>
-        <div v-show="activeTab === 1">Completed projects</div>
-      </div>
-    </div>
+    <button id="addProBut" @click="toggleAddProject">+</button>
+    <ProjectsNavBar />
     <ProfileDisplay />
   </header>
-
-  <div class="projects">
-
-  </div>
 
 </template>
 
 <script>
 import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
+import ProjectsNavBar from "../components/ProjectsNavBar.vue";
 
 export default {
   name: "Projects",
   components: {
     Sidebar,
-    ProfileDisplay
-  },
-  data() {
-    return {
-      tasks: [],
-      activeTab: 0,
-      tabs: ['Ongoing', 'Completed']
-    };
+    ProjectsNavBar,
+    ProfileDisplay,
   },
   methods: {
     toggleAddProject() {
@@ -119,6 +103,20 @@ header {
 .tab button.active {
   background-color: #ddd;
   color: #444;
+}
+
+#addProBut {
+  background-color:grey; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 body {
