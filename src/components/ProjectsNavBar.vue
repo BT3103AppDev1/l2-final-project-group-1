@@ -5,10 +5,10 @@
       </div>
       <div class="content">
         <div v-show="activeTab === 0">
-            <div :key="project.id" v-for= "project in this.projects">
+            <div :key="project.id" v-for="project in this.projects">
                 <div class= "container">
                     <div @click="redirectToOtherComponent">
-                        <h3>{{project.text}} </h3>
+                        <h3>{{project.project_name}} </h3>
                     </div>
                 </div>
             </div>
@@ -20,6 +20,9 @@
 
 <script>
 import ProjectsLists from "./ProjectsLists.vue"
+import { doc, setDoc, getDocs, collection } from "firebase/firestore";
+import firebaseApp from "/src/database/firebase.js";
+import { auth, db } from "/src/database/firebase.js";
 
 export default {
   name: "ProjectsNavBar",
@@ -35,27 +38,19 @@ export default {
     return {
       tasks: [],
       activeTab: 0,
-      tabs: ['Ongoing', 'Completed']
+      tabs: ['Ongoing', 'Completed'],
+      projects: []
     };
   },
-  created() {
-    this.projects = [
-      {
-        id: 1,
-        text: "[Metaverse Project] Competitor Analysis",
-        ongoing: true,
-      },
-      {
-        id: 2,
-        text: "[Crypto Project] Product Management",
-        ongoing: true,
-      },
-      {
-        id: 3,
-        text: "[Operational Project] Customer Relations",
-        ongoing: false,
-      },
-    ];
+  async created() {
+    try {
+      const querySnapshot = await getDocs(collection(db, "projects"));
+      querySnapshot.forEach((doc) => {
+        this.projects.push(doc.data());
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
 }
 </script>
@@ -89,7 +84,7 @@ export default {
 }
 
 .container {
-max-width: 500px;
+max-width: 1000px;
 margin: 30px auto;
 overflow: auto;
 min-height: 300px;

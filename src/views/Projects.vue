@@ -7,15 +7,7 @@
     <button @click="showPopup = true" >
       <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
     </button>
-    <div class="nav_bar">
-      <div class="tab">
-        <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
-      </div>
-      <div class="content">
-        <div v-show="activeTab === 0">Ongoing projects</div>
-        <div v-show="activeTab === 1">Completed projects</div>
-      </div>
-    </div>
+    <ProjectsNavBar />
     <ProfileDisplay />
   </header>
 
@@ -46,6 +38,7 @@
 </template>
 
 <script>
+import ProjectsNavBar from "../components/ProjectsNavBar.vue";
 import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
 import { doc, setDoc } from "firebase/firestore";
@@ -53,11 +46,13 @@ import firebaseApp from "/src/database/firebase.js";
 import { auth, db } from "/src/database/firebase.js";
 import Popup from "../components/Popup.vue"
 
+
 export default {
   name: "Projects",
   components: {
     Sidebar,
     ProfileDisplay,
+    ProjectsNavBar,
     Popup,
   },
   data() {
