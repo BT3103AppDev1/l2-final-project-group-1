@@ -26,6 +26,11 @@ export default {
   components: {
     ProjectsLists
   },
+  methods: {
+      redirectToOtherComponent() {
+        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
+      },
+  },
   data() {
     return {
       tasks: [],
