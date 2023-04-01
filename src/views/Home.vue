@@ -3,11 +3,10 @@ import { ref } from "vue";
 import { Collapse } from "vue-collapsed";
 import Sidebar from "/src/components/Sidebar.vue";
 import ProfileDisplay from "/src/components/ProfileDisplay.vue";
-import { auth, db } from "../firebase";
+import { auth, db } from "/src/database/firebase.js";
 import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
-import firebase from "../firebase";
 
 export default {
   data() {
