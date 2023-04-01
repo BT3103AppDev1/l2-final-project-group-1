@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="../assets/icon.png" alt="" />
+    <img id="bg" src="src/assets/icon.png" alt="" />
   </div>
   <div class="container">
     <form id="myform">
@@ -158,6 +158,16 @@ export default {
   name: "Register",
   data() {
     return {
+      name: "",
+      type: "",
+      dobYear: "",
+      dobMonth: "",
+      dobDay: "",
+      email: "",
+      number: "",
+      gender: "",
+      salutation: "",
+      password: "",
       imagePreview: uploadImage,
       imageName: "default_profile.png",
     };
