@@ -174,6 +174,7 @@ export default {
       salutation:  "", 
       password: "",  
       imagePreview: uploadImage,
+      imageName: "default_profile.png", 
     };
   },
   methods: {
