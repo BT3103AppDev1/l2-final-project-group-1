@@ -183,7 +183,7 @@ body {
 }
 .project-button {
   height: 20px; 
-  margin: 0px 10px -4px 10px; 
+  margin: 0px 10px -2px 10px; 
 }
 .popup {
   width: 600px;
