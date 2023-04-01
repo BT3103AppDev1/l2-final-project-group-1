@@ -1,5 +1,5 @@
 <template>
-    <div @dblclick="$event=>$emit('toggle-reminder', project.id)" :class="[project.reminder ? 'reminder' : '', 'project']">
+    <div @click="redirectToOtherComponent">
         <h3>{{project.text}}
             <button @click="$event=>$emit('delete-project',project.id)" type="button" class="delBtn">delete</button>
         </h3>
@@ -11,6 +11,11 @@ export default {
     name:"Project",
     props: {
         project: Object,
+    },
+    methods: {
+      redirectToOtherComponent() {
+        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
+      },
     },
 }
 </script>

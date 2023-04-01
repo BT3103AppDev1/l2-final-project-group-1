@@ -17,6 +17,8 @@
 
 <script>
 import Workload from './Workload.vue'
+
+
 export default {
   data() {
     return {
@@ -37,6 +39,8 @@ export default {
   align-items: center;
   margin: 20px;
 }
+
+
 .tab {
   display: flex;
   justify-content: space-between;
@@ -44,6 +48,8 @@ export default {
   max-width: 700px;
   margin-bottom: 20px;
 }
+
+
 .tab button {
   background-color: #f2f2f2;
   color: #444;
@@ -53,14 +59,18 @@ export default {
   cursor: pointer;
   transition: 0.3s;
 }
+
 .tab button.active {
   background-color: #ddd;
   color: #444;
 }
+
+
 /*. content {
   width: 100%;
   max-width: 700px;
   padding: 20px;
   border: 1px solid #ddd;
 } */
+
 </style>

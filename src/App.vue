@@ -1,14 +1,19 @@
 <template>
-  <div class="app">
-    <!-- <Sidebar />
-    <router-view /> -->
-    <router-view />
+  <div class="app">  
+    <router-view /> 
   </div>
 </template>
 
-<script>
+<script>     
 export default {
-  name: "App"
+  name: "App", 
+  data () {
+    return {
+      user: undefined,
+    };
+  }, 
+  methods: { 
+  }
 };
 </script>
 
@@ -22,8 +27,11 @@ export default {
   --grey: #77798c;
   --dark-alt: #334155;
   --purple: #8c96ca;
-  --lighter-purple: #afa7c6;
-  --sidebar-width: 300px;
+  --dark-purple: #6d79b4; 
+  --light-green: #d8e2dc;
+  --lighter-purple: #afa7c6; 
+  --primary-light: #f2baba; 
+  --sidebar-width: 300px; 
   --font-family: "ColfaxAI",-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
 }
 * {

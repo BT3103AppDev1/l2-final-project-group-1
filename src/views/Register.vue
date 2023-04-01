@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img id="bg" src="../assets/icon.png" alt="" />
+    <img id="bg" src="src/assets/icon.png" alt="" />
   </div>
   <div class="container">
     <form id="myform">
@@ -150,14 +150,26 @@
 <script>
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import firebaseApp from "../firebase.js";
-import { auth, db } from "../firebase.js";
+import firebaseApp from "/src/database/firebase.js";
+import { auth, db } from "/src/database/firebase.js";
 import uploadImage from "../assets/upload.png";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 export default {
   name: "Register",
   data() {
     return {
-      imagePreview: uploadImage,
+      name: "",
+      type: "",
+      dobYear: "",
+      dobMonth: "",
+      dobDay: "",
+      email: "",
+      number: "",
+      gender: "",
+      salutation: "",
+      password: "",
+      imagePreview: uploadImage, 
+      imageName: "default_profile.png", 
     };
   },
   methods: {
@@ -204,8 +216,8 @@ export default {
             salutation: salutation,
             projects: [], //input project name
             to_do: [],
-            follow_up: [],
-            profilepic: this.imagePreview, //still need to save picture into firebase storage
+            follow_up: [], 
+            profilepic: this.imageName, //still need to save picture into firebase storage 
           });
         } catch (error) {
           console.error("Error adding document: ", error);
@@ -232,8 +244,15 @@ export default {
       reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview = e.target.result;
+        this.imageName = files[0].name;
       };
       reader.readAsDataURL(files[0]);
+      const file = e.target.files[0];
+      const storage = getStorage();
+      const storageRef = ref(storage, "profilepics/" + file.name);
+      uploadBytes(storageRef, file).then((snapshot) => {
+        console.log("Uploaded!");
+      });
     },
   },
 };

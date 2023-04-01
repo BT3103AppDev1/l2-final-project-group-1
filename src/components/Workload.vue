@@ -5,6 +5,7 @@
     <p id = "mywork"> &nbsp; My Work</p>
     <hr>
     <div id="tasktable">
+
         <table>
             <thead>
                 <tr>
@@ -54,6 +55,7 @@ import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/fire
 import { onAuthStateChanged } from "firebase/auth";
 export default {
  
+
     data() {
         return {
             tasks: [
@@ -114,6 +116,7 @@ export default {
         justify-content: center;
         align-items: center;
         height: 100vh; /* Set the height to fill the entire viewport */
+
     }
     table {
         border-collapse: collapse;
@@ -153,4 +156,3 @@ export default {
         float: right;
     } 
 </style>
-
