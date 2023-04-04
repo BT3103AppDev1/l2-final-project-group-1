@@ -5,30 +5,30 @@
       </div>
       <div class="content">
         <div v-show="activeTab === 0">
-            <div :key="project.id" v-for="project in this.projects">
-                <div class= "container">
-                    <div @click="redirectToOtherComponent">
-                        <h3>{{project.project_name}} </h3>
-                    </div>
-                </div>
+            <div :key="project.id" v-for="project in this.projects.filter(project => project.ongoing)">
+                <button class= "container" @click="redirectToOtherComponent">
+                      <h3>{{project.project_name}} </h3>
+                </button>
             </div>
         </div>
-        <div v-show="activeTab === 1">Completed projects</div>
+        <div v-show="activeTab === 1">
+          <div :key="project.id" v-for="project in this.projects.filter(project => !project.ongoing)">
+                <button class= "container" @click="redirectToOtherComponent">
+                      <h3>{{project.project_name}} </h3>
+                </button>
+            </div>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
-import ProjectsLists from "./ProjectsLists.vue"
 import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import firebaseApp from "/src/database/firebase.js";
 import { auth, db } from "/src/database/firebase.js";
 
 export default {
   name: "ProjectsNavBar",
-  components: {
-    ProjectsLists
-  },
   methods: {
       redirectToOtherComponent() {
         this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
@@ -83,7 +83,13 @@ export default {
   color: #444;
 }
 
+button {
+  text-align:left;
+  vertical-align: top;
+}
+
 .container {
+color: white;
 max-width: 500px;
 margin: 30px auto;
 overflow: auto;
@@ -91,6 +97,7 @@ min-height: 300px;
 border: 1px solid steelblue;
 padding: 30px 150px 30px 150px;
 border-radius: 5px;
+background-image: url("/src/assets/office_image.jpg");
 }
 
 
