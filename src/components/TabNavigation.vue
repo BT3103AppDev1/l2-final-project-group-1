@@ -12,7 +12,7 @@
     </div>
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
-      <div v-show="activeTab === 1">Issues Content</div>
+      <div v-show="activeTab === 1"><Issues/></div>
       <div v-show="activeTab === 2"><Workload/></div>
       <div v-show="activeTab === 3">Features Content</div>
       <div v-show="activeTab === 4">Feedback Content</div>
@@ -25,7 +25,7 @@
 <script>
 import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
-
+import Issues from './Issues.vue';
 
 
 export default {
@@ -37,7 +37,8 @@ export default {
   },
   components: {
     Workload,
-    ProfileDisplay
+    ProfileDisplay,
+    Issues,
   },
   methods: {
     goBack() {
