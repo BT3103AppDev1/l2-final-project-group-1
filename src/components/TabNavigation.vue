@@ -60,9 +60,6 @@ export default {
 
 .tab {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 700px;
   margin-bottom: 20px;
 }
 
