@@ -1,7 +1,7 @@
 <template> 
 	<div class="window-container" :class="{ 'window-mobile': isDevice }" style="width:100%;">
 		<form v-if="addNewRoom" @submit.prevent="createRoom">
-			<input v-model="addRoomUsername" type="text" placeholder="Add username" />
+			<input v-model="addRoomUsername" type="text" placeholder="Add email / name" />
 			<button type="submit" :disabled="disableForm || !addRoomUsername">
 				Create Room
 			</button>
@@ -9,7 +9,7 @@
 		</form>
 
 		<form v-if="inviteRoomId" @submit.prevent="addRoomUser">
-			<input v-model="invitedUsername" type="text" placeholder="Add username" />
+			<input v-model="invitedUsername" type="text" placeholder="Add email / name" />
 			<button type="submit" :disabled="disableForm || !invitedUsername">
 				Add User
 			</button>
@@ -74,8 +74,7 @@
 	</div>
 </template>
 
-<script>
-import Sidebar from '/src/components/Sidebar.vue'
+<script> 
 import * as firestoreService from '/src/database/firestore'
 import * as firebaseService from '/src/database/firebase'
 import * as storageService from '/src/database/storage'
@@ -875,7 +874,7 @@ export default {
 
 <style lang="scss" scoped>
 .window-container {
-	width: 100%;
+	width: 100%; 
 }
 
 .window-mobile {

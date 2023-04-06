@@ -112,14 +112,14 @@ input {
 .big-con {
   display: flex; 
   flex-direction: row;
-  width: 100vw;
+  width: 100vw; 
 }
 
 .app-container {  
   padding-top: 10px; 
 	font-family: 'Quicksand', sans-serif; 
   display: flex; 
-  flex-direction: column;
+  flex-direction: column; 
 }
 
 .app-mobile {
@@ -175,14 +175,14 @@ select {
 	align-items: center;
 
 	.button-light {
-		background: #fff;
-		border: 1px solid #46484e;
-		color: #46484e;
+		background: var(--light);
+		border: 1px solid var(--purple);
+		color: var(--purple);
 	}
 
 	.button-dark {
-		background: #1c1d21;
-		border: 1px solid #1c1d21;
+		background: var(--dark);
+		border: 1px solid var(--dark);
 	}
 
 	button {

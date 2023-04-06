@@ -12,7 +12,7 @@
 
     <div class="menu">
       <h4>Menu</h4>
-      <router-link to="/login/calendar" class="button" @click="ToggleMenu">
+      <router-link to="/login/ calendar" class="button" @click="ToggleMenu">
         <span class="material-icons-round"> calendar_today </span>
         <span class="text"> Calendar </span>
       </router-link>

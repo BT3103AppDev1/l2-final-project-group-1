@@ -1,5 +1,5 @@
 <template>
-	<div class="vac-card-window" :style="[{ height }, cssVars]">
+	<div class="vac-card-window" :style="[{ height }, cssNews]">
 		<div class="vac-chat-container">
 			<rooms-list
 				v-if="!singleRoomCasted"
@@ -110,7 +110,7 @@ import Room from './Room/Room'
 import MediaPreview from './MediaPreview/MediaPreview'
 
 import locales from '../locales'
-import { defaultThemeStyles, cssThemeVars } from '../themes'
+import { currThemeStyles, cssThemeVars } from '/src/themes/index.js'; 
 import {
 	roomsValidation,
 	partcipantsValidation
@@ -255,8 +255,8 @@ export default {
 				...this.textMessagesCasted
 			}
 		},
-		cssVars() {
-			const defaultStyles = defaultThemeStyles[this.theme]
+		cssNews() {
+			const defaultStyles = currThemeStyles[this.theme]
 			const customStyles = {}
 
 			Object.keys(defaultStyles).map(key => {
@@ -572,6 +572,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../styles/index.scss';
+<style lang="scss"> 
+@import '/styles/index.scss'; 
 </style>
