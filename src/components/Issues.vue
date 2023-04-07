@@ -1,78 +1,27 @@
 <template>
-    <p id = "projectTitle">  &#91;Metaverse Project&#93; Competitor Analysis</p>
-    <hr>
-    <p id = "header">Issues</p>
-
+    <header>
+        <p id = "projectTitle" >  &#91;Metaverse Project&#93; Competitor Analysis</p>
+        <hr>
+        <p id = "header">Issues</p>
+        <IssuesNavBar />
+    </header>
     <button>
-      <img src="../assets/Issues_new_btn_crop.png" alt="Add Issue" class="add-button">
+      <img src="../assets/Issues_new_btn_crop-removebg-preview.png" alt="Add Issue" class="add-button">
     </button>
-
-    <div class="nav_bar">
-      <div class="tab">
-        <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
-      </div>
-    </div>
-      <div class="content">
-        <div v-show="activeTab === 0">
-            <div id="Current">
-                <h3> Internal Issues </h3>
-                <table id="internal_table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date raised</th>
-                            <th>Type</th>
-                            <th>Content</th>
-                            <th>Priority</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="issue in internal_issues" :key="issue.id">
-                            <td>{{ issue.id }}</td>
-                            <td>{{ issue.date_raised }}</td>
-                            <td>{{ issue.type }}</td>
-                            <td>{{ issue.content }}</td>
-                            <td>{{ issue.priority }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                <h3> External Issues </h3>
-                <table id="external_table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date raised</th>
-                            <th>Type</th>
-                            <th>Content</th>
-                            <th>Priority</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="issue in external_issues" :key="issue.id">
-                            <td>{{ issue.id }}</td>
-                            <td>{{ issue.date_raised }}</td>
-                            <td>{{ issue.type }}</td>
-                            <td>{{ issue.content }}</td>
-                            <td>{{ issue.priority }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div v-show="activeTab === 1">Resolved Issues</div>
-    </div>
 </template>
+
 
 <script>
 import { auth, db } from "../database/firebase";
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import IssuesNavBar from './IssuesNavBar.vue';
  
 
 export default {
- 
+    components: {
+        IssuesNavBar,
+     },
     data() {
         return {
             activeTab: 0,
@@ -128,57 +77,29 @@ export default {
 </script>
 
 <style scoped>
-    .tab-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 20px;
-        width: 100%;
+    header {
+        position: absolute;
+        margin-top: 0px;
+        margin-left: -500px ;
     }
 
+button {
+  text-align:left;
+  vertical-align: top;
+}
 
-    .tab {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 700px;
-        margin-bottom: 20px;
-    }
+.container {
+color: white;
+max-width: 500px;
+margin: 30px auto;
+overflow: auto;
+min-height: 300px;
+border: 1px solid steelblue;
+padding: 30px 150px 30px 150px;
+border-radius: 5px;
+background-image: url("/src/assets/office_image.jpg");
+}
 
-
-    .tab button {
-        background-color: #f2f2f2;
-        color: #444;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .tab button.active {
-        background-color: #ddd;
-        color: #444;
-    }
-    #app {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; /* Set the height to fill the entire viewport */
-    }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
     #projectTitle {
         font-size: 32pt;
     }
@@ -189,7 +110,6 @@ export default {
     #mywork {
         font-size: 15pt;
         font-weight: bold;
-        margin: 0px;
     }
     #confirm-changes {
         align-self: flex-end;
@@ -207,7 +127,7 @@ export default {
 
     .add-button {
         position: fixed;
-        top: 35%;
-        right: 190px;
+        top: 22%;
+        right: 600px;
     }
 </style>

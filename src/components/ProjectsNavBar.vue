@@ -7,7 +7,7 @@
         <div v-show="activeTab === 0">
             <div :key="project.id" v-for="project in this.projects.filter(project => project.ongoing)">
                 <button class= "container" @click="redirectToOtherComponent">
-                      <h3>{{project.project_name}} </h3>
+                      <div class="project_name">{{project.project_name}} </div>
                 </button>
             </div>
         </div>
@@ -57,14 +57,14 @@ export default {
 
 <style scoped>
 .nav_bar {
-  display: block;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-top: 20px;
 }
 
 .tab {
   display: flex;
-  justify-content: space-between;
   width: 100%;
   max-width: 700px;
   margin-bottom: 20px;
@@ -88,7 +88,14 @@ button {
   vertical-align: top;
 }
 
+.project_name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .container {
+position: relative;
 color: white;
 max-width: 500px;
 margin: 30px auto;
