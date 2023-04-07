@@ -40,6 +40,7 @@
 import Sidebar from "/src/components/Sidebar.vue";
 import ChatContainer from "/src/components/ChatContainer.vue";
 import { auth, db } from "/src/database/firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   components: {
@@ -50,30 +51,20 @@ export default {
     return {
       theme: "light",
       showChat: true,
-      // users: [
-      //   {
-      //     _id: "6R0MijpK6M4AIrwaaCY2",
-      //     username: "Luke",
-      //     avatar: "https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj",
-      //   },
-      //   {
-      //     _id: "SGmFnBZB4xxMv9V4CVlW",
-      //     username: "Leia",
-      //     avatar: "https://avatarfiles.alphacoders.com/184/thumb-184913.jpg",
-      //   },
-      //   {
-      //     _id: "6jMsIXUrBHBj7o2cRlau",
-      //     username: "Yoda",
-      //     avatar:
-      //       "https://vignette.wikia.nocookie.net/teamavatarone/images/4/45/Yoda.jpg/revision/latest?cb=20130224160049",
-      //   },
-      // ],
-      // currentUserId: "6R0MijpK6M4AIrwaaCY2",
-      // currentUserId: "nicoleleow12@yahoo.com",
-      currentUserId: auth.currentUser.email,
+      currentUserId: onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.getCurrentUserId(user.email);
+        }
+      }),
       isDevice: false,
       showDemoOptions: true,
     };
+  },
+
+  methods: {
+    async getCurrentUserId(useremail) {
+      this.currentUserId = useremail;
+    },
   },
 
   computed: {
