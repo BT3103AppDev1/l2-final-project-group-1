@@ -8,7 +8,7 @@
       <input
         v-model="addRoomUsername"
         type="text"
-        placeholder="Add username"
+        placeholder="Add email / name"
         id="email"
       />
       <button type="submit" :disabled="disableForm || !addRoomUsername">
@@ -18,7 +18,11 @@
     </form>
 
     <form v-if="inviteRoomId" @submit.prevent="addRoomUser">
-      <input v-model="invitedUsername" type="text" placeholder="Add username" />
+      <input
+        v-model="invitedUsername"
+        type="text"
+        placeholder="Add email / name"
+      />
       <button type="submit" :disabled="disableForm || !invitedUsername">
         Add User
       </button>
@@ -72,13 +76,6 @@
       @typing-message="typingMessage($event.detail[0])"
       @toggle-rooms-list="$emit('show-demo-options', $event.detail[0].opened)"
     >
-      <!-- <div
-				v-for="message in messages"
-				:slot="'message_' + message._id"
-				:key="message._id"
-			>
-				New message container
-			</div> -->
     </vue-advanced-chat>
   </div>
 </template>
@@ -108,7 +105,6 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
-
 register();
 
 export default {
@@ -122,11 +118,6 @@ export default {
 
   data() {
     return {
-      receiverPic: "",
-      senderPic: "",
-      imageDisplay: "",
-      receiver_username: "",
-      sender_username: "",
       roomsPerPage: 15,
       rooms: [],
       roomId: "",
@@ -196,17 +187,10 @@ export default {
   },
 
   mounted() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.addCss();
-        this.fetchRooms(user.email);
-        firebaseService.updateUserOnlineStatus(user.email);
-      }
-    });
-    //this.addCss();
+    this.addCss();
 
-    //this.fetchRooms();
-    //firebaseService.updateUserOnlineStatus(this.currentUserId);
+    this.fetchRooms();
+    firebaseService.updateUserOnlineStatus(this.currentUserId);
   },
 
   methods: {
@@ -240,110 +224,81 @@ export default {
       this.listeners = [];
     },
 
-    fetchRooms(userEmail) {
+    fetchRooms() {
       this.resetRooms();
-      this.fetchMoreRooms(userEmail);
+      this.fetchMoreRooms();
     },
 
-    async fetchMoreRooms(userEmail) {
+    async fetchMoreRooms() {
       if (this.endRooms && !this.startRooms) {
         this.roomsLoaded = true;
         return;
       }
 
       const query = firestoreService.roomsQuery(
-        userEmail
-        // this.roomsPerPage,
-        // this.startRooms
+        this.currentUserId,
+        this.roomsPerPage,
+        this.startRooms
       );
 
       const { data, docs } = await firestoreService.getRooms(query);
       // this.incrementDbCounter('Fetch Rooms', data.length)
 
-      // this.roomsLoaded = data.length === 0 || data.length < this.roomsPerPage;
+      this.roomsLoaded = data.length === 0 || data.length < this.roomsPerPage;
 
-      // if (this.startRooms) this.endRooms = this.startRooms;
-      // this.startRooms = docs[docs.length - 1];
+      if (this.startRooms) this.endRooms = this.startRooms;
+      this.startRooms = docs[docs.length - 1];
 
       const roomUserIds = [];
       data.forEach((room) => {
         room.users.forEach((userId) => {
-          // const foundUser = this.allUsers.find((user) => user?._id === userId);
-          // if (!foundUser && roomUserIds.indexOf(userId) === -1) {
-          roomUserIds.push(userId);
-          // }
+          const foundUser = this.allUsers.find((user) => user?._id === userId);
+          if (!foundUser && roomUserIds.indexOf(userId) === -1) {
+            roomUserIds.push(userId);
+          }
         });
       });
+
       // this.incrementDbCounter('Fetch Room Users', roomUserIds.length)
       const rawUsers = [];
-      // const Snapshot = await getDocs(collection(db, "users"));
-      // Snapshot.forEach((doc) => {
-      // roomUserIds.forEach((userId) => {
-      //   if (doc.data().email === userId) {
-      //     const promise = firestoreService.getUser(doc.data().email);
-      //     rawUsers.push(promise);
-      //   }
-      //   });
-      // });
       roomUserIds.forEach((userId) => {
         const promise = firestoreService.getUser(userId);
         rawUsers.push(promise);
       });
+
       this.allUsers = [...this.allUsers, ...(await Promise.all(rawUsers))];
+
       const roomList = {};
       data.forEach((room) => {
         roomList[room.id] = { ...room, users: [] };
+
         room.users.forEach((userId) => {
-          // const foundUser = this.allUsers.find((user) => user?._id === userId);
-          // if (foundUser) roomList[room.id].users.push(userId);
-          // console.log(userId);
-          // console.log(this.allUsers);
-          const foundUser = this.allUsers.find((user) => user.email === userId);
-          // if (foundUser) roomList[room.id].users.push(userId);
+          const foundUser = this.allUsers.find((user) => user?._id === userId);
           if (foundUser) roomList[room.id].users.push(foundUser);
-          //roomList[room.id].users.push(userId);
         });
       });
+
       const formattedRooms = [];
 
       Object.keys(roomList).forEach((key) => {
         const room = roomList[key];
-        // const roomContacts = room.users.filter(
-        //   (user) => user._id !== this.currentUserId
-        // );
-        const roomContacts = room.users.filter(
-          (user) => user.email != auth.currentUser.email
-        );
-        //console.log(roomContacts);
 
-        // room.roomName =
-        //   roomContacts.map((user) => user.username).join(", ") || "Myself";
-        //room.roomName = room.users[0];
+        const roomContacts = room.users.filter(
+          (user) => user._id !== this.currentUserId
+        );
 
         room.roomName =
           roomContacts.map((user) => user.username).join(", ") || "Myself";
 
-        // const roomAvatarUrl =
-        //   roomContacts.length === 1 && roomContacts[0].avatar
-        //     ? roomContacts[0].avatar
-        //     : logoAvatar;
-
-        const roomAvatarUrl =
-          roomContacts.map((user) => user.image).join(", ") ||
-          "default_profile.png";
-        const filename = roomAvatarUrl;
-        const storage = getStorage();
-        const reference = ref(storage, "profilepics/" + filename);
-        getDownloadURL(reference).then((x) => {
-          this.imageDisplay = x;
-        }); //able to get image url but how to display?
-        // console.log(roomAvatarUrl);
-        // const roomAvatar = this.imageDisplay;
+        const roomAvatar =
+          roomContacts.length === 1 && roomContacts[0].avatar
+            ? roomContacts[0].avatar
+            : logoAvatar;
 
         formattedRooms.push({
           ...room,
           roomId: key,
-          //avatar: roomAvatar,
+          avatar: roomAvatar,
           index: room.lastUpdated.seconds,
           lastMessage: {
             content: "Room created",
@@ -375,7 +330,6 @@ export default {
           // this.incrementDbCounter('Listen Last Room Message', messages.length)
           messages.forEach((message) => {
             const lastMessage = this.formatLastMessage(message, room);
-            console.log(lastMessage);
             const roomIndex = this.rooms.findIndex(
               (r) => room.roomId === r.roomId
             );
@@ -400,66 +354,31 @@ export default {
       if (!message.timestamp) return;
 
       let content = message.content;
-
       if (message.files?.length) {
         const file = message.files[0];
         content = `${file.name}.${file.extension || file.type}`;
       }
-      // console.log(message);
-      //const Snapshot = await getDocs(collection(db, "users"));
-      // Snapshot.forEach((doc) => {
-      //   if (
-      //     doc.data().email === auth.currentUser.email &&
-      //     doc.data()._id !== message.sender_id
-      //   ) {
-      //     const username = room.users.find(
-      //       (user) => message.sender_id === user._id
-      //     ).username;
-      //   } else {
-      //     const username = "";
-      //   }
-      // });
 
-      //console.log(username);
-      // const username = "";
-      // console.log(room.users);
-      // console.log(message);
-      // if (message.sender_email !== auth.currentUser.email) {
-      //   const username = room.users.find(
-      //     (user) => message.sender_email === user.email
-      //   ).username;
-      // }
-      // console.log(room.users);
-      // message.sender_email;
-      // if (message.sender_email !== auth.currentUser.email) {
-      //   username = room.users.find(
-      //     (user) => message.sender_email === user.email
-      //   );
-      // }
-      // console.log(username);
       const username =
-        message.sender_email !== auth.currentUser.email
-          ? room.users.find((user) => message.sender_email === user.email)
-              .username
+        message.sender_id !== this.currentUserId
+          ? room.users.find((user) => message.sender_id === user._id)?.username
           : "";
+
       return {
         ...message,
         ...{
           _id: message.id,
           content,
-          senderEmail: message.sender_email,
+          senderId: message.sender_id,
           timestamp: formatTimestamp(
             new Date(message.timestamp.seconds * 1000),
             message.timestamp
           ),
           username: username,
           distributed: true,
-          // seen:
-          //   message.sender_email === auth.currentUser.email
-          //     ? message.seen
-          //     : null,
+          // seen: message.sender_id === this.currentUserId ? message.seen : null,
           // new:
-          //   message.sender_email !== auth.currentUser.email &&
+          //   message.sender_id !== this.currentUserId &&
           //   (!message.seen || !message.seen[this.currentUserId]),
         },
       };
@@ -495,12 +414,11 @@ export default {
 
           data.forEach((message) => {
             const formattedMessage = this.formatMessage(room, message);
-            console.log(formattedMessage);
             this.messages.unshift(formattedMessage);
           });
 
           if (this.lastLoadedMessage) {
-            this.previousLastLoadedMessag = this.lastLoadedMessage;
+            this.previousLastLoadedMessage = this.lastLoadedMessage;
           }
           this.lastLoadedMessage = docs[docs.length - 1];
 
@@ -536,11 +454,11 @@ export default {
 
     // markMessagesSeen(room, message) {
     //   if (
-    //     message.sender_email !== auth.currentUser.email &&
+    //     message.sender_id !== this.currentUserId &&
     //     (!message.seen || !message.seen[this.currentUserId])
     //   ) {
     //     firestoreService.updateMessage(room.roomId, message.id, {
-    //       [`seen.${auth.currentUser.email}`]: new Date(),
+    //       [`seen.${this.currentUserId}`]: new Date(),
     //     });
     //   }
     // },
@@ -550,14 +468,13 @@ export default {
       const formattedMessage = {
         ...message,
         ...{
-          senderEmail: message.sender_email,
+          senderId: message.sender_id,
           _id: message.id,
           seconds: message.timestamp.seconds,
           timestamp: parseTimestamp(message.timestamp, "HH:mm"),
           date: parseTimestamp(message.timestamp, "DD MMMM YYYY"),
-          username: room.users.find(
-            (user) => message.sender_email === user.email
-          )?.username,
+          username: room.users.find((user) => message.sender_id === user._id)
+            ?.username,
           // avatar: senderUser ? senderUser.avatar : null,
           distributed: true,
         },
@@ -567,7 +484,7 @@ export default {
         formattedMessage.replyMessage = {
           ...message.replyMessage,
           ...{
-            senderEmail: message.replyMessage.sender_email,
+            senderId: message.replyMessage.sender_id,
           },
         };
       }
@@ -577,21 +494,20 @@ export default {
 
     async sendMessage({ content, roomId, files, replyMessage }) {
       const message = {
-        // sender_id: this.currentUserId,
-        sender_email: auth.currentUser.email,
+        sender_id: this.currentUserId,
         content,
         timestamp: new Date(),
       };
 
-      // if (files) {
-      //   message.files = this.formattedFiles(files);
-      // }
+      if (files) {
+        message.files = this.formattedFiles(files);
+      }
 
       if (replyMessage) {
         message.replyMessage = {
           _id: replyMessage._id,
           content: replyMessage.content,
-          sender_email: replyMessage.senderEmail,
+          sender_id: replyMessage.senderId,
         };
 
         if (replyMessage.files) {
@@ -610,26 +526,26 @@ export default {
       firestoreService.updateRoom(roomId, { lastUpdated: new Date() });
     },
 
-    // async editMessage({ messageId, newContent, roomId, files }) {
-    //   const newMessage = { edited: new Date() };
-    //   newMessage.content = newContent;
+    async editMessage({ messageId, newContent, roomId, files }) {
+      const newMessage = { edited: new Date() };
+      newMessage.content = newContent;
 
-    //   if (files) {
-    //     newMessage.files = this.formattedFiles(files);
-    //   } else {
-    //     newMessage.files = firestoreService.deleteDbField;
-    //   }
+      if (files) {
+        newMessage.files = this.formattedFiles(files);
+      } else {
+        newMessage.files = firestoreService.deleteDbField;
+      }
 
-    //   await firestoreService.updateMessage(roomId, messageId, newMessage);
+      await firestoreService.updateMessage(roomId, messageId, newMessage);
 
-    //   if (files) {
-    //     for (let index = 0; index < files.length; index++) {
-    //       if (files[index]?.blob) {
-    //         await this.uploadFile({ file: files[index], messageId, roomId });
-    //       }
-    //     }
-    //   }
-    // },
+      if (files) {
+        for (let index = 0; index < files.length; index++) {
+          if (files[index]?.blob) {
+            await this.uploadFile({ file: files[index], messageId, roomId });
+          }
+        }
+      }
+    },
 
     async deleteMessage({ message, roomId }) {
       await firestoreService.updateMessage(roomId, message._id, {
@@ -645,82 +561,82 @@ export default {
       }
     },
 
-    // async uploadFile({ file, messageId, roomId }) {
-    //   return new Promise((resolve) => {
-    //     let type = file.extension || file.type;
-    //     if (type === "svg" || type === "pdf") {
-    //       type = file.type;
-    //     }
+    async uploadFile({ file, messageId, roomId }) {
+      return new Promise((resolve) => {
+        let type = file.extension || file.type;
+        if (type === "svg" || type === "pdf") {
+          type = file.type;
+        }
 
-    //     storageService.listenUploadImageProgress(
-    //       this.currentUserId,
-    //       messageId,
-    //       file,
-    //       type,
-    //       (progress) => {
-    //         this.updateFileProgress(messageId, file.localUrl, progress);
-    //       },
-    //       (_error) => {
-    //         resolve(false);
-    //       },
-    //       async (url) => {
-    //         const message = await firestoreService.getMessage(
-    //           roomId,
-    //           messageId
-    //         );
+        storageService.listenUploadImageProgress(
+          this.currentUserId,
+          messageId,
+          file,
+          type,
+          (progress) => {
+            this.updateFileProgress(messageId, file.localUrl, progress);
+          },
+          (_error) => {
+            resolve(false);
+          },
+          async (url) => {
+            const message = await firestoreService.getMessage(
+              roomId,
+              messageId
+            );
 
-    //         message.files.forEach((f) => {
-    //           if (f.url === file.localUrl) {
-    //             f.url = url;
-    //           }
-    //         });
+            message.files.forEach((f) => {
+              if (f.url === file.localUrl) {
+                f.url = url;
+              }
+            });
 
-    //         await firestoreService.updateMessage(roomId, messageId, {
-    //           files: message.files,
-    //         });
-    //         resolve(true);
-    //       }
-    //     );
-    //   });
-    // },
+            await firestoreService.updateMessage(roomId, messageId, {
+              files: message.files,
+            });
+            resolve(true);
+          }
+        );
+      });
+    },
 
-    // updateFileProgress(messageId, fileUrl, progress) {
-    //   const message = this.messages.find(
-    //     (message) => message._id === messageId
-    //   );
+    updateFileProgress(messageId, fileUrl, progress) {
+      const message = this.messages.find(
+        (message) => message._id === messageId
+      );
 
-    //   if (!message || !message.files) return;
+      if (!message || !message.files) return;
 
-    //   message.files.find((file) => file.url === fileUrl).progress = progress;
-    //   this.messages = [...this.messages];
-    // },
+      message.files.find((file) => file.url === fileUrl).progress = progress;
+      this.messages = [...this.messages];
+    },
 
-    // formattedFiles(files) {
-    //   const formattedFiles = [];
+    formattedFiles(files) {
+      const formattedFiles = [];
 
-    //   files.forEach((file) => {
-    //     const messageFile = {
-    //       name: file.name,
-    //       size: file.size,
-    //       type: file.type,
-    //       extension: file.extension || file.type,
-    //       url: file.url || file.localUrl,
-    //     };
+      files.forEach((file) => {
+        const messageFile = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          extension: file.extension || file.type,
+          url: file.url || file.localUrl,
+        };
 
-    //     if (file.audio) {
-    //       messageFile.audio = true;
-    //       messageFile.duration = file.duration;
-    //     }
+        if (file.audio) {
+          messageFile.audio = true;
+          messageFile.duration = file.duration;
+        }
 
-    //     formattedFiles.push(messageFile);
-    //   });
+        formattedFiles.push(messageFile);
+      });
 
-    //   return formattedFiles;
-    // },
+      return formattedFiles;
+    },
 
-    // openFile({ file }) {
-    //   window.open(file.file.url, "_blank");
-    // },
+    openFile({ file }) {
+      window.open(file.file.url, "_blank");
+    },
 
     async openUserTag({ user }) {
       let roomId;
@@ -762,9 +678,9 @@ export default {
       }
 
       const users =
-        user.email === auth.currentUser.email
-          ? [auth.currentUser.email]
-          : [user.email, auth.currentUser.email];
+        user._id === this.currentUserId
+          ? [this.currentUserId]
+          : [user._id, this.currentUserId];
 
       const room = await firestoreService.addRoom({
         users: users,
@@ -804,37 +720,37 @@ export default {
       }
     },
 
-    // async sendMessageReaction({ reaction, remove, messageId, roomId }) {
-    //   firestoreService.updateMessageReactions(
-    //     roomId,
-    //     messageId,
-    //     this.currentUserId,
-    //     reaction.unicode,
-    //     remove ? "remove" : "add"
-    //   );
-    // },
+    async sendMessageReaction({ reaction, remove, messageId, roomId }) {
+      firestoreService.updateMessageReactions(
+        roomId,
+        messageId,
+        this.currentUserId,
+        reaction.unicode,
+        remove ? "remove" : "add"
+      );
+    },
 
-    // typingMessage({ message, roomId }) {
-    //   if (roomId) {
-    //     if (message?.length > 1) {
-    //       this.typingMessageCache = message;
-    //       return;
-    //     }
+    typingMessage({ message, roomId }) {
+      if (roomId) {
+        if (message?.length > 1) {
+          this.typingMessageCache = message;
+          return;
+        }
 
-    //     if (message?.length === 1 && this.typingMessageCache) {
-    //       this.typingMessageCache = message;
-    //       return;
-    //     }
+        if (message?.length === 1 && this.typingMessageCache) {
+          this.typingMessageCache = message;
+          return;
+        }
 
-    //     this.typingMessageCache = message;
+        this.typingMessageCache = message;
 
-    //     firestoreService.updateRoomTypingUsers(
-    //       roomId,
-    //       this.currentUserId,
-    //       message ? "add" : "remove"
-    //     );
-    //   }
-    // },
+        firestoreService.updateRoomTypingUsers(
+          roomId,
+          this.currentUserId,
+          message ? "add" : "remove"
+        );
+      }
+    },
 
     async listenRooms(query) {
       const listener = firestoreService.listenRooms(query, (rooms) => {
@@ -885,6 +801,12 @@ export default {
 
     async createRoom() {
       this.disableForm = true;
+
+      // const { id } = await firestoreService.addUser({
+      //   username: this.addRoomUsername,
+      // });
+      // await firestoreService.updateUser(id, { _id: id });
+
       let email = document.getElementById("email").value;
       const Snapshot = await getDocs(collection(db, "userinfo"));
       Snapshot.forEach((doc) => {
@@ -896,44 +818,25 @@ export default {
           this.sender_username = doc.data().name;
         }
       });
-      // const { id } = await firestoreService.addUser({
-      // email: this.addRoomUsername,
-      // image: this.receiverPic,
-      // username: this.receiver_username,
-      // });
-      // await firestoreService.updateUser(id, { _id: id });
-      // const { next_id } = await firestoreService.addUser({
-      // email: auth.currentUser.email,
-      // image: this.senderPic,
-      // username: this.sender_username,
-      // });
-      // console.log(next_id);
       const docRef = setDoc(doc(db, "users", email), {
-        email: this.addRoomUsername,
+        _id: this.addRoomUsername,
         image: this.receiverPic,
         username: this.receiver_username,
       });
-      const next_docRef = setDoc(doc(db, "users", auth.currentUser.email), {
-        email: auth.currentUser.email,
-        image: this.senderPic,
-        username: this.sender_username,
-      });
-      // const SnapshotQuery = await getDocs(collection(db, "users"));
-      // SnapshotQuery.forEach((doc) => {
-      //   if (doc.data().email === auth.currentUser.email) {
-      //     updateDoc(doc, {
-      //       _id: doc.id,
-      //     });
-      //   }
+      // const next_docRef = setDoc(doc(db, "users", auth.currentUser.email), {
+      //   email: auth.currentUser.email,
+      //   image: this.senderPic,
+      //   username: this.sender_username,
       // });
+
       await firestoreService.addRoom({
-        users: [email, auth.currentUser.email],
+        users: [email, this.currentUserId],
         lastUpdated: new Date(),
       });
 
       this.addNewRoom = false;
-      // this.addRoomUsername = "";
-      this.fetchRooms(auth.currentUser.email);
+      this.addRoomUsername = "";
+      this.fetchRooms();
     },
 
     inviteUser(roomId) {
