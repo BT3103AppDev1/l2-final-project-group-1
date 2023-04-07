@@ -271,7 +271,6 @@ export default {
       const roomList = {};
       data.forEach((room) => {
         roomList[room.id] = { ...room, users: [] };
-
         room.users.forEach((userId) => {
           const foundUser = this.allUsers.find((user) => user?._id === userId);
           if (foundUser) roomList[room.id].users.push(foundUser);
@@ -282,23 +281,27 @@ export default {
 
       Object.keys(roomList).forEach((key) => {
         const room = roomList[key];
-
         const roomContacts = room.users.filter(
           (user) => user._id !== this.currentUserId
         );
+        const roomNameList = [];
+        roomUserIds.forEach((user) => {
+          if (user !== this.currentUserId) {
+            room.roomName = user;
+          }
+        });
+        // room.roomName =
+        //   roomContacts.map((user) => user.username).join(", ") || "Myself";
 
-        room.roomName =
-          roomContacts.map((user) => user.username).join(", ") || "Myself";
-
-        const roomAvatar =
-          roomContacts.length === 1 && roomContacts[0].avatar
-            ? roomContacts[0].avatar
-            : logoAvatar;
+        // const roomAvatar =
+        //   roomContacts.length === 1 && roomContacts[0].avatar
+        //     ? roomContacts[0].avatar
+        //     : logoAvatar;
 
         formattedRooms.push({
           ...room,
           roomId: key,
-          avatar: roomAvatar,
+          // avatar: roomAvatar,
           index: room.lastUpdated.seconds,
           lastMessage: {
             content: "Room created",

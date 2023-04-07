@@ -69,8 +69,8 @@ export default {
       //   },
       // ],
       // currentUserId: "6R0MijpK6M4AIrwaaCY2",
-      currentUserId: "nicoleleow12@yahoo.com",
-      // currentUserId: auth.currentUser.email,
+      // currentUserId: "nicoleleow12@yahoo.com",
+      currentUserId: auth.currentUser.email,
       isDevice: false,
       showDemoOptions: true,
     };
