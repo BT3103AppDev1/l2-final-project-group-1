@@ -2,12 +2,9 @@
     <header>
         <p id = "projectTitle" >  &#91;Metaverse Project&#93; Competitor Analysis</p>
         <hr>
-        <p id = "header">Issues</p>
-        <IssuesNavBar />
+        <p id = "header">Features</p>
+        <FeaturesNavBar />
     </header>
-    <button>
-      <img src="../assets/Issues_new_btn_crop-removebg-preview.png" alt="Add Issue" class="add-button">
-    </button>
 </template>
 
 
@@ -15,23 +12,28 @@
 import { auth, db } from "../database/firebase";
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import IssuesNavBar from './IssuesNavBar.vue';
+import FeaturesNavBar from './FeaturesNavBar.vue';
  
 
 export default {
     components: {
-        IssuesNavBar,
+        FeaturesNavBar,
      },
     data() {
         return {
             activeTab: 0,
-            tabs: ['Current', 'Resolved'],
-            internal_issues: [
-                { id: 649, date_raised: '2023-01-29', type: 'UI/UX Design', content: "Chart's legend are not clearly defined", priority: "H" },
-                { id: 32, date_raised: '2023-02-18', type: 'Report Analysis', content: "References for market share analysis are missing", priority: "L" },
+            tabs: ['To do', 'Launched'],
+            to_do: [
+                { id: 1, text: "feature 1", image: "image"},
+                { id: 2, text: "feature 2", image: "image"},
+                { id: 3, text: "feature 3", image: "image"},
+                { id: 4, text: "feature 4", image: "image"},
             ],
-            external_issues: [
-                { id: 648, date_raised: '2023-02-02', type: 'Chart Analysis', content: "Charts do not provide clear information on competitor's strengths", priority: "H" },
+            launched: [
+                { id: 5, text: "feature 5", image: "image"},
+                { id: 6, text: "feature 6", image: "image"},
+                { id: 7, text: "feature 7", image: "image"},
+                { id: 8, text: "feature 8", image: "image"},
             ],
         }
     },
