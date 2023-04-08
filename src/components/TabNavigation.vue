@@ -13,11 +13,12 @@
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
       <div v-show="activeTab === 1">Issues Content</div>
-      <div v-show="activeTab === 2"><Workload/></div>
+      <div v-show="activeTab === 2"><Workload :projectTitle ="this.$route.query.projectTitle"/></div>
       <div v-show="activeTab === 3">Features Content</div>
-      <div v-show="activeTab === 4">Feedback Content</div>
+      <div v-show="activeTab === 4"><Feedback/></div>
       <div v-show="activeTab === 5">OKR Content</div>
       <div v-show="activeTab === 6">About Content</div>
+      <div v-show="activeTab === 7"><Test/></div>
     </div>
   </div>
 </template>
@@ -25,6 +26,8 @@
 <script>
 import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
+import Feedback from './Feedback.vue';
+import Test from './Test.vue'
 
 
 
@@ -32,12 +35,14 @@ export default {
   data() {
     return {
       activeTab: 0,
-      tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About'],
+      tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About', 'Test'],
     };
   },
   components: {
     Workload,
-    ProfileDisplay
+    ProfileDisplay,
+    Feedback,
+    Test,
   },
   methods: {
     goBack() {

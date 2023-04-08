@@ -41,10 +41,11 @@
 import ProjectsNavBar from "../components/ProjectsNavBar.vue";
 import ProfileDisplay from "../components/ProfileDisplay.vue";
 import Sidebar from "../components/Sidebar.vue";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import firebaseApp from "/src/database/firebase.js";
 import { auth, db } from "/src/database/firebase.js";
 import Popup from "../components/Popup.vue"
+import { onAuthStateChanged } from "firebase/auth";
 
 
 export default {
@@ -60,35 +61,61 @@ export default {
       tasks: [],
       activeTab: 0,
       tabs: ['Ongoing', 'Completed'],
-      formData: {name: "", startDate: "", endDate: "", goal: "", scope: "", teamMembers:"", clients:"", ongoing: false}, 
+      formData: {name: "", startDate: "", endDate: "", goal: "", scope: "", teamMembers:"", clients:"", ongoing: true, workload_count: 0}, 
       showPopup: false,
       popupTitle: "Add Project",
+      userAccount:"",
+      userName: "",
     }
   },
   methods: {
-    onSubmit(e, formData) {
+    async onSubmit(e, formData) {
       e.preventDefault();
       if (!this.formData.name) {
         alert("Please add a project name");
         return;
       }
       try {
-        const docRef = setDoc(doc(db, "projects", this.formData.name), {
+        const docRef = await setDoc(doc(db, "projects", this.formData.name), {
           project_name: this.formData.name,
           startdate: this.formData.startDate,
           enddate: this.formData.endDate,
           goal: this.formData.goal,
           scope: this.formData.scope,
-          team_members: this.formData.teamMembers,
-          clients: this.formData.clients,
+          team_members: this.formData.teamMembers.split(", ").map(member => member.trim()),
+          clients: this.formData.clients.split(", ").map(client => client.trim()),
           ongoing: this.formData.ongoing,
+          workload_count: this.formData.workload_count
         });
+        const projectDocRef = await doc(db, "projects", this.formData.name)
+        for (let i = 0; i < this.formData.teamMembers.split(",").length; i++) {
+          const projectSubcollectionRef = doc(projectDocRef, "workload", this.formData.teamMembers.split(",").map(member => member.trim())[i]);
+          await setDoc(projectSubcollectionRef, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], task: {} });
+        }
+        const projectSubcollectionRef = doc(projectDocRef, "workload", this.userName);
+        await setDoc(projectSubcollectionRef, { member: this.userName, task: {} });
       } catch (error) {
         console.error("Error adding document: ", error);
       }
       this.showPopup = !this.showPopup;
     },
+    async displayaccount(useremail) {
+      const Snapshot = await getDocs(collection(db, "userinfo"));
+      Snapshot.forEach((doc) => {
+          if (doc.data().email === useremail) {
+          this.userAccount = doc.data().account_type;
+          this.userName = doc.data().name;
+          }
+      });
+    },
   },
+  async mounted() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.displayaccount(user.email)
+            }
+        })
+    },
 };
 </script>
 

@@ -9,12 +9,12 @@
     </div>
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
-      <div v-show="activeTab === 1">Issues Content</div>
-      <div v-show="activeTab === 2">Workload</div>
-      <div v-show="activeTab === 3">Features Content</div>
-      <div v-show="activeTab === 4">Feedback Content</div>
-      <div v-show="activeTab === 5">OKR Content</div>
-      <div v-show="activeTab === 6">About Content</div>
+      <div v-show="activeTab === 0">Issues Content</div>
+      <div v-show="activeTab === 0">Workload</div>
+      <div v-show="activeTab === 0">Features Content</div>
+      <div v-show="activeTab === 0">Feedback Content</div>
+      <div v-show="activeTab === 0">OKR Content</div>
+      <div v-show="activeTab === 0">About Content</div>
     </div>
   </div>
 </template>

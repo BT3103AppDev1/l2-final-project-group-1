@@ -7,7 +7,7 @@
         <div v-show="activeTab === 0">
             <div :key="project.id" v-for="project in this.projects">
                 <div class= "container">
-                    <div @click="redirectToOtherComponent">
+                    <div @click="() => redirectToOtherComponent(project.project_name)">
                         <h3>{{project.project_name}} </h3>
                     </div>
                 </div>
@@ -30,8 +30,9 @@ export default {
     ProjectsLists
   },
   methods: {
-      redirectToOtherComponent() {
-        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
+      redirectToOtherComponent(projectName) {
+        this.$router.push({path:'/login/projects/tabnavigation', query: {projectTitle : projectName}
+        }); 
       },
   },
   data() {
