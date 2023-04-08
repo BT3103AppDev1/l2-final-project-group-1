@@ -14,7 +14,7 @@
       <div v-show="activeTab === 0">Dashboard Content</div>
       <div v-show="activeTab === 1"><Issues/></div>
       <div v-show="activeTab === 2"><Workload/></div>
-      <div v-show="activeTab === 3">Features Content</div>
+      <div v-show="activeTab === 3"><Features/></div>
       <div v-show="activeTab === 4">Feedback Content</div>
       <div v-show="activeTab === 5">OKR Content</div>
       <div v-show="activeTab === 6">About Content</div>
@@ -26,6 +26,7 @@
 import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
 import Issues from './Issues.vue';
+import Features from './Features.vue';
 
 
 export default {
@@ -39,6 +40,7 @@ export default {
     Workload,
     ProfileDisplay,
     Issues,
+    Features,
   },
   methods: {
     goBack() {
