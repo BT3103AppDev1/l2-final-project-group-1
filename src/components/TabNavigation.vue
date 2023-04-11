@@ -18,7 +18,6 @@
       <div v-show="activeTab === 4"><Feedback/></div>
       <div v-show="activeTab === 5">OKR Content</div>
       <div v-show="activeTab === 6">About Content</div>
-      <div v-show="activeTab === 7"><Test/></div>
     </div>
   </div>
 </template>
@@ -27,8 +26,8 @@
 import Workload from './Workload.vue';
 import ProfileDisplay from "./ProfileDisplay.vue";
 import Feedback from './Feedback.vue';
-import Test from './Test.vue'
-
+import Issues from './Issues.vue';
+import Features from './Features.vue';
 
 
 export default {
@@ -42,7 +41,8 @@ export default {
     Workload,
     ProfileDisplay,
     Feedback,
-    Test,
+    Issues,
+    Features,
   },
   methods: {
     goBack() {
@@ -64,9 +64,6 @@ export default {
 
 .tab {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 700px;
   margin-bottom: 20px;
 }
 
