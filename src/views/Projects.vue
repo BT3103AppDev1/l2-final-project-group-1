@@ -4,9 +4,11 @@
     <h1> My projects </h1>
     <br>
     <input type="text" v-model="text" name="text" placeholder="Search..." />
-    <button @click="showPopup = true" >
-      <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
-    </button>
+    <div v-if =" this.userAccount === 'Employer'">
+      <button @click="showPopup = true" >
+        <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
+      </button>
+    </div>
     <ProjectsNavBar />
     <ProfileDisplay />
   </header>
@@ -63,9 +65,35 @@ export default {
       formData: {name: "", startDate: "", endDate: "", goal: "", scope: "", teamMembers:"", clients:"", ongoing: false}, 
       showPopup: false,
       popupTitle: "Add Project",
+      userAccount: "",
+      userName: "",
+      userPic: "",
     }
   },
+  async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displaydetails(user.email);
+      }
+    });
+  },
   methods: {
+    async displaydetails(useremail) {
+      const Snapshot = await getDocs(collection(db, "userinfo"));
+      Snapshot.forEach((doc) => {
+          if (doc.data().email === useremail) {
+              this.userAccount = doc.data().account_type;
+              this.userName = doc.data().name;
+              this.userPic = doc.data().profilepic;
+          }
+      });
+      const filename = this.userPic;
+      const storage = getStorage();
+      const reference = ref(storage, "profilepics/" + filename);
+      await getDownloadURL(reference).then((x) => {
+          this.userPic = x;
+      });
+    },
     onSubmit(e, formData) {
       e.preventDefault();
       if (!this.formData.name) {

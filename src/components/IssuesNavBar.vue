@@ -1,10 +1,12 @@
 <template>
-<div class="nav_bar">
-      <div class="tab">
-        <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
-      </div>
+<div v-if =" this.userAccount === 'Employee'">
+    <div class="nav_bar">
+        <div class="tab">
+            <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
+        </div>
     </div>
-      <div class="content">
+
+    <div class="content">
         <div v-show="activeTab === 0">
             <div id="Current">
                 <h3> Internal Issues </h3>
@@ -52,9 +54,73 @@
                 </table>
             </div>
         </div>
-
         <div v-show="activeTab === 1">Resolved Issues</div>
     </div>
+</div>
+
+<div v-if =" this.userAccount === 'Employer'">
+    <div class="nav_bar">
+        <div class="tab">
+            <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div v-show="activeTab === 0">
+            <div id="Current">
+                <h3> Internal Issues </h3>
+                <table id="internal_table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date raised</th>
+                            <th>Type</th>
+                            <th>Content</th>
+                            <th>Priority</th>
+                            <th>Resolve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="issue in internal_issues" :key="issue.id">
+                            <td>{{ issue.id }}</td>
+                            <td>{{ issue.date_raised }}</td>
+                            <td>{{ issue.type }}</td>
+                            <td>{{ issue.content }}</td>
+                            <td>{{ issue.priority }}</td>
+                            <td><input type="checkbox" v-model="issue.resolved"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <h3> External Issues </h3>
+                <table id="external_table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date raised</th>
+                            <th>Type</th>
+                            <th>Content</th>
+                            <th>Priority</th>
+                            <th>Resolve</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="issue in external_issues" :key="issue.id">
+                            <td>{{ issue.id }}</td>
+                            <td>{{ issue.date_raised }}</td>
+                            <td>{{ issue.type }}</td>
+                            <td>{{ issue.content }}</td>
+                            <td>{{ issue.priority }}</td>
+                            <td><input type="checkbox" v-model="issue.resolved"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div v-show="activeTab === 1">Resolved Issues</div>
+    </div>
+</div>
+
 </template>
 
 <script>
@@ -69,15 +135,41 @@ export default {
             activeTab: 0,
             tabs: ['Current', 'Resolved'],
             internal_issues: [
-                { id: 649, date_raised: '2023-01-29', type: 'UI/UX Design', content: "Chart's legend are not clearly defined", priority: "H" },
-                { id: 32, date_raised: '2023-02-18', type: 'Report Analysis', content: "References for market share analysis are missing", priority: "L" },
+                { id: 649, date_raised: '2023-01-29', type: 'UI/UX Design', content: "Chart's legend are not clearly defined", priority: "H", resolved: false },
+                { id: 32, date_raised: '2023-02-18', type: 'Report Analysis', content: "References for market share analysis are missing", priority: "L", resolved: false },
             ],
             external_issues: [
-                { id: 648, date_raised: '2023-02-02', type: 'Chart Analysis', content: "Charts do not provide clear information on competitor's strengths", priority: "H" },
+                { id: 648, date_raised: '2023-02-02', type: 'Chart Analysis', content: "Charts do not provide clear information on competitor's strengths", priority: "H", resolved: false },
             ],
+            userAccount: "",
+            userName: "",
+            userPic: "",
         }
     },
+    async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displaydetails(user.email);
+      }
+    });
+  },
     methods: {
+        async displaydetails(useremail) {
+            const Snapshot = await getDocs(collection(db, "userinfo"));
+            Snapshot.forEach((doc) => {
+                if (doc.data().email === useremail) {
+                    this.userAccount = doc.data().account_type;
+                    this.userName = doc.data().name;
+                    this.userPic = doc.data().profilepic;
+                }
+            });
+            const filename = this.userPic;
+            const storage = getStorage();
+            const reference = ref(storage, "profilepics/" + filename);
+            await getDownloadURL(reference).then((x) => {
+                this.userPic = x;
+            });
+        },
         deleteCompletedTasks() {
             this.tasks = this.tasks.filter(function(task) {
                 return !task.completed;
