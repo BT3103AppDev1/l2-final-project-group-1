@@ -90,10 +90,10 @@ export default {
         const projectDocRef = await doc(db, "projects", this.formData.name)
         for (let i = 0; i < this.formData.teamMembers.split(",").length; i++) {
           const projectSubcollectionRef = doc(projectDocRef, "workload", this.formData.teamMembers.split(",").map(member => member.trim())[i]);
-          await setDoc(projectSubcollectionRef, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], task: {} });
+          await setDoc(projectSubcollectionRef, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], task: {}, completedTask : {} });
         }
         const projectSubcollectionRef = doc(projectDocRef, "workload", this.userName);
-        await setDoc(projectSubcollectionRef, { member: this.userName, task: {} });
+        await setDoc(projectSubcollectionRef, { member: this.userName, task: {}, completedTask: {}});
       } catch (error) {
         console.error("Error adding document: ", error);
       }

@@ -1,7 +1,7 @@
 <template>
 <ProfileDisplay/>
   <div id = "back-button-container">
-      <button @click="goBack"> 
+      <button id = "back" @click="goBack"> 
         <span class="button-text-one"> &#8810;</span>
         <span class="button-text"> &nbsp; Back to Projects</span>
       </button>
@@ -13,7 +13,7 @@
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
       <div v-show="activeTab === 1">Issues Content</div>
-      <div v-show="activeTab === 2"><Workload :projectTitle ="this.$route.query.projectTitle"/></div>
+      <div v-show="activeTab === 2"><Temp :projectTitle ="this.$route.query.projectTitle"/></div>
       <div v-show="activeTab === 3">Features Content</div>
       <div v-show="activeTab === 4"><Feedback/></div>
       <div v-show="activeTab === 5">OKR Content</div>
@@ -28,13 +28,14 @@ import ProfileDisplay from "./ProfileDisplay.vue";
 import Feedback from './Feedback.vue';
 import Issues from './Issues.vue';
 import Features from './Features.vue';
+import Temp from './Temp.vue'
 
 
 export default {
   data() {
     return {
       activeTab: 0,
-      tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About', 'Test'],
+      tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About'],
     };
   },
   components: {
@@ -43,11 +44,15 @@ export default {
     Feedback,
     Issues,
     Features,
+    Temp,
   },
   methods: {
     goBack() {
       this.$router.push("/login/projects")
   },
+  },
+  created() {
+    console.log(this.$route.query.projectTitle)
   }
 }
 </script>
@@ -90,12 +95,7 @@ export default {
 #back-button-container:hover {
   background-color: #242424;
 }
-.button-text-one:hover{
-  color: #FFFFFF;
-}
-.button-text:hover{
-  color: #FFFFFF;
-}
+
 #back-button-container button {
     font-size: 15px;
 
@@ -106,5 +106,8 @@ export default {
 
 .button-text {
   font-size: 20px; /* adjust font size as needed */
-}
+} 
+.back:hover{
+  color: #FFFFFF;
+ }
 </style>

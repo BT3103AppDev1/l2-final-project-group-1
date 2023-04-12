@@ -6,7 +6,7 @@
       <div class="content">
         <div v-show="activeTab === 0">
             <div :key="project.id" v-for="project in this.projects.filter(project => project.ongoing)">
-                <button class= "container" @click="redirectToOtherComponent">
+                <button class= "container" @click="redirectToOtherComponent(project.project_name)">
                       <div class="project_name">{{project.project_name}} </div>
                 </button>
             </div>
@@ -31,6 +31,7 @@ export default {
   name: "ProjectsNavBar",
   methods: {
       redirectToOtherComponent(projectName) {
+        console.log(projectName)
         this.$router.push({path:'/login/projects/tabnavigation', query: {projectTitle : projectName}
         }); 
       },
