@@ -22,6 +22,39 @@
         </tbody>
       </table>
     </div>
+
+    <div class="addEvents">
+      <h3 class="formHeader">Add an Event</h3>
+      <label>Event Day:</label>
+      <br>
+      <input type="date" id="date-picker" :min="today" v-model="selectedDate">
+      <br>
+      <label>Event Time:</label>
+      <br>
+      <input type="time" id="time-picker" v-model="selectedTime">
+      <br>
+      <label>Event Venue:</label>
+      <br>
+      <input v-model="selectedVenue">
+      <br>
+      <label>Event Details:</label>
+      <br>
+      <input v-model="details">
+      <br>
+      <label>Invite people:</label>
+      <br>
+      <input>
+      <br>
+      <div class="details">
+        <h4>Confirm details:</h4>
+        <p>{{ "Event Date: " + selectedDate }}</p>
+        <p>{{ "Event Time: " + selectedTime }}</p>
+        <p>{{ "Event Venue: " + selectedVenue }}</p>
+        <p>{{ "Event Details: " + details }}</p>
+
+      </div>
+      <button>+ Add Event</button>
+    </div>
   </main>
 </template>
 
@@ -36,6 +69,11 @@ export default {
   },
   data() {
       return {
+        selectedVenue: '',
+        details: '',
+        selectedTime: '',
+        selectedDate: '',
+        today: new Date().toISOString().substr(0, 10),
         currentDate: new Date(),
         events: [
           { id: 1, date: '2023-04-01', title: 'Event 1' },
@@ -86,6 +124,22 @@ export default {
 </script>
 
 <style scoped>
+input {
+  margin-bottom: 10px;
+}
+.formHeader {
+  margin-bottom: 20px;
+}
+  button {
+    border: 1px solid black;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 4px;
+  }
+  .addEvents {
+    margin-top: 50px;
+    text-align: left;
+  }
   .calendar {
     font-family: Arial, sans-serif;
     text-align:left;
@@ -93,6 +147,7 @@ export default {
     max-width: 600px;
     margin-top: 50px;
     float: left;
+    margin-right: 100px;
   }
   .calendar table {
     width: 100%;
@@ -130,4 +185,19 @@ export default {
   .day {
     font-size: 12px;
   }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+  background-size: contain;
+  cursor: pointer;
+}
+
+input{
+  margin-top: 5px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 5px;
+  width: 200px;
+  border: 1px solid;
+}
   </style>
