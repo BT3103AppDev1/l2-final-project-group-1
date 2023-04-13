@@ -5,9 +5,10 @@
         <p id = "header">Issues</p>
         <IssuesNavBar />
     </header>
-    <button>
-      <img src="../assets/Issues_new_btn_crop-removebg-preview.png" alt="Add Issue" class="add-button">
-    </button>
+    <div v-if =" this.userAccount === 'Employee'">
+        <button class="button-27" role="button"> New Issue +</button>
+    </div>
+
 </template>
 
 
@@ -33,9 +34,35 @@ export default {
             external_issues: [
                 { id: 648, date_raised: '2023-02-02', type: 'Chart Analysis', content: "Charts do not provide clear information on competitor's strengths", priority: "H" },
             ],
+            userAccount: "",
+            userName: "",
+            userPic: "",
         }
     },
+    async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displaydetails(user.email);
+      }
+    });
+  },
     methods: {
+        async displaydetails(useremail) {
+            const Snapshot = await getDocs(collection(db, "userinfo"));
+            Snapshot.forEach((doc) => {
+                if (doc.data().email === useremail) {
+                    this.userAccount = doc.data().account_type;
+                    this.userName = doc.data().name;
+                    this.userPic = doc.data().profilepic;
+                }
+            });
+            const filename = this.userPic;
+            const storage = getStorage();
+            const reference = ref(storage, "profilepics/" + filename);
+            await getDownloadURL(reference).then((x) => {
+                this.userPic = x;
+            });
+        },
         deleteCompletedTasks() {
             this.tasks = this.tasks.filter(function(task) {
                 return !task.completed;
@@ -130,4 +157,49 @@ background-image: url("/src/assets/office_image.jpg");
         top: 200px;
         right: 250px;
     }
+
+    .button-27 {
+        position: fixed;
+        top: 200px;
+        right: 250px;
+        appearance: none;
+        background-color: #6d79b4;
+        border: 2px solid #FFFFFF;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        font-size: 16px;
+        font-weight: 600;
+        line-height: normal;
+        margin: 0;
+        min-height: 50px;
+        min-width: 0;
+        outline: none;
+        padding: 13px 24px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        will-change: transform;
+    }
+
+.button-27:disabled {
+  pointer-events: none;
+}
+
+.button-27:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-27:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
 </style>
