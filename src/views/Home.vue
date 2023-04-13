@@ -3,24 +3,34 @@ import { ref } from "vue";
 import { Collapse } from "vue-collapsed";
 import Sidebar from "/src/components/Sidebar.vue";
 import ProfileDisplay from "/src/components/ProfileDisplay.vue";
+import { auth, db } from "/src/database/firebase.js";
+import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   data() {
     return {
+      id: '',
+      email: "",
+      newData: '',
       ToDos: " To Dos",
       FollowUps: " Follow Ups",
       Projects: " Projects",
       isOpenToDo: false,
       isOpenFollowUp: false,
       isOpenProjects: false,
-      items: [
-        { id: 1, name: "Send meeting attachments" },
-        { id: 2, name: "Send report details" },
-        { id: 3, name: "Meeting with proj1 team @2pm" },
-        { id: 4, name: "Item 4" },
-        { id: 5, name: "Item 5" },
-      ],
+      items: [],
     };
+  },
+
+  async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.email = user.email;
+        this.getList(user.email);
+      }
+    });
   },
 
   computed: {
@@ -41,6 +51,68 @@ export default {
   },
 
   methods: {
+    getList: async function(email) {
+    try {
+      const parentDocRef = doc(db, "ToDos", email);
+      const subcollectionRef = collection(parentDocRef, "Tasks");
+      const querySnapshot = await getDocs(subcollectionRef);
+      querySnapshot.forEach((doc) => {
+        if (!doc.data().done) {
+          const task = {
+            id: doc.id,
+            task: doc.data().task,
+          }
+          this.items.push(task)
+        }
+      })
+    }
+    catch (error) {
+      console.log(error);
+      console.log(email);
+    }
+  },
+    addData: async function() {
+      try {
+        const docRef = doc(db, "ToDos", this.email);
+        const docSnapshot = await getDoc(docRef);
+        if (!docSnapshot .exists) {
+          await docRef.set({});
+          await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
+          task: this.newData,
+          done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
+        });
+      } else {
+        await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
+          task: this.newData,
+          done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
+        });
+      }
+      const task = {
+        id: this.id,
+        task: this.newData
+      }
+      this.items.push(task);
+      this.newData = '';
+      this.id = '';
+      console.log("added");
+      } catch (error) {
+        console.log(error);
+        console.log(this.email);
+      }
+    },
+    tickBox: function(idNum) {
+      this.items = this.items.filter((item) => item.id !== idNum);
+      const parentDocRef = doc(db, "ToDos", this.email);
+      const subcollectionRef = collection(parentDocRef, "Tasks");
+      const docRef = doc(subcollectionRef, idNum);
+      updateDoc(docRef, {
+        done: true
+      })
+    },
     handleCollapseToDo: function () {
       this.isOpenToDo = !this.isOpenToDo;
     },
@@ -64,10 +136,11 @@ export default {
   <Sidebar />
   <main id="home-page">
     <div>
-      <div class="container">
+      <div class="container1">
         <img src="../assets/todo.png" alt="Image description" />
         <h1 class="header" id="currDate">{{ today }}</h1>
       </div>
+      
       <br />
       <br />
       <br />
@@ -85,13 +158,14 @@ export default {
         <div v-if="items.length">
           <form>
             <div v-for="item in items" :key="item.id">
-              <input type="checkbox" :id="'item-' + item.id" />
-              <label :for="'item-' + item.id">{{ item.name }}</label>
+              <input type="checkbox" :id="'item-' + item.id" @change="tickBox(item.id)"/>
+              <label :for="'item-' + item.id">{{ item.task }}</label>
             </div>
           </form>
         </div>
         <p v-else>You have no to-dos.</p>
-        <button>new</button>
+        <input id="newData" type="text" v-model="newData">
+        <button @click="addData">new</button>
       </Collapse>
       <br />
       <br />
@@ -132,12 +206,12 @@ export default {
   transition: height var(--vc-auto-duration) cubic-bezier(0.3, 0, 0.6, 1);
 }
 
-.container {
+.container1 {
   display: flex;
   align-items: center;
 }
 
-.container img {
+.container1 img {
   margin-right: 10px;
   height: 100px;
   width: 100px;
