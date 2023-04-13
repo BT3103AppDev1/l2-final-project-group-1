@@ -4,13 +4,14 @@ import { Collapse } from "vue-collapsed";
 import Sidebar from "/src/components/Sidebar.vue";
 import ProfileDisplay from "/src/components/ProfileDisplay.vue";
 import { auth, db } from "/src/database/firebase.js";
-import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   data() {
     return {
+      id: '',
       email: "",
       newData: '',
       ToDos: " To Dos",
@@ -79,19 +80,38 @@ export default {
           await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
           task: this.newData,
           done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
         });
       } else {
         await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
           task: this.newData,
           done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
         });
       }
-      
+      const task = {
+        id: this.id,
+        task: this.newData
+      }
+      this.items.push(task);
+      this.newData = '';
+      this.id = '';
       console.log("added");
       } catch (error) {
         console.log(error);
         console.log(this.email);
       }
+    },
+    tickBox: function(idNum) {
+      this.items = this.items.filter((item) => item.id !== idNum);
+      const parentDocRef = doc(db, "ToDos", this.email);
+      const subcollectionRef = collection(parentDocRef, "Tasks");
+      const docRef = doc(subcollectionRef, idNum);
+      updateDoc(docRef, {
+        done: true
+      })
     },
     handleCollapseToDo: function () {
       this.isOpenToDo = !this.isOpenToDo;
@@ -120,7 +140,7 @@ export default {
         <img src="../assets/todo.png" alt="Image description" />
         <h1 class="header" id="currDate">{{ today }}</h1>
       </div>
-      <h1>{{ email }}</h1>
+      
       <br />
       <br />
       <br />
@@ -138,7 +158,7 @@ export default {
         <div v-if="items.length">
           <form>
             <div v-for="item in items" :key="item.id">
-              <input type="checkbox" :id="'item-' + item.id" />
+              <input type="checkbox" :id="'item-' + item.id" @change="tickBox(item.id)"/>
               <label :for="'item-' + item.id">{{ item.task }}</label>
             </div>
           </form>

@@ -28,7 +28,7 @@
           <label>Scope</label>
           <input id="scope" v-model="formData.scope" name="scope">
           <label>Team Members</label>
-          <input type="text" v-model="formData.teamMembers" name="team-members">
+          <input type="text" v-model="formData.teamMembers" name="team-members" placeholder="Enter members with a ',' in between" class="memberInput">
           <label>Add Clients</label>
           <input type="text" v-model="formData.clients" name="add-clients"> 
 
@@ -102,13 +102,15 @@ export default {
         return;
       }
       try {
+        const names = this.formData.teamMembers
+        const namesArr = names.split(",")
         const docRef = setDoc(doc(db, "projects", this.formData.name), {
           project_name: this.formData.name,
           startdate: this.formData.startDate,
           enddate: this.formData.endDate,
           goal: this.formData.goal,
           scope: this.formData.scope,
-          team_members: this.formData.teamMembers,
+          team_members: namesArr,
           clients: this.formData.clients,
           ongoing: this.formData.ongoing,
         });
@@ -258,4 +260,7 @@ body {
   height: 20px;
 }
 
+.memberInput::placeholder{
+  font-size: 12px;
+}
 </style>
