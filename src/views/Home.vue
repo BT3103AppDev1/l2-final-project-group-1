@@ -140,7 +140,7 @@ export default {
         <img src="../assets/todo.png" alt="Image description" />
         <h1 class="header" id="currDate">{{ today }}</h1>
       </div>
-      <h1>{{ email }}</h1>
+      
       <br />
       <br />
       <br />
@@ -159,7 +159,7 @@ export default {
           <form>
             <div v-for="item in items" :key="item.id">
               <input type="checkbox" :id="'item-' + item.id" @change="tickBox(item.id)"/>
-              <label :for="'item-' + item.id">{{ item.task + ' ' + item.id }}</label>
+              <label :for="'item-' + item.id">{{ item.task }}</label>
             </div>
           </form>
         </div>
