@@ -3,7 +3,7 @@
   <header>
     <h1> My projects </h1>
     <br>
-    <input type="text" v-model="text" name="text" placeholder="Search..." />
+    <input  type="text" v-model="searchQuery" name="search_bar" placeholder="Search..." />
     <div v-if =" this.userAccount === 'Employer'">
       <button @click="showPopup = true" >
         <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
@@ -68,6 +68,7 @@ export default {
       userAccount: "",
       userName: "",
       userPic: "",
+      searchQuery: ''
     }
   },
   async mounted() {
