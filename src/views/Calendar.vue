@@ -45,9 +45,9 @@
       <br>
       <input v-model="details">
       <br>
-      <label>Invite people:</label>
+      <label>Invite people: (click Add)</label>
       <br>
-      <input v-model="member">
+      <input v-model="member" placeholder="abc@gmail.com">
       <button class="names" @click="addMember">Add</button>
       <br>
       <button v-for="item in invites" :key="item.id" class="buttonName" @click="removeName(item.id)">{{ item.name + " X" }}</button>
@@ -58,8 +58,8 @@
         <p>{{ "Event Time: " + selectedTime }}</p>
         <p>{{ "Event Venue: " + selectedVenue }}</p>
         <p>{{ "Event Details: " + details }}</p>
+        <button class="addEvent" @click="addEvent">+ Add Event</button>
       </div>
-      <button class="addEvent" @click="addEvent">+ Add Event</button>
     </div>
   </main>
 </template>
@@ -268,15 +268,18 @@ input {
 
   .buttonName {
     color: white;
+    margin-right: 2px;
   }
   .addEvent {
     color: white;
     padding: 5px;
-    margin-left: 1000px;
+    margin-left: 700px;
+    
   }
   .addEvents {
     margin-top: 50px;
     text-align: left;
+    margin-left: 300px;
   }
   .calendar {
     font-family: Arial, sans-serif;
@@ -346,4 +349,6 @@ p {
 label {
   font-size: 14px;
 }
+
+
   </style>
