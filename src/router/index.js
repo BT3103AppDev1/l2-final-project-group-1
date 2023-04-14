@@ -29,19 +29,15 @@ const router = createRouter({
     {
       path: "/login/home",
       component: Home,
-    },
+    }, 
     {
       path: "/login/projects",
-      component: () => import("../views/Projects.vue"),
+      component: () => import("/src/views/OngoingProjects.vue"),
     },
     {
-      path: "/login/projects/tabnavigation",
-      component: () => import("../components/TabNavigation.vue"),
-    },
-    {
-      path: "/login/projects/tabnavigation",
-      component: () => import("../components/TabNavigation.vue"),
-    },
+      path: "/login/projects/completed",
+      component: () => import("/src/views/CompletedProjects.vue"),
+    }, 
     {
       path: "/login/alerts",
       component: () => import("../views/Alerts.vue"),
