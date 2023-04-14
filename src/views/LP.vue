@@ -523,6 +523,7 @@ export default {
 
 .button-text {
   padding-left: 10px;
+  font-size: 15px;
   font-weight: 500;
 } 
 
