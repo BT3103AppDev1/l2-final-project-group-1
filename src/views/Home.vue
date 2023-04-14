@@ -155,7 +155,7 @@ export default {
         {{ ToDos }}
       </button>
       <Collapse :when="isOpenToDo" class="collapse">
-        <div v-if="items.length">
+        <div v-if="items.length" class="contents">
           <form>
             <div v-for="item in items" :key="item.id">
               <input type="checkbox" :id="'item-' + item.id" @change="tickBox(item.id)"/>
@@ -164,7 +164,7 @@ export default {
           </form>
         </div>
         <p v-else>You have no to-dos.</p>
-        <input id="newData" type="text" v-model="newData">
+        <input id="newData" type="text" v-model="newData" class="inbox">
         <button @click="addData">new</button>
       </Collapse>
       <br />
@@ -180,7 +180,9 @@ export default {
         {{ FollowUps }}
       </button>
       <Collapse :when="isOpenFollowUp" class="collapse">
-        <p>You have no follow ups.</p>
+        <div class="contents">
+          <p>You have no follow ups.</p>
+        </div>
       </Collapse>
       <br />
       <br />
@@ -195,7 +197,9 @@ export default {
         {{ Projects }}
       </button>
       <Collapse :when="isOpenProjects" class="collapse">
-        <p>You have no projects.</p>
+        <div class="contents">
+          <p>You have no projects.</p>
+        </div>
       </Collapse>
     </div>
   </main>
@@ -247,7 +251,12 @@ button {
   border-top: 7px solid #555;
   margin-top: 2px; /* Add some margin to align the triangle with the button caption */
 }
-form {
-  margin-left: 40px;
+
+.contents {
+  margin-top: 10px;
+  margin-left: 60px;
 }
+ .inbox {
+  margin-left: 60px;
+ }
 </style>
