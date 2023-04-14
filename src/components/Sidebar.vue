@@ -66,7 +66,8 @@ const ToggleMenu = () => {
 const Logout = () => {
   signOut(auth, auth.currentUser);
   router.push({ name: "Landing Page" });
-}; 
+};  
+
 </script>
 
 <style lang="scss" scoped>
@@ -110,9 +111,11 @@ aside {
     position: relative;
     top: 0;
     transition: 0.2s ease-in-out;
+    background-color: var(--dark);
 
     .menu-toggle {
       transition: 0.2s ease-in-out;
+      background-color: var(--dark);
       .material-icons-round {
         font-size: 2rem;
         color: var(--light);
