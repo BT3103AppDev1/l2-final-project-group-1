@@ -58,8 +58,8 @@
         <p>{{ "Event Time: " + selectedTime }}</p>
         <p>{{ "Event Venue: " + selectedVenue }}</p>
         <p>{{ "Event Details: " + details }}</p>
+        <button class="addEvent" @click="addEvent">+ Add Event</button>
       </div>
-      <button class="addEvent" @click="addEvent">+ Add Event</button>
     </div>
   </main>
 </template>
@@ -268,10 +268,12 @@ input {
 
   .buttonName {
     color: white;
+    margin-right: 2px;
   }
   .addEvent {
     color: white;
     padding: 5px;
+    margin-left: 700px;
     
   }
   .addEvents {
@@ -347,4 +349,6 @@ p {
 label {
   font-size: 14px;
 }
+
+
   </style>
