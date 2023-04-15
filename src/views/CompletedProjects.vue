@@ -14,7 +14,7 @@
                 </button>
             </div>
             <div class="projContainer">
-                <div :key="project.id" v-for="project in this.projects.filter(project => !project.ongoing)">
+                <div :key="project.id" v-for="project in filteredProjects">
                     <button class= "container" @click="redirectToOtherComponent">
                         <div class="project_name">{{project.project_name}} </div>
                     </button>
@@ -71,7 +71,18 @@ export default {
   data() {
     return { 
       projects: [],
+      searchQuery: "",
     };
+  },
+  computed: {
+    filteredProjects() {
+      if (!this.searchQuery) {
+        return this.projects.filter(project => !project.ongoing);
+      }
+      return this.projects.filter( project => {
+        return !project.ongoing && project.project_name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    }
   },
   async created() {
     try {
