@@ -9,7 +9,7 @@
         v-model="addRoomUsername"
         type="text"
         placeholder="Add email / name"
-        id="email"
+        class="addByEmail"
       />
       <button type="submit" :disabled="disableForm || !addRoomUsername">
         Create Room
@@ -865,5 +865,11 @@ select {
   width: 152px;
   font-size: 13px;
   margin: 0 !important;
+}
+
+.addByEmail {
+  width: 400px;
+  height: 40px;
+  margin-left: 20px;
 }
 </style>
