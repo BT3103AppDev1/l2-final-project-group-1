@@ -5,13 +5,11 @@
     <p id="header">Issues</p>
     <IssuesNavBar />
   </header>
-  <button @click="showPopup = true">
-    <img
-      src="../assets/Issues_new_btn_crop-removebg-preview.png"
-      alt="Add Issue"
-      class="add-button"
-    />
-  </button>
+  <div v-if="this.userAccount === 'Employee'">
+    <button class="button-27" role="button" @click="showPopup = true">
+      New Issue +
+    </button>
+  </div>
   <div>
     <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
       <form @submit="onSubmit" class="add-form">
@@ -90,31 +88,35 @@ export default {
           priority: "H",
         },
       ],
+      userAccount: "",
+      userName: "",
+      userPic: "",
     };
   },
+  async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displaydetails(user.email);
+      }
+    });
+  },
   methods: {
-    deleteCompletedTasks() {
-      this.tasks = this.tasks.filter(function (task) {
-        return !task.completed;
+    async displaydetails(useremail) {
+      const Snapshot = await getDocs(collection(db, "userinfo"));
+      Snapshot.forEach((doc) => {
+        if (doc.data().email === useremail) {
+          this.userAccount = doc.data().account_type;
+          this.userName = doc.data().name;
+          this.userPic = doc.data().profilepic;
+        }
+      });
+      const filename = this.userPic;
+      const storage = getStorage();
+      const reference = ref(storage, "profilepics/" + filename);
+      await getDownloadURL(reference).then((x) => {
+        this.userPic = x;
       });
     },
-    // addTask: function () {
-    //   //   if (!this.newTask.title || !this.newTask.scope || !this.newTask.endDate) {
-    //   //     alert("Please fill in all fields.");
-    //   //     return;
-    //   //   }
-    //   //   this.tasks.push({
-    //   //     id: this.nextTaskId++,
-    //   //     title: this.newTask.title,
-    //   //     scope: this.newTask.scope,
-    //   //     endDate: this.newTask.endDate,
-    //   //     completed: false,
-    //   //   });
-    //   //   this.newTask.title = "";
-    //   //   this.newTask.scope = "";
-    //   //   this.newTask.endDate = "";
-    //   console.log("hi");
-    // },
     onSubmit(e, formData) {
       e.preventDefault();
       if (!this.formData.content) {
@@ -169,6 +171,35 @@ export default {
         }
       });
     },
+    deleteCompletedTasks() {
+      this.tasks = this.tasks.filter(function (task) {
+        return !task.completed;
+      });
+    },
+    addTask: function () {
+      if (!this.newTask.title || !this.newTask.scope || !this.newTask.endDate) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      this.tasks.push({
+        id: this.nextTaskId++,
+        title: this.newTask.title,
+        scope: this.newTask.scope,
+        endDate: this.newTask.endDate,
+        completed: false,
+      });
+      this.newTask.title = "";
+      this.newTask.scope = "";
+      this.newTask.endDate = "";
+    },
+    async displayaccount(useremail) {
+      const Snapshot = await getDocs(collection(db, "userinfo"));
+      Snapshot.forEach((doc) => {
+        if (doc.data().email === useremail) {
+          this.userAccount = doc.data().account_type;
+        }
+      });
+    },
   },
   async mounted() {
     onAuthStateChanged(auth, (user) => {
@@ -186,12 +217,10 @@ header {
   margin-top: 0px;
   margin-left: -500px;
 }
-
 button {
   text-align: left;
   vertical-align: top;
 }
-
 .container {
   color: white;
   max-width: 500px;
@@ -203,7 +232,6 @@ button {
   border-radius: 5px;
   background-image: url("/src/assets/office_image.jpg");
 }
-
 #projectTitle {
   font-size: 32pt;
 }
@@ -227,6 +255,52 @@ button {
   border-style: solid;
   border-color: #4a4e69;
   float: right;
+}
+.add-button {
+  position: fixed;
+  top: 200px;
+  right: 250px;
+}
+.button-27 {
+  position: fixed;
+  top: 200px;
+  right: 250px;
+  appearance: none;
+  background-color: #6d79b4;
+  border: 2px solid #ffffff;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 50px;
+  min-width: 0;
+  outline: none;
+  padding: 13px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+.button-27:disabled {
+  pointer-events: none;
+}
+.button-27:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+.button-27:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
 .popup {
   width: 50%;
