@@ -217,7 +217,7 @@ export default {
 } 
 </script>
 
-<style>
+<style scoped>
 .buttonName {
     color: white;
     margin-right: 2px;
