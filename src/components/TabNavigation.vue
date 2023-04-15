@@ -38,7 +38,7 @@
 <script>
 import Workload from "./Workload.vue";
 import ProfileDisplay from "./ProfileDisplay.vue";
-import Feedback from "./Feedback.vue";
+// import Feedback from "./Feedback.vue";
 import Issues from "./Issues.vue";
 import Features from "./Features.vue";
 
@@ -51,7 +51,7 @@ export default {
         "Issues",
         "Workload",
         "Features",
-        "Feedback",
+        // "Feedback",
         "OKR",
         "About",
       ],
@@ -60,7 +60,7 @@ export default {
   components: {
     Workload,
     ProfileDisplay,
-    Feedback,
+    // Feedback,
     Issues,
     Features,
   },
