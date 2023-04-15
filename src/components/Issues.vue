@@ -1,18 +1,40 @@
 <template>
   <header>
-    <p id="projectTitle">&#91;Metaverse Project&#93; Competitor Analysis</p>
+    <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
     <p id="header">Issues</p>
-    <IssuesNavBar />
+    <IssuesNavBar :projectTitle="this.projectTitle" />
   </header>
-  <div v-if="this.userAccount === 'Employee'">
+  <div
+    v-if="
+      this.userAccount === 'Employee' ||
+      this.userAccount === 'External stakeholder'
+    "
+  >
     <button class="button-27" role="button" @click="showPopup = true">
       New Issue +
     </button>
   </div>
-  <div>
+  <div v-if="this.userAccount === 'Employee'">
     <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
-      <form @submit="onSubmit" class="add-form">
+      <form @submit="onSubmit_internal" class="add-form">
+        <div class="form-control">
+          <label>Date raised</label>
+          <input type="date" v-model="formData.date" name="start-date" />
+          <label>Issue Type</label>
+          <input type="text" v-model="formData.type" name="add-type" />
+          <label>Issue Content</label>
+          <input type="text" v-model="formData.content" name="add-content" />
+          <label>Issue Priority</label>
+          <input type="text" v-model="formData.priority" name="add-priority" />
+        </div>
+        <input type="submit" value="Add Issue" class="btn btn-block" />
+      </form>
+    </popup>
+  </div>
+  <div v-if="this.userAccount === 'External stakeholder'">
+    <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
+      <form @submit="onSubmit_external" class="add-form">
         <div class="form-control">
           <label>Date raised</label>
           <input type="date" v-model="formData.date" name="start-date" />
@@ -44,11 +66,13 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import IssuesNavBar from "./IssuesNavBar.vue";
 import Popup from "../components/Popup.vue";
-
 export default {
   components: {
     IssuesNavBar,
     Popup,
+  },
+  props: {
+    projectTitle: String,
   },
   data() {
     return {
@@ -62,32 +86,32 @@ export default {
         type: "",
       },
       tabs: ["Current", "Resolved"],
-      internal_issues: [
-        {
-          id: 649,
-          date_raised: "2023-01-29",
-          type: "UI/UX Design",
-          content: "Chart's legend are not clearly defined",
-          priority: "H",
-        },
-        {
-          id: 32,
-          date_raised: "2023-02-18",
-          type: "Report Analysis",
-          content: "References for market share analysis are missing",
-          priority: "L",
-        },
-      ],
-      external_issues: [
-        {
-          id: 648,
-          date_raised: "2023-02-02",
-          type: "Chart Analysis",
-          content:
-            "Charts do not provide clear information on competitor's strengths",
-          priority: "H",
-        },
-      ],
+      // internal_issues: [
+      //   {
+      //     id: 649,
+      //     date_raised: "2023-01-29",
+      //     type: "UI/UX Design",
+      //     content: "Chart's legend are not clearly defined",
+      //     priority: "H",
+      //   },
+      //   {
+      //     id: 32,
+      //     date_raised: "2023-02-18",
+      //     type: "Report Analysis",
+      //     content: "References for market share analysis are missing",
+      //     priority: "L",
+      //   },
+      // ],
+      // external_issues: [
+      //   {
+      //     id: 648,
+      //     date_raised: "2023-02-02",
+      //     type: "Chart Analysis",
+      //     content:
+      //       "Charts do not provide clear information on competitor's strengths",
+      //     priority: "H",
+      //   },
+      // ],
       userAccount: "",
       userName: "",
       userPic: "",
@@ -117,7 +141,7 @@ export default {
         this.userPic = x;
       });
     },
-    onSubmit(e, formData) {
+    onSubmit_internal(e, formData) {
       e.preventDefault();
       if (!this.formData.content) {
         alert("Please add issue content");
@@ -134,11 +158,19 @@ export default {
       }
       try {
         const doc_id = Math.floor(Math.random() * 101).toString();
-        getDoc(doc(db, "issues", doc_id)).then((docSnap) => {
+        getDoc(
+          doc(db, "projects", this.projectTitle, "Internal_Issue", doc_id)
+        ).then((docSnap) => {
           if (docSnap.exists()) {
             console.log("exist");
             const docRef = setDoc(
-              doc(db, "issues", Math.floor(Math.random() * 101).toString()),
+              doc(
+                db,
+                "projects",
+                this.projectTitle,
+                "Internal_Issue",
+                Math.floor(Math.random() * 101).toString()
+              ),
               {
                 issue_id: doc_id,
                 raised_date: this.formData.date,
@@ -148,14 +180,74 @@ export default {
               }
             );
           } else {
-            const docRef = setDoc(doc(db, "internal_issues", doc_id), {
-              issue_id: doc_id,
-              raised_date: this.formData.date,
-              content: this.formData.content,
-              issue_type: this.formData.type,
-              issue_priority: this.formData.priority,
-              resolved: false,
-            });
+            const docRef = setDoc(
+              doc(db, "projects", this.projectTitle, "Internal_Issue", doc_id),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+                resolved: false,
+              }
+            );
+          }
+        });
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+      this.showPopup = !this.showPopup;
+    },
+    onSubmit_external(e, formData) {
+      e.preventDefault();
+      if (!this.formData.content) {
+        alert("Please add issue content");
+        return;
+      } else if (!this.formData.type) {
+        alert("Please add issue type");
+        return;
+      } else if (!this.formData.priority) {
+        alert("Please add issue priority");
+        return;
+      } else if (!this.formData.date) {
+        alert("Please add issue date");
+        return;
+      }
+      try {
+        const doc_id = Math.floor(Math.random() * 101).toString();
+        getDoc(
+          doc(db, "projects", this.projectTitle, "External_Issue", doc_id)
+        ).then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log("exist");
+            const docRef = setDoc(
+              doc(
+                db,
+                "projects",
+                this.projectTitle,
+                "External_Issue",
+                Math.floor(Math.random() * 101).toString()
+              ),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+              }
+            );
+          } else {
+            const docRef = setDoc(
+              doc(db, "projects", this.projectTitle, "External_Issue", doc_id),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+                resolved: false,
+              }
+            );
           }
         });
       } catch (error) {
@@ -351,4 +443,3 @@ button {
   height: 20px;
 }
 </style>
-
