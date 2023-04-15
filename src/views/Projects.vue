@@ -90,14 +90,22 @@ export default {
         const projectDocRef = await doc(db, "projects", this.formData.name)
         for (let i = 0; i < this.formData.teamMembers.split(",").length; i++) {
           const projectSubcollectionRef = doc(projectDocRef, "workload", this.formData.teamMembers.split(",").map(member => member.trim())[i]);
-          await setDoc(projectSubcollectionRef, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], task: {}, completedTask : {} });
+          await setDoc(projectSubcollectionRef, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], task: {} });
         }
         const projectSubcollectionRef = doc(projectDocRef, "workload", this.userName);
-        await setDoc(projectSubcollectionRef, { member: this.userName, task: {}, completedTask: {}});
+        await setDoc(projectSubcollectionRef, { member: this.userName, task: {}});
+
+        for (let i = 0; i < this.formData.teamMembers.split(",").length; i++) {
+          const projectSubcollectionRefSecond = doc(projectDocRef, "feedback", this.formData.teamMembers.split(",").map(member => member.trim())[i]);
+          await setDoc(projectSubcollectionRefSecond, { member: this.formData.teamMembers.split(",").map(member => member.trim())[i], memberFeedback: {}});
+        }
+        const projectSubcollectionRefSecond = doc(projectDocRef, "feedback", this.userName);
+        await setDoc(projectSubcollectionRefSecond, { member: this.userName, memberFeedback: {}});
       } catch (error) {
         console.error("Error adding document: ", error);
       }
       this.showPopup = !this.showPopup;
+      window.location.reload();
     },
     async displayaccount(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));

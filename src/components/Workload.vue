@@ -1,69 +1,110 @@
 <template>
-    <p id = "projectTitle">  &#91;Metaverse Project&#93; Competitor Analysis</p>
+    <p id = "projectTitle">{{ projectTitle }}</p>
     <hr>
     <p id = "header">Workload Tracker</p>
-    <hr>
-    <div id="tasktable">
-    
-        <form @submit.prevent="addTask">
-            <label for="employee">Employee:</label>
-            <input type="text" id="employee" v-model="newTask.employee" />
-            <br />
-            <label for="endDate">End Date:</label>
-            <input type="date" id="endDate" v-model="newTask.endDate" />
-            <br />
-            <label for="title">Title:</label>
-            <input type="text" id="title" v-model="newTask.title" />
-            <br />
-            <button type="submit">Add Task</button>
-        </form>
-        <button @click="completedTasks">Completed Tasks</button>
-        <button @click="incompleteTasks">Incomplete Tasks</button>
-        <h2 v-if="completedFilter === true">Completed Tasks</h2>
-        <table v-if="completedFilter === true">
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Title</th>
-                    <th>End Date</th>
-                    <th>Completed</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(task, index) in this.completedTasks" :key="index">
-                    <td>{{ task.employee }}</td>
-                    <td>{{ task.title }}</td>
-                    <td>{{ task.endDate }}</td>
-                    <td><input type="checkbox" v-model="task.completed" disabled /></td>
-                    <td>{{ task.id }}</td>
-                </tr>
-                </tbody>
-            </table>
-            <h2 v-if="completedFilter === false">Incomplete Tasks</h2>
-            <table v-if="completedFilter === false">
+    <div id = "tasktable">
+        <div v-if ="this.userAccount === 'Employee'">
+            <table>
                 <thead>
                     <tr>
-                        <th>Employee</th>
+                        <th>ID</th>
+                        <th>Name</th>
                         <th>Title</th>
+                        <th>Scope</th>
                         <th>End Date</th>
                         <th>Completed</th>
-                        <th>ID</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(task, index) in this.incompleteTasks" :key="index">
+                    <tr v-for="(task, index) in this.incompletedTasks" :key="index">
+                        <td>{{ task.id }}</td>
                         <td>{{ task.employee }}</td>
                         <td>{{ task.title }}</td>
+                        <td>{{ task.scope }}</td>
                         <td>{{ task.endDate }}</td>
                         <td><input type="checkbox" v-model="task.completed" /></td>
-                        <td>{{ task.id }}</td>
-                        <td><button @click="deleteTask(index)">Delete</button></td>
                     </tr>
                 </tbody>
             </table>
             <button @click="confirmChanges">Confirm Changes</button>
         </div>
+        <div v-if =" this.userAccount === 'Employer'">
+            <div class ="tab">
+                <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
+            </div>
+            <div v-show="activeTab === 1">
+                <button class="button-27" @click="showPopup = true"> New Task +</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Scope</th>
+                            <th>End Date</th>
+                            <th>Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(task, index) in this.completedTasks" :key="index">
+                        <td>{{ task.id }}</td>
+                        <td>{{ task.employee }}</td>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.scope }}</td>
+                        <td>{{ task.endDate }}</td>
+                        <td><input type="checkbox" v-model="task.completed" disabled /></td>
+                        <td><button @click="deleteTask(index)">Delete</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
+                    <h2 id = "windowTitle">Assign New Task</h2>
+                    <form @submit.prevent="addTask" class="add-form">
+                        <div class = "form-control">
+                            <label for="employee">Employee:</label>
+                            <input type="text" id="employee" v-model="newTask.employee" />
+                            <br />
+                            <label for="title">Title:</label>
+                            <input type="text" id="title" v-model="newTask.title" />
+                            <br />
+                            <label for="scope">Scope:</label>
+                            <input type="text" id="scope" v-model="newTask.scope" />
+                            <br />
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" v-model="newTask.endDate" />
+                            <br />     
+                        </div> 
+                    <button type="submit" id = "assign">Assign Task</button>
+                    </form>
+                </popup>
+            </div>
+            <div v-show="activeTab === 0">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Scope</th>
+                            <th>End Date</th>
+                            <th>Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(task, index) in this.incompletedTasks" :key="index">
+                            <td>{{ task.id }}</td>
+                            <td>{{ task.employee }}</td>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.scope }}</td>
+                            <td>{{ task.endDate }}</td>
+                            <td><input type="checkbox" v-model="task.completed" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button @click="confirmChanges">Confirm Changes</button>
+            </div>
+        </div>        
+    </div>
 </template>
 
 <script>
@@ -80,15 +121,18 @@ export default {
             newTask: {
                 employee: "",
                 title: "",
+                scope: "",
                 endDate: "",
                 completed: false,
                 id: "",
             },
-            completedFilter: null,
             userName: "",
             userAccount: "",
             completedTasks: [],
-            incompleteTasks: [],
+            incompletedTasks: [],
+            tabs: ["My Work", "My Team"],
+            activeTab: 0,
+            showPopup: false,
         };
   },
   async mounted() {
@@ -99,23 +143,8 @@ export default {
     })
     
   },
-  computed: {
-    completedTasks() {
-        this.completedFilter = true
-        let tempTask = this.tasks;
-        console.log(tempTask)
-        this.completedTasks = tempTask.filter((task) => task.completed === true)
-    },
-    incompleteTasks() {
-        this.completedFilter = false
-        let tempTask = this.tasks;
-        console.log(tempTask)
-        this.incompleteTasks = tempTask.filter((task) => task.completed === false)
-    },
-  },
     methods: {
         async fetchTasks() {
-
             const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "workload"));
             querySnapshot.forEach((doc) => { 
                 console.log(doc.data())
@@ -129,6 +158,7 @@ export default {
                         this.tasks.push({
                             employee: employee,
                             title: tempTask.title,
+                            scope: tempTask.scope,
                             endDate: tempTask.endDate,
                             completed: tempTask.completed,
                             id: taskId,
@@ -145,6 +175,7 @@ export default {
             this.tasks.push({
                 employee: this.newTask.employee,
                 title: this.newTask.title,
+                scope: this.newTask.scope,
                 endDate: this.newTask.endDate,
                 completed: false,
                 id: taskId,
@@ -154,6 +185,7 @@ export default {
                 const tempTasks = querySnapshot.data().task;
                 tempTasks[taskId] = {
                     title: this.newTask.title,
+                    scope: this.newTask.scope,
                     endDate: this.newTask.endDate,
                     completed: false,
                 };
@@ -165,17 +197,20 @@ export default {
             this.newTask.employee = "";
             this.newTask.title = "";
             this.newTask.endDate = "";
+            this.newTask.scope = "";
+            window.location.reload();
         },
         async deleteTask(index) {
             console.log("OK")
             try {
-            const task = this.incompleteTasks[index];
+            const task = this.completedTasks[index];
             this.tasks.splice(index, 1);
             const employeeRef = doc(db, "projects", this.projectTitle, "workload", task.employee)
             const querySnapshot = await getDoc(employeeRef)
             const tempTasks = querySnapshot.data().task;
             delete tempTasks[task.id];
             await updateDoc(employeeRef, { task: tempTasks });
+            window.location.reload();
             }
             catch(error) {
                 console.error("Error deleting document: ", error);
@@ -190,12 +225,38 @@ export default {
             const taskId = task.id
             newDict[taskId] = { 
                 title: task.title,
+                scope: task.scope,
                 endDate: task.endDate,
                 completed: task.completed,}
             
             });
             await updateDoc(docRef, {task: newDict})
-
+            windolocation.reload();
+        },
+        async completeTasks() {
+            const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "workload"))
+            querySnapshot.forEach((doc) => { 
+                const employee = doc.data().member;
+                const oldTasks = doc.data().task;
+                console.log(oldTasks)
+                Object.keys(oldTasks).forEach((taskId) => {
+                    const tempTask = oldTasks[taskId];
+                    this.completedTasks .push({
+                        employee: employee,
+                        title: tempTask.title,
+                        scope: tempTask.scope,
+                        endDate: tempTask.endDate,
+                        completed: tempTask.completed,
+                        id: taskId,
+                    });
+                })
+            })
+            console.log(this.completedTasks)
+        },
+        incompleteTasks() {
+            let tempTask = this.tasks;
+            this.incompletedTasks = tempTask.filter((task) => task.completed === false)
+            console.log(this.incompletedTasks)
         },
         async displayaccount(useremail) {
             const Snapshot = await getDocs(collection(db, "userinfo"));
@@ -205,12 +266,16 @@ export default {
                 this.userName = doc.data().name;
                 }
             });
-             this.fetchTasks();
+             await this.fetchTasks();
+             await this.completeTasks();
+             this.incompleteTasks();
         },
-
     },
     props: {
         projectTitle: String
+    },
+    components: {
+        Popup
     }
 
 }
@@ -275,6 +340,7 @@ export default {
         padding: 20px;
         border: 1px solid black;
         z-index: 9999;
+        display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
@@ -289,7 +355,7 @@ export default {
         display: block;
     }
     .form-control input {
-        width: 100%;
+        width: 95%;
         height: 40px;
         margin: 5px;
         padding: 3px 7px;
@@ -333,7 +399,6 @@ export default {
         touch-action: manipulation;
         will-change: transform; 
     }
-
     .button-27:disabled {
         pointer-events: none;
     }
@@ -342,7 +407,6 @@ export default {
         box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
         transform: translateY(-2px);
     }
-
     .button-27:active {
         box-shadow: none;
         transform:  translateY(0);
@@ -354,15 +418,11 @@ export default {
         color: #fff;
         border: none;
         padding: 10px 20px;
-        margin: 5px;
         border-radius: 5px;
         cursor: pointer;
         text-decoration: none;
         font-size: 15px;
         font-family: inherit;
+        margin: auto;
     }
 </style>
-
-
-
-
