@@ -68,13 +68,13 @@ export default {
             });
         }
     },
-        async mounted() {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    this.displayaccount(user.email)
-                }
-            })
-        },
+    async mounted() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.displayaccount(user.email)
+            }
+        })
+    },
 }
 </script>
 

@@ -4,13 +4,14 @@ import { Collapse } from "vue-collapsed";
 import Sidebar from "/src/components/Sidebar.vue";
 import ProfileDisplay from "/src/components/ProfileDisplay.vue";
 import { auth, db } from "/src/database/firebase.js";
-import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   data() {
     return {
+      id: '',
       email: "",
       newData: '',
       ToDos: " To Dos",
@@ -79,19 +80,38 @@ export default {
           await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
           task: this.newData,
           done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
         });
       } else {
         await addDoc(collection(doc(collection(db, "ToDos"), this.email), "Tasks"), {
           task: this.newData,
           done: false,
+        }).then((docRef) => {
+          this.id = docRef.id;
         });
       }
-      
+      const task = {
+        id: this.id,
+        task: this.newData
+      }
+      this.items.push(task);
+      this.newData = '';
+      this.id = '';
       console.log("added");
       } catch (error) {
         console.log(error);
         console.log(this.email);
       }
+    },
+    tickBox: function(idNum) {
+      this.items = this.items.filter((item) => item.id !== idNum);
+      const parentDocRef = doc(db, "ToDos", this.email);
+      const subcollectionRef = collection(parentDocRef, "Tasks");
+      const docRef = doc(subcollectionRef, idNum);
+      updateDoc(docRef, {
+        done: true
+      })
     },
     handleCollapseToDo: function () {
       this.isOpenToDo = !this.isOpenToDo;
@@ -120,7 +140,7 @@ export default {
         <img src="../assets/todo.png" alt="Image description" />
         <h1 class="header" id="currDate">{{ today }}</h1>
       </div>
-      <h1>{{ email }}</h1>
+      
       <br />
       <br />
       <br />
@@ -135,17 +155,17 @@ export default {
         {{ ToDos }}
       </button>
       <Collapse :when="isOpenToDo" class="collapse">
-        <div v-if="items.length">
+        <div v-if="items.length" class="contents">
           <form>
             <div v-for="item in items" :key="item.id">
-              <input type="checkbox" :id="'item-' + item.id" />
+              <input type="checkbox" :id="'item-' + item.id" @change="tickBox(item.id)"/>
               <label :for="'item-' + item.id">{{ item.task }}</label>
             </div>
           </form>
         </div>
-        <p v-else>You have no to-dos.</p>
-        <input id="newData" type="text" v-model="newData">
-        <button @click="addData">new</button>
+        <p v-else class="contents">You have no to-dos.</p>
+        <input id="newData" type="text" v-model="newData" class="inbox" placeholder="New Task">
+        <button @click="addData" class="addTaskBtn"><u>+ Add Task</u></button>
       </Collapse>
       <br />
       <br />
@@ -160,7 +180,9 @@ export default {
         {{ FollowUps }}
       </button>
       <Collapse :when="isOpenFollowUp" class="collapse">
-        <p>You have no follow ups.</p>
+        <div class="contents">
+          <p>You have no follow ups.</p>
+        </div>
       </Collapse>
       <br />
       <br />
@@ -175,7 +197,9 @@ export default {
         {{ Projects }}
       </button>
       <Collapse :when="isOpenProjects" class="collapse">
-        <p>You have no projects.</p>
+        <div class="contents">
+          <p>You have no projects.</p>
+        </div>
       </Collapse>
     </div>
   </main>
@@ -227,7 +251,12 @@ button {
   border-top: 7px solid #555;
   margin-top: 2px; /* Add some margin to align the triangle with the button caption */
 }
-form {
-  margin-left: 40px;
+
+.contents {
+  margin-top: 10px;
+  margin-left: 60px;
 }
+ .inbox {
+  margin-left: 60px;
+ }
 </style>
