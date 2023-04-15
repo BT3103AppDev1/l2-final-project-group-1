@@ -114,18 +114,15 @@
             <option value="mdm">Mdm</option>
           </select>
           <br /><br />
-          <input
-            type="text"
-            id="password"
-            required=""
-            placeholder="Password"
-          /><br /><br />
-          <input
-            type="text"
-            id="cfmpassword"
-            required=""
-            placeholder="Confirm Password"
-          />
+          <div class="shPassword">
+            <input type="password" id="password" required="" placeholder="Password" v-model="password" /> 
+            <span> <i class="fa fa-eye" aria-hidden="true" id="eye" v-on:click="toggle()"> </i> </span> 
+          </div> 
+          <br /><br />
+          <div class="shPassword">
+            <input type="password" id="cfmpassword" required="" placeholder="Confirm Password" /> 
+            <span> <i class="fa fa-eye" aria-hidden="true" id="eye2" v-on:click="toggle2()"> </i> </span> 
+          </div>  
           <br /><br />
           <div class="checkboxes"> 
             <label id="check"
@@ -173,9 +170,33 @@ export default {
       password: "",
       imagePreview: uploadImage, 
       imageName: "default_profile.png", 
+      state: false,
+      state2: false,
     };
   },
   methods: {
+    toggle() { 
+        this.state = !this.state;
+        if (this.state) {
+          document.getElementById("password").setAttribute("type", "password");
+          document.getElementById("eye").style.color='#7a797e'; 
+        }
+        else {
+          document.getElementById("password").setAttribute("type", "text");
+          document.getElementById("eye").style.color='#5887ef'; 
+        }
+    },
+    toggle2() { 
+        this.state2 = !this.state2;
+        if (this.state2) {
+          document.getElementById("cfmpassword").setAttribute("type", "password");
+          document.getElementById("eye2").style.color='#7a797e'; 
+        }
+        else {
+          document.getElementById("cfmpassword").setAttribute("type", "text");
+          document.getElementById("eye2").style.color='#5887ef'; 
+        }
+    },
     signup() {
       let name = document.getElementById("name").value;
       let account_type = document.getElementById("type").value;
@@ -314,6 +335,23 @@ export default {
   margin-left: 4%;
   display: flex;
   align-items: center;
+}
+.shPassword i {
+  position: absolute; 
+}
+
+.shPassword {
+  width: 100%;  
+}
+
+.fa#eye {
+  margin-left: -30px;
+  margin-top: 10px;  
+}
+
+.fa#eye2 {
+  margin-left: -30px;
+  margin-top: 10px;  
 }
 
 #upload {
