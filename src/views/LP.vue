@@ -32,7 +32,7 @@
         </div> 
         <div class="right-container">  
             <!-- some cool motion thing-->   
-            
+            <img class="sect1rightconimage" src="../assets/teamwork-collab.png" alt="" /> 
         </div> 
     </div>  
     <div class="section" id="section2">
@@ -316,8 +316,8 @@ export default {
 }  
 
 #supportemail { 
-    margin-left: 800px; 
-    margin-top: 10px;
+    margin-left: 1000px; 
+    margin-top: 20px;
     background-color: var(--light); 
     outline: none; 
 }
@@ -345,6 +345,11 @@ export default {
   top: 20px;
   z-index: 1;
   height: 100vh; 
+}
+
+.sect1rightconimage {
+    width: 80%; 
+    margin-left: 60px;
 }
 
 #section2 {   
@@ -388,8 +393,8 @@ export default {
     padding-bottom: 20px;
     display: flex; 
     flex-direction: column; 
-    justify-content: center;  
-    background-image: url("../assets/sect1bg.png")
+    justify-content: center;   
+    background-image: url("../assets/aura.png");
 }
 
 .right-container {
@@ -399,6 +404,8 @@ export default {
   background: linear-gradient(-45deg, var(--primary-light), var(--lighter-purple), var(--purple), var(--primary-light), var(--dark-purple), var(--purple), var(--light-green));
   background-size: 400% 400%;
   animation: gradient 20s ease infinite;
+  display: flex; 
+  align-items: center;
 }
 
 @keyframes gradient {
