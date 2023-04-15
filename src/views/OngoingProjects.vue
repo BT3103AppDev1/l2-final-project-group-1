@@ -9,9 +9,7 @@
             </div>
             <input class="searchbar" type="text" v-model="searchQuery" name="search_bar" placeholder="Search..." />
             <div v-if =" this.userAccount === 'Employer'">
-                <button @click="showPopup = true" >
-                    <img src="../assets/plus-sign.png" alt="Add Project" class="project-button">
-                </button>
+                <button @click="this.showPopup = !this.showPopup" class="popBtn">+ Add Project</button>
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
@@ -23,29 +21,25 @@
         </div>
     </div>
 
-    <div>
-  <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
-      <form @submit="onSubmit" class="add-form">
-        <div class="form-control">
-          <label>Project Name</label>
-          <input type="text" v-model="formData.name" name="project-name"/>
-          <label>Start Date</label>
-          <input type="date" v-model="formData.startDate" name="start-date">
-          <label>End Date</label>
-          <input type="date" v-model="formData.endDate" name="end-date">
-          <label>Goal</label>
-          <input id="goal" v-model="formData.goal" name="goal">
-          <label>Scope</label>
-          <input id="scope" v-model="formData.scope" name="scope">
-          <label>Team Members</label>
-          <input type="text" v-model="formData.teamMembers" name="team-members" placeholder="Enter members with a ',' in between" class="memberInput">
-          <label>Add Clients</label>
-          <input type="text" v-model="formData.clients" name="add-clients"> 
-
-        </div>
-        <input type="submit" value="Save Project" class="btn btn-block" />
-      </form>
-    </popup>
+    <div class="popup" v-if="showPopup">
+      <label class="labels">Project Name:</label>
+      <input type="text" v-model="projName">
+      <label class="labels">Start Date:</label>
+      <input type="date" :min="today" v-model="projStartDate">
+      <label class="labels">End Date:</label>
+      <input type="date" :min="today" v-model="projEndDate">
+      <label class="labels">Goal:</label>
+      <input type="text" id="goal" v-model="projGoal">
+      <label class="labels">Scope:</label>
+      <input type="text" id="scope" v-model="projScope">
+      <label class="labels">Team Members: <button class="smallAdd" @click="addMember">Add</button></label>
+      <input type="text" id="memberEmail" v-model="memberEmail">
+      <button v-for="item in memberInvites" :key="item.id" class="buttonName" @click="removeMember(item.id)">{{ item.name + " X" }}</button>
+      <label class="labels">Add Clients: <button class="smallAdd" @click="addClient">Add</button></label>
+      <input type="text" id="clientEmail" v-model="clientEmail">
+      <button v-for="item in clientInvites" :key="item.id" class="buttonName" @click="removeClient(item.id)">{{ item.name + " X" }}</button>
+      <button class="popBtn" @click="this.showPopup = false">Cancel</button>
+      <button class="popBtn" @click="addProject">Add Project</button>
     </div>
 </template> 
 
@@ -56,9 +50,10 @@ import ProfileDisplay from '/src/components/ProfileDisplay.vue';
 import ProjectSwitcher from '/src/components/ProjectSwitcher.vue';
 
 // Back-end
-import { doc, setDoc, getDocs, collection } from "firebase/firestore";
-import firebaseApp from "/src/database/firebase.js";
 import { auth, db } from "/src/database/firebase.js";
+import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   name: "OngoingProjects",
@@ -72,8 +67,31 @@ export default {
     return { 
       projects: [],
       searchQuery: "",
+      userAccount: '',
+      email: '',
+      showPopup: false,
+      projName: '',
+      projStartDate: '',
+      projEndDate: '',
+      projGoal: '',
+      projScope: '',
+      memberEmail: '',
+      clientEmail: '',
+      memberInvites: [],
+      clientInvites: [],
     };
   },
+
+  async mounted() {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.email = user.email;
+          this.getAcc(this.email);
+          this.getMyProjects(this.email);
+        }
+      });
+    },
+  
   computed: {
     filteredProjects() {
       if (!this.searchQuery) {
@@ -84,20 +102,174 @@ export default {
       });
     }
   },
-  async created() {
-    try {
-      const querySnapshot = await getDocs(collection(db, "projects"));
-      querySnapshot.forEach((doc) => {
-        this.projects.push(doc.data());
+  
+  methods: {
+    async getAcc(email) {
+      const colRef = collection(db, 'userinfo')
+      const docRef = doc(colRef, email)
+      const docSnapshot = await getDoc(docRef)
+      this.userAccount = docSnapshot.data().account_type
+    },
+
+    async getMyProjects(email) {
+      const userinfoRef = collection(db, 'userinfo')
+      const userDocRef = doc(userinfoRef, email)
+      const docSnapshot = await getDoc(userDocRef)
+      const myProjects = docSnapshot.data().projects
+
+      const projColRef = collection(db, 'projects')
+      myProjects.forEach(async projId => {
+        const currDocRef = doc(projColRef, projId)
+        const currSnapshot = await getDoc(currDocRef)
+        const currData = currSnapshot.data()
+        currData.id = projId
+        this.projects.push(currData)
+      })
+    },
+
+    async addMember() {
+      const userinfo = collection(db, 'userinfo')
+      const userDocRef = doc(userinfo, this.memberEmail)
+      const docSnapshot = await getDoc(userDocRef)
+      if (!docSnapshot.exists()) {
+        alert("User does not exist.")
+      } else {
+        this.memberInvites.push({
+          email: this.memberEmail,
+          name: docSnapshot.data().name,
+          id: this.memberInvites.length + 1,
+        })
+      }
+      this.memberEmail = ''
+    },
+
+    async addClient() {
+      const userinfo = collection(db, 'userinfo')
+      const userDocRef = doc(userinfo, this.clientEmail)
+      const docSnapshot = await getDoc(userDocRef)
+      if (!docSnapshot.exists()) {
+        alert("User does not exist.")
+      } else {
+        this.clientInvites.push({
+          email: this.clientEmail,
+          name: docSnapshot.data().name,
+          id: this.clientInvites.length + 1,
+        })
+      }
+      this.clientEmail = ''
+    },
+
+    removeMember(idNum) {
+        this.memberInvites = this.memberInvites.filter((item) => item.id !== idNum);
+    },
+
+    removeClient(idNum) {
+        this.clientInvites = this.clientInvites.filter((item) => item.id !== idNum);
+    },
+
+    async addProject() {
+      const projData = {
+        project_name: this.projName,
+        scope: this.projScope,
+        goal: this.projGoal,
+        startdate: this.projStartDate,
+        enddate: this.projEndDate,
+        ongoing: true,
+      }
+      //add to projects collection
+      const colRef = collection(db, "projects")
+      await addDoc(colRef, projData).then((docRef) => {
+        const docId = docRef.id;
+        projData.id = docId;
+      })
+      this.projects.push(projData)
+      //clear all input box
+      this.projName = ''
+      this.projScope = ''
+      this.projGoal = ''
+      this.projStartDate = ''
+      this.projEndDate = ''
+      const allusers = this.memberInvites.concat(this.clientInvites);
+      allusers.push({
+        email: this.email,
+        name: '',
+      })
+      this.memberInvites = []
+      this.clientInvites = []
+      //add to all involved users project array
+      this.addToAll(allusers, projData.id);
+      //close pop up
+      this.showPopup = false
+    },
+
+    async addToAll(allusers, projId) {
+      const colRef = collection(db, 'userinfo')
+      allusers.forEach(async person => {
+        const userDocRef = doc(colRef, person.email)
+        const userSnapshot = await getDoc(userDocRef)
+        const documentData = userSnapshot.data()
+        const currentArray = documentData.projects;
+        currentArray.push(projId.toString());
+        await updateDoc(userDocRef, { projects: currentArray });
       });
-    } catch (error) {
-      console.error(error);
-    }
-  },
+    },
+  }
 } 
 </script>
 
-<style> 
+<style>
+.buttonName {
+    color: white;
+    margin-right: 2px;
+    padding: 5px;
+    width: max-content;
+}
+button {
+    border: 1px solid black;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 4px;
+    background-color: #444;
+}
+.smallAdd {
+  width: 50px;
+  margin-left: 3px;
+  background-color: transparent;
+  padding: 0%;
+}
+.popBtn {
+  color: white;
+}
+label {
+  font-size: 14px;
+  margin-top: 7px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-size: contain;
+  cursor: pointer;
+}
+
+input{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 3px;
+  width: 500px;
+  border: 1px solid;
+}
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
 .big-con {
   display: flex;
   flex-direction: row;
