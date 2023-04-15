@@ -2,26 +2,26 @@
   <div class="big-con"> 
   <div class="left-con"> 
     <div class="image">
-      <img id="bg" src="/src/assets/icon.png" alt="" />
+      <img id="bg" src="/src/assets/login-pic.png" alt="" />
     </div>
   </div>
   <div class="right-con"> 
     <router-view>
       <div class="container">
         <form id="myform">
-          <h1 id="welcome">Welcome Back</h1>
+          <img id="icon" src="/src/assets/icon-no-slogan.png" alt="" /> 
           <br /><br />
           <h4 id="signup1">Don't have an account?</h4>
           <router-link id="signup2" to="/register"> Sign up </router-link>
           <router-view />
           <br /><br />
-          <div class="formli">
-            <div class="input_wrap"> 
+          <div class="formli"> 
               <input type="text" id="email" required="" placeholder="Email" v-model="email"/> 
-              <br /><br />
-              <input type="password" id="password" required="" placeholder="Password" v-model="password"/>
-              <br /><br />
-            </div>  
+              <br /><br /> 
+              <div class="shPassword">
+                <input type="password" id="password" required="" placeholder="Password" v-model="password" /> 
+                <span> <i class="fa fa-eye" aria-hidden="true" id="eye" v-on:click="toggle()"> </i> </span> 
+              </div> 
             <h4 id="forgotpassword">Forgot Password?</h4>
             <br /><br />
             <div class="login">
@@ -49,10 +49,22 @@ export default {
   data() {
     return {
       email: "", 
-      password: ""
+      password: "", 
+      state: false,
     };
   },  
-  methods: { 
+  methods: {  
+    toggle() { 
+        this.state = !this.state;
+        if (this.state) {
+          document.getElementById("password").setAttribute("type", "password");
+          document.getElementById("eye").style.color='#7a797e'; 
+        }
+        else {
+          document.getElementById("password").setAttribute("type", "text");
+          document.getElementById("eye").style.color='#5887ef'; 
+        }
+    },
     async login() { 
   
       let email = document.getElementById("email").value;
@@ -75,10 +87,11 @@ export default {
 </script>
 
 <style scoped>
-.big-con {
-  background-color: var(--light);
+.big-con { 
   width: 100vw; 
   height: 100vh;
+  background-image: url("../assets/aura.png");
+  background-size: cover;
 }
 
 .left-con {
@@ -86,50 +99,51 @@ export default {
 }
 
 #bg {
-  width: 80%;
-  margin-top: 20%;
-  margin-right: 80%;
+  width: 100%;  
+  margin-left: -30px;
+  margin-top: 40px;
+}
+
+#icon {
+  margin-top: 60px;
+  width: 55%;
+  margin-bottom: 20px;
 }
 .image {
   float: left;
-  margin-left: 12%;
+  margin-left: 10%;
   margin-top: 8%;
   width: 35%;
-}
-#welcome {
-  font-size: 2.5vw;
-  color: var(--dark);
-}
+} 
+
 #signup1 {
   float: left;
   margin-left: 23.5%;
   font-size: 1.1vw;
-  margin-bottom: 5%;
+  margin-bottom: 40px;
+  font-weight: 400;
 }
 
 #signup2 {
   float: left;
   margin-left: 2%;
-  color: var(--purple);
+  color: var(--dark);
   font-size: 1.1vw;
-  font-weight: bold;
+  font-weight: 600;
+  margin-bottom: 40px;
 }
 .container {
-  width: 35%;
-  margin-top: 10%;
-  float: left;
-  border: 1px solid black;
+  width: 40%; 
+  float: left; 
   padding-top: 5%;
   padding-bottom: 3%;
   border-radius: 15px;
   line-height: 10pt;
   text-align: center;
-  margin-left: 4%;
-  background-color: var(--light);
+  margin-left: 4%; 
 }
 
-#email,
-#password {
+#email, #password {
   font-size: 1.3vw;
   width: 90%;
   padding-top: 2%;
@@ -137,24 +151,40 @@ export default {
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
-  background-color: #ffffff;
+  background-color: var(--light);
   padding-left: 2%;
 }
+.shPassword i {
+  position: absolute; 
+}
 
+.shPassword {
+  width: 100%; 
+  margin-bottom: 10px; 
+}
+
+.fa {
+  margin-left: -30px;
+  margin-top: 15px;  
+}
 .login {
   width: 90%;
+  margin-left: 5px;
 }
+
 #forgotpassword {
   text-align: left;
   margin-left: 5%;
   text-decoration: underline;
-  font-size: 14px;
-  color: var(--purple); 
+  font-size: 15px;
+  color: var(--dark); 
+  font-weight: 600; 
 }
+
 #keeploggedin {
   float: left;
   margin-left: 1%;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 5%;
   font-weight: 300;
 }
@@ -175,30 +205,12 @@ export default {
   margin-top: 3%;
   background-color: #4a4e69;
   color: #ffffff;
-}
+} 
 
-input:focus ~ .floating-label,
-input:not(:focus):valid ~ .floating-label{
-  top: 8px;
-  bottom: 10px;
-  left: 20px;
-  font-size: 11px;
-  opacity: 1;
-}
-
-.inputText {
-  font-size: 14px;
-  width: 200px;
-  height: 35px;
-}
-
-.floating-label {
-  position: absolute;
-  pointer-events: none;
-  left: 20px;
-  top: 18px;
-  transition: 0.2s ease all;
-}
-
-   
+.input {
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: var(--font-family);
+  background-color: var(--light);
+} 
 </style>
