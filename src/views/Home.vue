@@ -163,9 +163,9 @@ export default {
             </div>
           </form>
         </div>
-        <p v-else>You have no to-dos.</p>
-        <input id="newData" type="text" v-model="newData" class="inbox">
-        <button @click="addData">new</button>
+        <p v-else class="contents">You have no to-dos.</p>
+        <input id="newData" type="text" v-model="newData" class="inbox" placeholder="New Task">
+        <button @click="addData" class="addTaskBtn"><u>+ Add Task</u></button>
       </Collapse>
       <br />
       <br />
