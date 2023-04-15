@@ -1,149 +1,152 @@
 <template>
-  <div class="image">
-    <img id="bg" src="src/assets/icon.png" alt="" />
-  </div>
-  <div class="container">
-    <form id="myform">
-      <h1 id="createaccount">Create your account</h1>
-      <br /><br />
-      <div class="formli">
-        <img v-bind:src="imagePreview" id="upload" v-on:click="openUpload" />
+  <div class="big-regcon">   
+    <img id="bg" src="src/assets/icon.png" alt="" /> 
+    <div class="container">
+      <form id="myform">
+        <h1 id="createaccount">Create your account</h1>
         <br /><br />
-        <h3 id="uploadphoto" v-on:click="openUpload">Upload Photo</h3>
-        <br /><br />
-        <input
-          name="image"
-          type="file"
-          id="file-field"
-          accept="image/*"
-          v-on:change="updatePreview"
-          style="display: none"
-        />
-        <input
-          type="text"
-          id="name"
-          required=""
-          placeholder="Name"
-        /><br /><br />
-        <select id="type">
-          <option value="">Account Type</option>
-          <option value="Employee">Employee</option>
-          <option value="Employer">Employer</option>
-          <option value="External stakeholder">External stakeholder</option>
-        </select>
-        <br /><br />
-        <label for="DOB" id="dobremarks">
-          Date of Birth: This will not be shown publicly. Confirm your own age,
-          even if this account is for business
-        </label>
-        <br /><br />
-        <input type="number" id="year" required="" placeholder="Year" />
-        <select id="month">
-          <option value="">Month</option>
-          <option value="january">January</option>
-          <option value="february">February</option>
-          <option value="march">March</option>
-          <option value="april">April</option>
-          <option value="may">May</option>
-          <option value="june">June</option>
-          <option value="july">July</option>
-          <option value="august">August</option>
-          <option value="september">September</option>
-          <option value="october">Ocotber</option>
-          <option value="november">November</option>
-          <option value="december">December</option>
-        </select>
-        <select id="day">
-          <option value="">Day</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="19">19</option>
-          <option value="20">20</option>
-          <option value="21">21</option>
-          <option value="22">22</option>
-          <option value="23">23</option>
-          <option value="24">24</option>
-          <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option value="29">29</option>
-          <option value="30">30</option>
-          <option value="31">31</option></select
-        ><br /><br />
-        <input
-          type="text"
-          id="email"
-          required=""
-          placeholder="Email"
-        /><br /><br />
-        <input
-          type="text"
-          id="number"
-          required=""
-          placeholder="Phone number"
-        /><br /><br />
-        <select id="gender">
-          <option value="">Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-        <br /><br />
-        <select id="salutation">
-          <option value="">Salutation</option>
-          <option value="mr">Mr</option>
-          <option value="ms">Ms</option>
-          <option value="mrs">Mrs</option>
-          <option value="miss">Miss</option>
-          <option value="mdm">Mdm</option>
-        </select>
-        <br /><br />
-        <input
-          type="text"
-          id="password"
-          required=""
-          placeholder="Password"
-        /><br /><br />
-        <input
-          type="text"
-          id="cfmpassword"
-          required=""
-          placeholder="Confirm Password"
-        />
-        <br /><br />
-        <label id="check"
-          ><input type="checkbox" required /> I declare that all information
-          provided is correct</label
-        >
-        <br /><br />
-        <label id="check"
-          ><input type="checkbox" required /> I agree to THRIVE's terms and
-          conditions</label
-        >
-        <br /><br />
-        <div class="signup">
-          <button id="signupbutton" type="button" v-on:click="signup">
-            Sign Up
-          </button>
+        <div class="formli">
+          <img v-bind:src="imagePreview" id="upload" v-on:click="openUpload" />
+          <br /><br />
+          <h3 id="uploadphoto" v-on:click="openUpload">Upload Photo</h3>
+          <br /><br />
+          <input
+            name="image"
+            type="file"
+            id="file-field"
+            accept="image/*"
+            v-on:change="updatePreview"
+            style="display: none"
+          />
+          <input
+            type="text"
+            id="name"
+            required=""
+            placeholder="Name"
+          /><br /><br />
+          <select id="type">
+            <option value="">Account Type</option>
+            <option value="Employee">Employee</option>
+            <option value="Employer">Employer</option>
+            <option value="External stakeholder">External stakeholder</option>
+          </select>
+          <br /><br />
+          <label for="DOB" id="dobremarks">
+            Date of Birth: This will not be shown publicly. Confirm your own age, even if this account is for business
+          </label>
+          <br /><br />
+          <div class="dmycon">
+            <input type="number" id="year" required="" placeholder="Year" />
+            <select id="month">
+              <option value="">Month</option>
+              <option value="january">January</option>
+              <option value="february">February</option>
+              <option value="march">March</option>
+              <option value="april">April</option>
+              <option value="may">May</option>
+              <option value="june">June</option>
+              <option value="july">July</option>
+              <option value="august">August</option>
+              <option value="september">September</option>
+              <option value="october">Ocotber</option>
+              <option value="november">November</option>
+              <option value="december">December</option>
+            </select>
+            <select id="day">
+              <option value="">Day</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option></select
+            ><br /><br />
+          </div>
+          <input
+            type="text"
+            id="email"
+            required=""
+            placeholder="Email"
+          /><br /><br />
+          <input
+            type="text"
+            id="number"
+            required=""
+            placeholder="Phone number"
+          /><br /><br />
+          <select id="gender">
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          <br /><br />
+          <select id="salutation">
+            <option value="">Salutation</option>
+            <option value="mr">Mr</option>
+            <option value="ms">Ms</option>
+            <option value="mrs">Mrs</option>
+            <option value="miss">Miss</option>
+            <option value="mdm">Mdm</option>
+          </select>
+          <br /><br />
+          <input
+            type="text"
+            id="password"
+            required=""
+            placeholder="Password"
+          /><br /><br />
+          <input
+            type="text"
+            id="cfmpassword"
+            required=""
+            placeholder="Confirm Password"
+          />
+          <br /><br />
+          <div class="checkboxes"> 
+            <label id="check"
+              ><input type="checkbox" required /> I declare that all information
+              provided is correct</label
+            >
+            <br /><br />
+            <label id="check"
+              ><input type="checkbox" required /> I agree to THRIVE's terms and
+              conditions</label
+            >
+          </div>
+          <br /><br />
+          <div class="signup">
+            <button id="signupbutton" type="button" v-on:click="signup">
+              Sign Up
+            </button>
+          </div>
         </div>
-      </div>
     </form>
+  </div>
   </div>
 </template>
 
@@ -259,47 +262,62 @@ export default {
 </script>
 
 <style>
+.big-regcon { 
+  width: 100vw; 
+  height: 170vh;
+  background-image: url("../assets/aura.png");
+  background-size: cover;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
+
 #bg {
-  width: 80%;
-  margin-top: 20%;
-  margin-right: 60%;
+  width: 28%;
+  margin-left: 0px;
 }
-.image {
-  float: left;
-  margin-left: 12%;
-  margin-top: 8%;
-  width: 35%;
-}
+
 #createaccount {
   font-size: 2vw;
+}
+
+.dmycon {
+  padding-left: 4.5%;
+  display: flex; 
+  width: 99%;
+  flex-direction: row; 
+  justify-content: space-between;
 }
 #dobremarks {
   font-size: 1.1vw;
   text-align: left;
   margin-left: 4%;
   float: left;
-  margin-bottom: 1%;
-  letter-spacing: 1px;
+  margin-bottom: 1%; 
+  font-family: var(--font-family);
+  margin-bottom: 20px;
+  line-height: 1.3;
 }
 .container {
-  width: 35%;
-  margin-top: 10%;
-  float: left;
-  border: 1px solid black;
-  padding-top: 3%;
+  width: 60%;
+  margin-top: 15px;
+  float: left;  
+  padding-top: 1%;
   padding-bottom: 4%;
   padding-left: 2%;
   padding-right: 2%;
   border-radius: 15px;
   font-family: sans-serif;
-  line-height: 10pt;
-  height: 480px;
+  line-height: 10pt; 
   overflow-y: auto;
   text-align: center;
   margin-left: 4%;
+  display: flex;
+  align-items: center;
 }
+
 #upload {
-  width: 30%;
+  width: 15%;
 }
 #uploadphoto {
   font-size: 1.2vw;
@@ -319,44 +337,46 @@ export default {
   color: #6b6969;
   background-color: #eef1f4;
   padding-left: 2%;
+  height: 35px; 
+  margin-bottom: 20px;
 }
 #signupbutton {
   padding-top: 1%;
   padding-bottom: 1%;
-  width: 25%;
+  margin-right: 60px;
+  width: 20%; 
   font-size: 1.15vw;
   border-radius: 4px;
-  float: right;
-  margin-top: 3%;
+  float: right; 
   background-color: #4a4e69;
   color: #ffffff;
+
 }
 #type,
 #gender,
 #salutation {
   font-size: 1.2vw;
-  width: 91%;
-  padding-top: 2%;
-  padding-bottom: 2%;
+  width: 91%; 
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
   background-color: #eef1f4;
-  padding-left: 2%;
+  padding-left: 2%; 
+  height: 35px;
+  margin-bottom: 20px;
 }
 #year,
 #month,
 #day {
-  font-size: 1.2vw;
-  padding-top: 2%;
-  padding-bottom: 2%;
-  width: 30%;
+  font-size: 1.2vw; 
+  width: 29.5%;
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
-  background-color: #eef1f4;
-  margin-left: 1%;
+  background-color: #eef1f4; 
   padding-left: 1%;
+  height: 35px;
+  margin-bottom: 20px;
 }
 #type:focus,
 #month:focus,
@@ -367,10 +387,16 @@ export default {
   outline: none;
   border-radius: 2px;
 }
-#check {
-  margin-left: 5%;
-  float: left;
-  font-size: 1.1vw;
-  margin-top: 2%;
+
+.checkboxes {
+  display: flex; 
+  flex-direction: column; 
+  left: 0;
+  position: left;
+  margin-left: 40px;
+}
+#check {  
+  font-size: 1.1vw; 
+  text-align: left;
 }
 </style>
