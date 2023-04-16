@@ -151,13 +151,18 @@ export default {
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
-  background-color: var(--light);
+  background-color: #ffffff;
   padding-left: 2%;
 }
 .shPassword i {
   position: absolute; 
 }
 
+input[type=text i]:focus { 
+    font: var(--font-family);
+    background-color: #ffffff;;
+    transition: 0.4s;
+}
 .shPassword {
   width: 100%; 
   margin-bottom: 10px; 
