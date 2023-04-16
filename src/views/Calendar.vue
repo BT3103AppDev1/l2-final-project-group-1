@@ -333,7 +333,7 @@ input {
     
   }
   .addEvents {
-    margin-top: 30px;
+    margin-top: 20px;
     text-align: left;
     margin-left: 300px;
   }
@@ -342,7 +342,7 @@ input {
     text-align:left;
     margin: 0 auto;
     max-width: 1000px;
-    margin-top: 50px;
+    margin-top: 20px;
     float: left;
     margin-right: 100px;
   }
