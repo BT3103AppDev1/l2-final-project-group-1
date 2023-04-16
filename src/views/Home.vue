@@ -63,10 +63,15 @@ export default {
       const userDocSnapshot = await getDoc(userDocRef)
       const userData = userDocSnapshot.data()
       const projArr = userData.projects
-      projArr.forEach((projName) =>{
+      
+      projArr.forEach(async (projName) =>{
+        const projDataSnapshot = await getDoc(doc(db, 'projects', projName))
+        const projData = projDataSnapshot.data()
+        const duedate = projData.enddate
         this.myProjects.push({
           id: this.myProjects.length + 1,
           name: projName,
+          due: duedate
         })
       })
     },
@@ -292,7 +297,7 @@ export default {
         <div class="contents">
           <div>
             <ul v-if="myProjects.length">
-              <li v-for="proj in myProjects" :key="proj.id">{{ proj.name }}</li>
+              <li v-for="proj in myProjects" :key="proj.id">{{ "[" + proj.name + "] is due on " + proj.due }}</li>
             </ul>
             <p v-else>You have no projects.</p>
           </div>
