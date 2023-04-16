@@ -76,6 +76,7 @@ export default {
       memberInvites: [],
       clientInvites: [],
       allMembers: [],
+      today: new Date().toISOString().substr(0, 10),
     };
   },
 
@@ -176,9 +177,9 @@ export default {
       }
       //add to projects collection
       const colRef = collection(db, "projects")
-      await addDoc(colRef, projData).then((docRef) => {
-        const docId = docRef.id;
-        projData.id = docId;
+      const docRef = doc(colRef, this.projName)
+      await setDoc(docRef, projData).then((docRef) => {
+        projData.id = this.projName;
       })
       
 
