@@ -15,12 +15,24 @@
             <td v-for="(day, dayIndex) in week" :key="dayIndex">
               <div class="day">{{ day }}</div>
               <div class="events">
-                <div v-for="event in eventsForDay(day)" :key="event.id">{{ event.title }}</div>
+                <div v-for="event in eventsForDay(day)" :key="event.id" @click="popFunc(event)">{{ event.title }}</div>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="popup-container" v-show="showPopup">
+      <div class="popup-content">
+        <h4>Event details:</h4>
+        <p>{{ "Event Name: " + popUpEventName }}</p>
+        <p>{{ "Event Date: " + popUpSelectedDate }}</p>
+        <p>{{ "Event Time: " + popUpSelectedTime }}</p>
+        <p>{{ "Event Venue: " + popUpSelectedVenue }}</p>
+        <p>{{ "Event Details: " + popUpDetails }}</p>
+        <button @click="showPopup = false">Close</button>
+      </div>
     </div>
 
     <div class="addEvents">
@@ -53,11 +65,11 @@
       <button v-for="item in invites" :key="item.id" class="buttonName" @click="removeName(item.id)">{{ item.name + " X" }}</button>
       <div class="details">
         <h4>Confirm details:</h4>
-        <p>{{ "Event Name: " + eventName }}</p>
-        <p>{{ "Event Date: " + selectedDate }}</p>
-        <p>{{ "Event Time: " + selectedTime }}</p>
-        <p>{{ "Event Venue: " + selectedVenue }}</p>
-        <p>{{ "Event Details: " + details }}</p>
+        <p>{{ "Event Name:  " + eventName }}</p>
+        <p>{{ "Event Date:  " + selectedDate }}</p>
+        <p>{{ "Event Time:  " + selectedTime }}</p>
+        <p>{{ "Event Venue:  " + selectedVenue }}</p>
+        <p>{{ "Event Details:  " + details }}</p>
         <button class="addEvent" @click="addEvent">+ Add Event</button>
       </div>
     </div>
@@ -81,6 +93,12 @@ export default {
   },
   data() {
       return {
+        popUpEventName: '',
+        popUpSelectedDate: '',
+        popUpSelectedTime: '',
+        popUpSelectedVenue: '',
+        popUpDetails: '',
+        showPopup: false,
         userName: '',
         invites: [],
         member: '',
@@ -138,6 +156,14 @@ export default {
       },
     },
     methods: {
+      popFunc(event) {
+        this.popUpEventName = event.title
+        this.popUpSelectedDate = event.date
+        this.popUpSelectedTime = event.time
+        this.popUpSelectedVenue = event.venue
+        this.popUpDetails = event.details
+        this.showPopup = true
+      },
       eventsForDay(day) {
         const date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
         return this.events.filter(event => event.date === date.toISOString().substr(0, 10));
@@ -161,6 +187,7 @@ export default {
               title: eventData.name,
               time: eventData.time,
               venue: eventData.venue,
+              details: eventData.details,
             })
           })
         } else {
@@ -234,6 +261,7 @@ export default {
           title: this.eventName,
           time: this.selectedTime,
           venue: this.selectedVenue,
+          details: this.details,
         })
         this.selectedDate = ''
         this.selectedTime = ''
@@ -247,6 +275,30 @@ export default {
 </script>
 
 <style scoped>
+.popup-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  height: auto;
+  width: auto;
+}
 .names {
   color: white;
   padding: 5px;
@@ -350,5 +402,8 @@ label {
   font-size: 14px;
 }
 
-
+.events {
+  text-align: left;
+  font-size: 14px;
+}
   </style>
