@@ -181,9 +181,14 @@ export default {
       await setDoc(docRef, projData).then((docRef) => {
         projData.id = this.projName;
       })
-      
-
-      this.projects.push(projData)
+      const projectDocRef = await doc(db, "projects", this.projName)
+      for (let i = 0; i < this.allMembers.length; i++) {
+        const projectSubRef = await doc(projectDocRef, "workload", this.allMembers[i])
+        await setDoc(projectSubRef, {memberEmail: this.allMembers[i], task: {}})
+      }
+      const projectSubRef = await doc(projectDocRef, "workload", this.email)
+      await setDoc(projectSubRef,  {memberEmail: this.email, task: {}});
+      this.projects.push(projData) 
       //clear all input box
       this.projName = ''
       this.projScope = ''
