@@ -75,6 +75,7 @@ export default {
       clientEmail: '',
       memberInvites: [],
       clientInvites: [],
+      allMembers: [],
     };
   },
 
@@ -100,10 +101,6 @@ export default {
   },
   
   methods: {
-    redirectToOtherComponent() {
-        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
-      },
-      
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)
@@ -128,6 +125,7 @@ export default {
     },
 
     async addMember() {
+      this.allMembers.push(this.memberEmail)
       const userinfo = collection(db, 'userinfo')
       const userDocRef = doc(userinfo, this.memberEmail)
       const docSnapshot = await getDoc(userDocRef)
@@ -182,6 +180,8 @@ export default {
         const docId = docRef.id;
         projData.id = docId;
       })
+      
+
       this.projects.push(projData)
       //clear all input box
       this.projName = ''
@@ -218,8 +218,8 @@ export default {
       path: '/login/projects/tabnavigation',
       query: { projectTitle: projectName }
     });
-}
-} 
+  }
+  } 
 }
 </script>
 
