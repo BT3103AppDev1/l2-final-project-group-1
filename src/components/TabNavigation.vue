@@ -44,11 +44,11 @@
 <script>
 import Workload from "./Workload.vue";
 import ProfileDisplay from "./ProfileDisplay.vue";
-// import Feedback from "./Feedback.vue";
 import Issues from "./Issues.vue";
 import Features from "./Features.vue";
 import About from "./About.vue";
 import Dashboard from "./Dashboard.vue";
+import Feedback from "./Feedback.vue";
 
 export default {
   data() {
@@ -68,11 +68,11 @@ export default {
   components: {
     Workload,
     ProfileDisplay,
-    // Feedback,
     Issues,
     Features,
     About,
     Dashboard,
+    Feedback,
   },
   methods: {
     goBack() {
