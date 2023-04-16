@@ -1,6 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">abc</p>
+    <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
     <p id="header">Features</p>
     <div class="nav_bar">
@@ -93,7 +93,7 @@
               name="description"
             />
           </div>
-          <input type="submit" value="Add Issue" class="btn btn-block" />
+          <input type="submit" value="Add Feature" class="btn btn-block" />
         </form>
       </popup>
     </div>
@@ -111,6 +111,7 @@ import {
   where,
   getDoc,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -125,6 +126,9 @@ import Popup from "../components/Popup.vue";
 export default {
   components: {
     Popup,
+  },
+  props: {
+    projectTitle: String,
   },
   data() {
     return {
@@ -145,11 +149,10 @@ export default {
   },
   methods: {
     async updateLaunched(feature_id) {
-      //   console.log(feature_id);
       const selectedRef = doc(
         db,
         "projects",
-        "zkWKwHep410V9CNXcJEo",
+        this.projectTitle,
         "Feature",
         feature_id
       );
@@ -159,7 +162,7 @@ export default {
     },
     async display_features() {
       let allDocuments = await getDocs(
-        collection(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature")
+        collection(db, "projects", this.projectTitle, "Feature")
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
@@ -194,38 +197,38 @@ export default {
       }
       try {
         const doc_id = Math.floor(Math.random() * 101).toString();
-        getDoc(
-          doc(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature", doc_id)
-        ).then((docSnap) => {
-          if (docSnap.exists()) {
-            console.log("exist");
-            const docRef = setDoc(
-              doc(
-                db,
-                "projects",
-                this.projectTitle,
-                "Feature",
-                Math.floor(Math.random() * 101).toString()
-              ),
-              {
-                feature_id: doc_id,
-                name: this.formData.name,
-                description: this.formData.description,
-                launched: false,
-              }
-            );
-          } else {
-            const docRef = setDoc(
-              doc(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature", doc_id),
-              {
-                feature_id: doc_id,
-                name: this.formData.name,
-                description: this.formData.description,
-                launched: false,
-              }
-            );
+        getDoc(doc(db, "projects", this.projectTitle, "Feature", doc_id)).then(
+          (docSnap) => {
+            if (docSnap.exists()) {
+              console.log("exist");
+              const docRef = setDoc(
+                doc(
+                  db,
+                  "projects",
+                  this.projectTitle,
+                  "Feature",
+                  Math.floor(Math.random() * 101).toString()
+                ),
+                {
+                  feature_id: doc_id,
+                  name: this.formData.name,
+                  description: this.formData.description,
+                  launched: false,
+                }
+              );
+            } else {
+              const docRef = setDoc(
+                doc(db, "projects", this.projectTitle, "Feature", doc_id),
+                {
+                  feature_id: doc_id,
+                  name: this.formData.name,
+                  description: this.formData.description,
+                  launched: false,
+                }
+              );
+            }
           }
-        });
+        );
       } catch (error) {
         console.error("Error adding document: ", error);
       }
