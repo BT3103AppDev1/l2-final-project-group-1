@@ -13,13 +13,14 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent">
+                    <button class= "container" @click="redirectToOtherComponent(project.project_name)">
                         <div class="project_name">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="popup" v-if="showPopup">
       <label class="labels">Project Name:</label>
@@ -213,8 +214,14 @@ export default {
         await updateDoc(userDocRef, { projects: currentArray });
       });
     },
-  }
+  redirectToOtherComponent(projectName) {
+    this.$router.push({
+      path: '/login/projects/tabnavigation',
+      query: { projectTitle: projectName }
+    });
+}
 } 
+}
 </script>
 
 <style scoped>
