@@ -100,6 +100,10 @@ export default {
   },
   
   methods: {
+    redirectToOtherComponent() {
+        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
+      },
+      
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)

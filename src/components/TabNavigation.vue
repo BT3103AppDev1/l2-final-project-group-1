@@ -1,53 +1,84 @@
 <template>
-<ProfileDisplay/>
-  <div id = "back-button-container">
-      <button @click="goBack"> 
-        <span class="button-text-one"> &#8810;</span>
-        <span class="button-text"> &nbsp; Back to Projects</span>
-      </button>
+  <ProfileDisplay />
+  <div id="back-button-container">
+    <button id="back" @click="goBack">
+      <span class="button-text-one"> &#8810;</span>
+      <span class="button-text"> &nbsp; Back to Projects</span>
+    </button>
   </div>
   <div class="tab-container">
     <div class="tab">
-      <button v-for="(tab, index) in tabs" :key="index" :class="{ active: activeTab === index }" @click="activeTab = index">{{ tab }}</button>
+      <button
+        v-for="(tab, index) in tabs"
+        :key="index"
+        :class="{ active: activeTab === index }"
+        @click="activeTab = index"
+      >
+        {{ tab }}
+      </button>
     </div>
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
-      <div v-show="activeTab === 1"><Issues/></div>
-      <div v-show="activeTab === 2"><Workload :projectTitle="this.$route.query.projectTitle"/></div>
-      <div v-show="activeTab === 3"><Features/></div>
-      <div v-show="activeTab === 4">Feedback Content</div>
+      <div v-show="activeTab === 1">
+        <Issues :projectTitle="this.$route.query.projectTitle" />
+      </div>
+      <div v-show="activeTab === 2">
+        <Workload :projectTitle="this.$route.query.projectTitle" />
+      </div>
+      <div v-show="activeTab === 3">
+        <Features :projectTitle="this.$route.query.projectTitle" />
+      </div>
+      <div v-show="activeTab === 4">
+        <Feedback :projectTitle="this.$route.query.projectTitle" />
+      </div>
       <div v-show="activeTab === 5">OKR Content</div>
-      <div v-show="activeTab === 6">About Content</div>
+      <div v-show="activeTab === 6">
+        <About :projectTitle="this.$route.query.projectTitle" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Workload from './Workload.vue';
+import Workload from "./Workload.vue";
 import ProfileDisplay from "./ProfileDisplay.vue";
-import Issues from './Issues.vue';
-import Features from './Features.vue';
-
+// import Feedback from "./Feedback.vue";
+import Issues from "./Issues.vue";
+import Features from "./Features.vue";
+import About from "./About.vue";
 
 export default {
   data() {
     return {
       activeTab: 0,
-      tabs: ['Dashboard', 'Issues', 'Workload', 'Features', 'Feedback', 'OKR', 'About'],
+      tabs: [
+        "Dashboard",
+        "Issues",
+        "Workload",
+        "Features",
+        "Feedback",
+        "OKR",
+        "About",
+      ],
     };
   },
   components: {
     Workload,
     ProfileDisplay,
+    // Feedback,
     Issues,
     Features,
+    About,
   },
   methods: {
     goBack() {
-      this.$router.push("/login/projects")
+      this.$router.push("/login/projects");
+    },
   },
-  }
-}
+  created() {
+    console.log(this.$route.query.projectTitle);
+  },
+};
 </script>
 
 <style>
@@ -59,12 +90,10 @@ export default {
   width: 100%;
 }
 
-
 .tab {
   display: flex;
   margin-bottom: 20px;
 }
-
 
 .tab button {
   background-color: #f2f2f2;
@@ -88,15 +117,9 @@ export default {
 #back-button-container:hover {
   background-color: #242424;
 }
-.button-text-one:hover{
-  color: #FFFFFF;
-}
-.button-text:hover{
-  color: #FFFFFF;
-}
-#back-button-container button {
-    font-size: 15px;
 
+#back-button-container button {
+  font-size: 15px;
 }
 .button-text-one {
   font-size: 25px;
@@ -104,5 +127,8 @@ export default {
 
 .button-text {
   font-size: 20px; /* adjust font size as needed */
+}
+.back:hover {
+  color: #ffffff;
 }
 </style>
