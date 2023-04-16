@@ -18,7 +18,9 @@
       </button>
     </div>
     <div class="content">
-      <div v-show="activeTab === 0">Dashboard Content</div>
+      <div v-show="activeTab === 0">
+        <Dashboard :projectTitle="this.$route.query.projectTitle" />
+      </div>
       <div v-show="activeTab === 1">
         <Issues :projectTitle="this.$route.query.projectTitle" />
       </div>
@@ -46,6 +48,7 @@ import ProfileDisplay from "./ProfileDisplay.vue";
 import Issues from "./Issues.vue";
 import Features from "./Features.vue";
 import About from "./About.vue";
+import Dashboard from "./Dashboard.vue";
 
 export default {
   data() {
@@ -69,6 +72,7 @@ export default {
     Issues,
     Features,
     About,
+    Dashboard,
   },
   methods: {
     goBack() {
