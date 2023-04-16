@@ -15,8 +15,8 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent(projectName)">
-                        <div class="project_name">{{project.project_name}} </div>
+                    <button class= "container" @click="redirectToOtherComponent(projectName)" :style="{'background-image': randomImage()}" style="background-size:100%;">
+                        <div class="project_name" style="background-color: var(--light);color:var(--dark);">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
@@ -74,6 +74,9 @@ export default {
       });
     },
   methods: {
+    randomImage() {
+      return `url("${this.images[Math.floor(Math.random() * this.images.length)]}")`;
+    },
     redirectToOtherComponent(projectName) {
     this.$router.push({
       path: '/login/projects/tabnavigation',
@@ -102,6 +105,7 @@ export default {
       projects: [],
       searchQuery: "",
       email: '',
+      images: ['/src/assets/office-1.jpg', '/src/assets/office-2.jpg', '/src/assets/office-3.jpg', '/src/assets/office-4.jpg', '/src/assets/office-5.jpg', '/src/assets/office-6.jpg', '/src/assets/office-7.jpg'],
     };
   },
   computed: {
