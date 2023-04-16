@@ -18,7 +18,9 @@
       </button>
     </div>
     <div class="content">
-      <div v-show="activeTab === 0"><Dashboard /></div>
+      <div v-show="activeTab === 0">
+        <Dashboard :projectTitle="this.$route.query.projectTitle" />
+      </div>
       <div v-show="activeTab === 1">
         <Issues :projectTitle="this.$route.query.projectTitle" />
       </div>

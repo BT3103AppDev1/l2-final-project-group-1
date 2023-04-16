@@ -5,68 +5,53 @@
     <p id="header">Dashboard</p>
 </header>
 <hr>
-<div>
-    <canvas id="myChart" height="400" width="400"></canvas>
+<select v-model ="selected ">
+<option value="">Please select one </option >
+<option >Line</option >
+<option >Pie</option >
+<option >Both</option >
+</select >,<br><br>
+
+<span>Selected: {{ selected }}</span>
+
+<div v-if="selected =='Line' || selected =='Both' ">
+<h1>Line Chart </h1>
+<button @click="updateMe ()">Click to update the Line chart </button >
+<line-chart class = 'user' width =500px :data = "chartdata" ></line-chart >
 </div>
+
+<div v-if="selected =='Pie' || selected =='Both' ">
+<h1>Pie Chart </h1>
+<button @click="updateMe2 ()"> Click to update the Pie Chart</button ><br><br>
+<pie-chart class ="user" width=500px :data="chartdata2" ></pie-chart >
+</div>
+
 </template>
 
 <script scoped>
-import Chart, { ChartConfiguration } from '../../node_modules/chart.js/auto';
 import { onMounted, reactive } from "vue";
 import { auth, db } from "../database/firebase";
 import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
+    name:'Dashboard',
     data() {
         return {
             nextTaskId: 4,
             userAccount: "",
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ],
-            data: {
-                labels: this.labels,
-                datasets: [
-                    {
-                        label: 'My First dataset',
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: [0, 10, 5, 2, 20, 30, 45],
-                    },
-                    {
-                        label: 'My Second dataset',
-                        backgroundColor: 'rgb(120, 150, 190)',
-                        borderColor: 'rgb(10, 40, 80)',
-                        data: [10, 35, 15, 20, 40, 30, 45],
-                    },
-                    {
-                        label: 'My Third dataset',
-                        backgroundColor: 'rgb(100, 200, 150)',
-                        borderColor: 'rgb(90, 190, 140)',
-                        data: [5, 12, 10, 18, 15, 22, 33],
-                    },
-                ],
-            },
-            config: {
-                type: 'line',
-                data: this.data,
-                options: {},
-            },
+            chartdata: {'Monday': 2, 'Tuesday': 5, 'Wednesday': 2, 'Thursday': 5, 'Friday':6},
+            chartdata2: {'Blueberry':44, 'Strawberry':23},
+            selected:""
         };
     },
-    setup() {
-        onMounted(() => {
-            const canvasTag = <ChartItem>document.getElementById('myChart');
-            new Chart(document.getElementById('myChart'), this.config);
-        });
-    },
     methods: {
+        updateMe: function (){
+            this.chartdata = {'Monday': Math.random()*5,'Tuesday': 5, 'Wednesday': Math.random()* 5, 'Thursday': 5,'Friday':6}
+        },
+        updateMe2: function (){
+            this.chartdata2 = {'Blueberry':Math.random()*30,'Strawberry':23,'Balckberry':23}
+        },
         async displayaccount(useremail) {
             const Snapshot = await getDocs(collection(db, "userinfo"));
             Snapshot.forEach((doc) => {
@@ -87,6 +72,7 @@ export default {
         projectTitle: String,
     },
 };
+
 </script>
 
 <style scoped>
