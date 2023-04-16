@@ -282,6 +282,7 @@ button {
   border-radius: 10px;
   height: 38px;
   font-size: 16px;
+  margin-top: 15px;
 }
 .contents {
   margin-top: 10px;
