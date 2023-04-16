@@ -1,32 +1,103 @@
 <template>
   <header>
-    <p id="projectTitle">&#91;Metaverse Project&#93; Competitor Analysis</p>
+    <p id="projectTitle">abc</p>
     <hr />
     <p id="header">Features</p>
-    <FeaturesNavBar />
-  </header>
-  <div v-if="this.userAccount === 'Employer'">
-    <button class="button-27" role="button" @click="showPopup = true">
-      New Feature +
-    </button>
-  </div>
-  <div>
-    <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
-      <form @submit="onSubmit" class="add-form">
-        <div class="form-control">
-          <label>Feature name</label>
-          <input type="text" v-model="formData.name" name="name" />
-          <label>Feature Description</label>
-          <input
-            type="text"
-            v-model="formData.description"
-            name="description"
-          />
+    <div class="nav_bar">
+      <div class="tab">
+        <button
+          v-for="(tab, index) in tabs"
+          :key="index"
+          :class="{ active: activeTab === index }"
+          @click="activeTab = index"
+        >
+          {{ tab }}
+        </button>
+      </div>
+    </div>
+    <br />
+    <div>
+      <div
+        v-if="
+          this.userAccount === 'Employee' ||
+          this.userAccount === 'External stakeholder'
+        "
+      >
+        <div class="content">
+          <div v-show="activeTab === 0" class="featureContainer">
+            <div :key="feature.id" v-for="feature in to_do">
+              <div class="container">
+                <u> {{ feature.name }} </u>
+                <br />
+                Feature description: {{ feature.description }}
+              </div>
+            </div>
+          </div>
+
+          <div v-show="activeTab === 1">
+            <div v-show="activeTab === 1" class="featureContainer">
+              <div :key="feature.id" v-for="feature in launched">
+                <div class="container">
+                  <u> {{ feature.name }} </u>
+                  <br />
+                  Feature description: {{ feature.description }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <input type="submit" value="Add Issue" class="btn btn-block" />
-      </form>
-    </popup>
-  </div>
+      </div>
+      <div v-if="this.userAccount === 'Employer'">
+        <div class="content">
+          <div v-show="activeTab === 0" class="featureContainer">
+            <button class="button-27" role="button" @click="showPopup = true">
+              New Feature +
+            </button>
+            <div :key="feature.id" v-for="feature in to_do">
+              <div class="container">
+                <u> {{ feature.name }} </u>
+                <br />
+                Feature description: {{ feature.description }}
+                <br />
+                <button
+                  id="launched_button"
+                  type="button"
+                  v-on:click="updateLaunched(feature.id)"
+                >
+                  Lauched
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div v-show="activeTab === 1" class="featureContainer">
+            <div :key="feature.id" v-for="feature in launched">
+              <div class="container">
+                <u> {{ feature.name }} </u>
+                <br />
+                Feature description: {{ feature.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
+        <form @submit="onSubmit" class="add-form">
+          <div class="form-control">
+            <label>Feature name</label>
+            <input type="text" v-model="formData.name" name="name" />
+            <label>Feature Description</label>
+            <input
+              type="text"
+              v-model="formData.description"
+              name="description"
+            />
+          </div>
+          <input type="submit" value="Add Issue" class="btn btn-block" />
+        </form>
+      </popup>
+    </div>
+  </header>
 </template>
 
 <script>
@@ -49,12 +120,10 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
-import FeaturesNavBar from "./FeaturesNavBar.vue";
 import Popup from "../components/Popup.vue";
 
 export default {
   components: {
-    FeaturesNavBar,
     Popup,
   },
   data() {
@@ -67,12 +136,53 @@ export default {
         description: "",
       },
       tabs: ["To do", "Launched"],
+      to_do: [],
+      launched: [],
       userAccount: "",
       userName: "",
       userPic: "",
     };
   },
   methods: {
+    async updateLaunched(feature_id) {
+      //   console.log(feature_id);
+      const selectedRef = doc(
+        db,
+        "projects",
+        "zkWKwHep410V9CNXcJEo",
+        "Feature",
+        feature_id
+      );
+      await updateDoc(selectedRef, {
+        launched: true,
+      });
+    },
+    async display_features() {
+      let allDocuments = await getDocs(
+        collection(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature")
+      );
+      allDocuments.forEach((docs) => {
+        let documentData = docs.data();
+        let feature_id = documentData.feature_id;
+        let feature_name = documentData.name;
+        let feature_description = documentData.description;
+        let status = documentData.launched;
+
+        if (!status) {
+          this.to_do.push({
+            id: feature_id,
+            name: feature_name,
+            description: feature_description,
+          });
+        } else {
+          this.launched.push({
+            id: feature_id,
+            name: feature_name,
+            description: feature_description,
+          });
+        }
+      });
+    },
     onSubmit(e, formData) {
       e.preventDefault();
       if (!this.formData.name) {
@@ -153,6 +263,7 @@ export default {
         this.displaydetails(user.email);
       }
     });
+    this.display_features();
   },
 };
 </script>
@@ -167,18 +278,6 @@ header {
 button {
   text-align: left;
   vertical-align: top;
-}
-
-.container {
-  color: white;
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px 150px 30px 150px;
-  border-radius: 5px;
-  background-image: url("/src/assets/office_image.jpg");
 }
 
 #projectTitle {
@@ -291,5 +390,39 @@ button {
 .form-control-check input {
   flex: 2;
   height: 20px;
+}
+#launched_button {
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 20%;
+  font-size: 1.15vw;
+  margin-top: 3%;
+  border-radius: 4px;
+}
+.container {
+  position: relative;
+  color: black;
+  max-width: 420px;
+  min-width: 420px;
+  min-height: 200px;
+  max-height: 200px;
+  margin-bottom: 5%;
+  margin-left: 40px;
+  overflow: auto;
+  border: 1px solid steelblue;
+  font-size: 1.2vw;
+  padding: 3%;
+  border-radius: 5px;
+  /* margin-left: 50px; */
+}
+.featureContainer {
+  margin-top: 2%;
+  max-width: 95%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>
