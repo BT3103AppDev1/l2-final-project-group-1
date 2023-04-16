@@ -275,6 +275,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-size: contain;
   cursor: pointer;
 }
+.searchbar::placeholder {
+  font-size: 18px;
+}
 
 input{
   margin-top: 5px;
@@ -301,6 +304,8 @@ input{
   display: flex;
   flex-direction: row;
   width: 100vw;
+  background-image: url('/src/assets/aura.png');
+  background-size: cover;
 }
 
 .searchbar {
