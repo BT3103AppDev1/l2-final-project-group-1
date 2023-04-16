@@ -13,7 +13,7 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent(project.project_name)">
+                    <button class= "container" @click="redirectToOtherComponent(project.project_name)" :style="{'background-image': randomImage()}" style="background-size:100%;">
                         <div class="project_name" style="background-color: var(--light);color:var(--dark);">{{project.project_name}} </div>
                     </button>
                 </div>
@@ -77,6 +77,7 @@ export default {
       clientInvites: [],
       allMembers: [],
       today: new Date().toISOString().substr(0, 10),
+      images: ['/src/assets/office-1.jpg', '/src/assets/office-2.jpg', '/src/assets/office-3.jpg', '/src/assets/office-4.jpg', '/src/assets/office-5.jpg', '/src/assets/office-6.jpg', '/src/assets/office-7.jpg'],
     };
   },
 
@@ -102,6 +103,9 @@ export default {
   },
   
   methods: {
+    randomImage() {
+      return `url("${this.images[Math.floor(Math.random() * this.images.length)]}")`;
+    },
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)
@@ -343,8 +347,7 @@ input{
     min-height: 300px;
     border: 1px solid steelblue;
     padding: 30px 150px 30px 150px;
-    border-radius: 5px;
-    background-image: url("/src/assets/office_image.jpg");
+    border-radius: 5px; 
     margin-left: 50px;
 }
 </style>
