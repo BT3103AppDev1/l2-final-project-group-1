@@ -19,6 +19,10 @@
       <bar-chart class="user" width="500px" :data="chartdata3"></bar-chart>
     </div>
     <br />
+    <div id="chart4">
+      <h3>Issues Priority</h3>
+      <pie-chart class="user" width="500px" :data="chartdata4"></pie-chart>
+    </div>
   </div>
 </template>
 
@@ -40,11 +44,11 @@ export default {
   data() {
     return {
       unresolved: 0,
-      nextTaskId: 4,
       userAccount: "",
       chartdata: {},
-      chartdata2: { "Item 1": 15, "Item 2": 20, "Item 3": 25, "Item 4": 40 },
+      //   chartdata2: { "Item 1": 15, "Item 2": 20, "Item 3": 25, "Item 4": 40 },
       chartdata3: {},
+      chartdata4: {},
       selected: "",
     };
   },
@@ -110,6 +114,38 @@ export default {
       });
       this.chartdata3 = { "to do": to_do, launched: launched };
     },
+    async display_chart4() {
+      let high = 0;
+      let medium = 0;
+      let low = 0;
+      let allDocuments = await getDocs(
+        collection(db, "projects", this.projectTitle, "Internal_Issue")
+      );
+      allDocuments.forEach((docs) => {
+        let documentData = docs.data();
+        if (documentData.issue_priority == "H") {
+          high = high + 1;
+        } else if (documentData.issue_priority == "H") {
+          medium = medium + 1;
+        } else {
+          low = low + 1;
+        }
+      });
+      let allDocuments_2 = await getDocs(
+        collection(db, "projects", this.projectTitle, "External_Issue")
+      );
+      allDocuments_2.forEach((docs) => {
+        let documentData = docs.data();
+        if (documentData.issue_priority == "H") {
+          high = high + 1;
+        } else if (documentData.issue_priority == "H") {
+          medium = medium + 1;
+        } else {
+          low = low + 1;
+        }
+      });
+      this.chartdata4 = { High: high, Medium: medium, Low: low };
+    },
     async displayaccount(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
       Snapshot.forEach((doc) => {
@@ -128,6 +164,7 @@ export default {
     this.display_chart1();
     this.display_chart2();
     this.display_chart3();
+    this.display_chart4();
   },
   props: {
     projectTitle: String,
@@ -167,7 +204,8 @@ export default {
 }
 #chart1,
 #chart2,
-#chart3 {
+#chart3,
+#chart4 {
   position: relative;
   color: black;
   width: 100%;
