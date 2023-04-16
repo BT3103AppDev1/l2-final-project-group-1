@@ -13,13 +13,14 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent">
+                    <button class= "container" @click="redirectToOtherComponent(project.project_name)">
                         <div class="project_name">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="popup" v-if="showPopup">
       <label class="labels">Project Name:</label>
@@ -74,6 +75,7 @@ export default {
       clientEmail: '',
       memberInvites: [],
       clientInvites: [],
+      today: new Date().toISOString().substr(0, 10),
     };
   },
 
@@ -177,9 +179,9 @@ export default {
       }
       //add to projects collection
       const colRef = collection(db, "projects")
-      await addDoc(colRef, projData).then((docRef) => {
-        const docId = docRef.id;
-        projData.id = docId;
+      const docRef = doc(colRef, this.projName)
+      await setDoc(docRef, projData).then((docRef) => {
+        projData.id = this.projName;
       })
       this.projects.push(projData)
       //clear all input box
@@ -212,8 +214,14 @@ export default {
         await updateDoc(userDocRef, { projects: currentArray });
       });
     },
-  }
+  redirectToOtherComponent(projectName) {
+    this.$router.push({
+      path: '/login/projects/tabnavigation',
+      query: { projectTitle: projectName }
+    });
+}
 } 
+}
 </script>
 
 <style scoped>

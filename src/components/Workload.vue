@@ -1,5 +1,5 @@
 <template>
-    <p id = "projectTitle">  &#91;Metaverse Project&#93; Competitor Analysis</p>
+    <p id = "projectTitle">{{ projectTitle }}</p>
     <hr>
     <p id = "header">Workload Tracker</p>
     <p id = "mywork"> &nbsp; My Work</p>
@@ -106,6 +106,9 @@ export default {
                 }
             })
         },
+        props: {
+            projectTitle: String,
+        }
 }
 </script>
 
