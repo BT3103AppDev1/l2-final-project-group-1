@@ -126,12 +126,20 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  background-image: url('/src/assets/aura.png');
+  background-size: cover;
 }
 
 .searchbar {
     margin-top: 20px; 
     width: 500px;
     height: 30px;
+}
+
+.searchbar::placeholder {
+  font-size: 18px;
+  margin-top: 5px;
+  margin-left: 2px;
 }
 
 .pageContainer {
