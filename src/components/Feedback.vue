@@ -48,6 +48,7 @@ export default {
                 content: "",
             },
             userName: "",
+            userEmail: "",
             userAccount: "",
             showPopup: false,
         };
@@ -61,13 +62,15 @@ export default {
     
   },
 
-  methods: {
-       async fetchFeedback() {
+    methods: {
+        async fetchFeedback() {
             const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "feedback"))
-            querySnapshot.forEach((doc) => { 
-                const employee = doc.data().member;
-                const oldResponses = doc.data().memberFeedback;
-                console.log(oldResponses)
+            for (const docu of querySnapshot.docs) {
+                const tempEmail = docu.data().memberEmail;
+                const userRef = doc(db, "userinfo", tempEmail);
+                const userSnapshot = await getDoc(userRef)
+                const employee = userSnapshot.data().name;
+                const oldResponses = docu.data().memberFeedback;
                 Object.keys(oldResponses).forEach((responseId) => {
                     const tempResponse = oldResponses[responseId];
                     this.allResponses.push({
@@ -76,18 +79,23 @@ export default {
                         id: responseId,
                     });
                 })
-            })
+            }
         },
+
     
         async addFeedback() {
             try {
-            const responseId = new Date().getTime().toString();
+            const docRef = doc(db,'projects', this.projectTitle)
+            const snapshot = await getDoc(docRef)
+            const tempCount = snapshot.data().feedback_count
+            const responseId = tempCount + 1
+            await updateDoc(docRef, { feedback_count: tempCount });
             this.allResponses.push({
                 employee: this.userName,
                 id: responseId,
                 content: this.newResponse.content,
             });
-            const employeeRef = doc(db, "projects", this.projectTitle, "feedback", this.userName)
+            const employeeRef = doc(db, "projects", this.projectTitle, "feedback", this.userEmail)
             const querySnapshot = await getDoc(employeeRef)
                 const tempResponses = querySnapshot.data().memberFeedback;
                 tempResponses[responseId] = {
@@ -107,10 +115,12 @@ export default {
                 if (doc.data().email === useremail) {
                 this.userAccount = doc.data().account_type;
                 this.userName = doc.data().name;
+                this.userEmail = useremail;
                 }
             });
              await this.fetchFeedback();
         },
+      
     },
     props: {
         projectTitle: String
@@ -228,7 +238,7 @@ export default {
         font-size: 16px;
         font-weight: 600;
         line-height: normal;
-        margin: -50px -10px 10px -10px;
+        margin: -30px -20px 10px 40px;
         min-height: 50px;
         min-width: 0;
         outline: none;
