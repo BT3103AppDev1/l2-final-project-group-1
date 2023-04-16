@@ -75,6 +75,7 @@ export default {
       clientEmail: '',
       memberInvites: [],
       clientInvites: [],
+      allMembers: [],
       today: new Date().toISOString().substr(0, 10),
     };
   },
@@ -101,10 +102,6 @@ export default {
   },
   
   methods: {
-    redirectToOtherComponent() {
-        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
-      },
-      
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)
@@ -129,6 +126,7 @@ export default {
     },
 
     async addMember() {
+      this.allMembers.push(this.memberEmail)
       const userinfo = collection(db, 'userinfo')
       const userDocRef = doc(userinfo, this.memberEmail)
       const docSnapshot = await getDoc(userDocRef)
@@ -176,6 +174,8 @@ export default {
         startdate: this.projStartDate,
         enddate: this.projEndDate,
         ongoing: true,
+        workload_count: 0,
+        feedback_count: 0,
       }
       //add to projects collection
       const colRef = collection(db, "projects")
@@ -183,7 +183,14 @@ export default {
       await setDoc(docRef, projData).then((docRef) => {
         projData.id = this.projName;
       })
-      this.projects.push(projData)
+      const projectDocRef = await doc(db, "projects", this.projName)
+      for (let i = 0; i < this.allMembers.length; i++) {
+        const projectSubRef = await doc(projectDocRef, "workload", this.allMembers[i])
+        await setDoc(projectSubRef, {memberEmail: this.allMembers[i], task: {}})
+      }
+      const projectSubRef = await doc(projectDocRef, "workload", this.email)
+      await setDoc(projectSubRef,  {memberEmail: this.email, task: {}});
+      this.projects.push(projData) 
       //clear all input box
       this.projName = ''
       this.projScope = ''
@@ -219,8 +226,8 @@ export default {
       path: '/login/projects/tabnavigation',
       query: { projectTitle: projectName }
     });
-}
-} 
+  }
+  } 
 }
 </script>
 

@@ -254,7 +254,7 @@ export default {
         </div>
         <p v-else class="contents">You have no to-dos.</p>
         <input id="newData" type="text" v-model="newData" class="inbox" placeholder="New Task">
-        <button @click="addData" class="addTaskBtn"> + Add Task </button>
+        <button @click="addData" class="addTaskBtn">Add</button>
       </Collapse>
       <br />
       <br />
@@ -279,7 +279,7 @@ export default {
         </div>
         <p v-else class="contents">You have no follow ups.</p>
         <input id="newData" type="text" v-model="newFollowUp" class="inbox" placeholder="New Follow Up">
-        <button @click="addFollowUp" class="addTaskBtn"> + Add Follow Up </button>
+        <button @click="addFollowUp" class="addTaskBtn">Add</button>
       </Collapse>
       <br />
       <br />

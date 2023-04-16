@@ -31,7 +31,7 @@
         <p>{{ "Event Time: " + popUpSelectedTime }}</p>
         <p>{{ "Event Venue: " + popUpSelectedVenue }}</p>
         <p>{{ "Event Details: " + popUpDetails }}</p>
-        <button @click="showPopup = false">Close</button>
+        <button style="background-color: var(--primary);" @click="showPopup = false">Close</button>
       </div>
     </div>
 
@@ -307,6 +307,7 @@ main {
   color: white;
   padding: 5px;
   margin: 5px;
+  background-color: var(--primary);
 }
 input {
   margin-bottom: 10px;
@@ -327,6 +328,7 @@ input {
     margin-right: 2px;
   }
   .addEvent {
+    background-color: var(--primary);
     color: white;
     padding: 5px;
     margin-left: 700px;
