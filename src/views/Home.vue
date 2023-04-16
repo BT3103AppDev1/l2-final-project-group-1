@@ -21,6 +21,10 @@ export default {
       isOpenFollowUp: false,
       isOpenProjects: false,
       items: [],
+      followUps: [],
+      newFollowUp: '',
+      followUpId: '',
+      myProjects: [],
     };
   },
 
@@ -29,6 +33,8 @@ export default {
       if (user) {
         this.email = user.email;
         this.getList(user.email);
+        this.getFollowUp(user.email)
+        this.getProjects(user.email)
       }
     });
   },
@@ -51,6 +57,19 @@ export default {
   },
 
   methods: {
+    getProjects: async function() {
+      const userinfoColRef = collection(db, 'userinfo')
+      const userDocRef = doc(userinfoColRef, this.email)
+      const userDocSnapshot = await getDoc(userDocRef)
+      const userData = userDocSnapshot.data()
+      const projArr = userData.projects
+      projArr.forEach((projName) =>{
+        this.myProjects.push({
+          id: this.myProjects.length + 1,
+          name: projName,
+        })
+      })
+    },
     getList: async function(email) {
     try {
       const parentDocRef = doc(db, "ToDos", email);
@@ -70,6 +89,61 @@ export default {
       console.log(error);
       console.log(email);
     }
+  },
+
+  getFollowUp: async function(email) {
+    try {
+      const parentDocRef = doc(db, "FollowUp", email);
+      const subcollectionRef = collection(parentDocRef, "Stuff");
+      const querySnapshot = await getDocs(subcollectionRef);
+      querySnapshot.forEach((doc) => {
+        if (!doc.data().done) {
+          const task = {
+            id: doc.id,
+            task: doc.data().task,
+          }
+          this.followUps.push(task)
+        }
+      })
+    }
+    catch (error) {
+      console.log(error);
+      console.log(email);
+    }
+  },
+
+  addFollowUp: async function() {
+    try {
+        const docRef = doc(db, "FollowUp", this.email);
+        const docSnapshot = await getDoc(docRef);
+        if (!docSnapshot .exists) {
+          await docRef.set({});
+          await addDoc(collection(doc(collection(db, "FollowUp"), this.email), "Stuff"), {
+          task: this.newFollowUp,
+          done: false,
+        }).then((docRef) => {
+          this.followUpId = docRef.id;
+        });
+      } else {
+        await addDoc(collection(doc(collection(db, "FollowUp"), this.email), "Stuff"), {
+          task: this.newFollowUp,
+          done: false,
+        }).then((docRef) => {
+          this.followUpId = docRef.id;
+        });
+      }
+      const stuff = {
+        id: this.followUpId,
+        task: this.newFollowUp
+      }
+      this.followUps.push(stuff);
+      this.newFollowUp = '';
+      this.followUpId = '';
+      console.log("added");
+      } catch (error) {
+        console.log(error);
+        console.log(this.email);
+      }
   },
     addData: async function() {
       try {
@@ -108,6 +182,16 @@ export default {
       this.items = this.items.filter((item) => item.id !== idNum);
       const parentDocRef = doc(db, "ToDos", this.email);
       const subcollectionRef = collection(parentDocRef, "Tasks");
+      const docRef = doc(subcollectionRef, idNum);
+      updateDoc(docRef, {
+        done: true
+      })
+    },
+
+    tickBoxFollowUp: function(idNum) {
+      this.followUps = this.followUps.filter((item) => item.id !== idNum);
+      const parentDocRef = doc(db, "FollowUp", this.email);
+      const subcollectionRef = collection(parentDocRef, "Stuff");
       const docRef = doc(subcollectionRef, idNum);
       updateDoc(docRef, {
         done: true
@@ -180,9 +264,17 @@ export default {
         {{ FollowUps }}
       </button>
       <Collapse :when="isOpenFollowUp" class="collapse">
-        <div class="contents">
-          <p>You have no follow ups.</p>
+        <div v-if="followUps.length" class="contents">
+          <form>
+            <div v-for="item in followUps" :key="item.id">
+              <input type="checkbox" :id="'item-' + item.id" @change="tickBoxFollowUp(item.id)"/>
+              <label :for="'item-' + item.id">{{ item.task }}</label>
+            </div>
+          </form>
         </div>
+        <p v-else class="contents">You have no follow ups.</p>
+        <input id="newData" type="text" v-model="newFollowUp" class="inbox" placeholder="New Follow Up">
+        <button @click="addFollowUp" class="addTaskBtn"> + Add Follow Up </button>
       </Collapse>
       <br />
       <br />
@@ -198,7 +290,12 @@ export default {
       </button>
       <Collapse :when="isOpenProjects" class="collapse">
         <div class="contents">
-          <p>You have no projects.</p>
+          <div>
+            <ul v-if="myProjects.length">
+              <li v-for="proj in myProjects" :key="proj.id">{{ proj.name }}</li>
+            </ul>
+            <p v-else>You have no projects.</p>
+          </div>
         </div>
       </Collapse> 
   </main>
