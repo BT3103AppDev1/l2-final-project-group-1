@@ -13,7 +13,7 @@
     <div class="content">
       <div v-show="activeTab === 0">Dashboard Content</div>
       <div v-show="activeTab === 1"><Issues/></div>
-      <div v-show="activeTab === 2"><Workload/></div>
+      <div v-show="activeTab === 2"><Workload :projectTitle="this.$route.query.projectTitle"/></div>
       <div v-show="activeTab === 3"><Features/></div>
       <div v-show="activeTab === 4">Feedback Content</div>
       <div v-show="activeTab === 5">OKR Content</div>
