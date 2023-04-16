@@ -6,10 +6,9 @@
     <img src="/src/assets/office_image.jpg" class="image" />
     <br />
     <div class="container">
-      <p>Project ID: {{ project_id }}</p>
+      <p>Project Name: {{ project_name }}</p>
       <p>Started: {{ project_start }}</p>
       <p>Due: {{ project_due }}</p>
-      <p>Clients involved: {{ project_clients }}</p>
       <p>Goal(s): {{ project_goals }}</p>
       <p>Scope: {{ project_scope }}</p>
       <p>Status: {{ project_status }}</p>
@@ -25,10 +24,12 @@
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
         <form @submit="onSubmit" class="add-form">
           <div class="form-control">
+            <label>Project Name </label>
+            <input type="text" v-model="formData.name" name="name" />
             <label>Project Start Date </label>
-            <input type="text" v-model="formData.start" name="name" />
+            <input type="text" v-model="formData.start" name="start" />
             <label>Project End Date</label>
-            <input type="text" v-model="formData.end" name="description" />
+            <input type="text" v-model="formData.end" name="due" />
             <label>Project Goal(s)</label>
             <input type="text" v-model="formData.goal" name="goal" />
             <label>Project Scope</label>
@@ -78,14 +79,14 @@ export default {
       userAccount: "",
       userName: "",
       userPic: "",
-      project_id: "",
+      project_name: "",
       project_start: "",
       project_due: "",
-      project_clients: "",
       project_goals: "",
       project_scope: "",
       project_status: "",
       formData: {
+        name: "",
         start: "",
         end: "",
         scope: "",
@@ -98,11 +99,14 @@ export default {
     onSubmit(e, formData) {
       const selectedRef = doc(db, "projects", this.projectTitle);
       updateDoc(selectedRef, {
+        name: this.formData.name,
         status: this.formData.status,
         startdate: this.formData.start,
         enddate: this.formData.end,
         scope: this.formData.scope,
         goal: this.formData.goal,
+      }).then(() => {
+        window.location.reload();
       });
       this.showPopup = !this.showPopup;
     },
@@ -113,11 +117,13 @@ export default {
       this.project_due = docSnap.data().enddate;
       this.project_scope = docSnap.data().scope;
       this.project_goals = docSnap.data().goal;
+      this.project_name = docSnap.data().project_name;
       if (docSnap.data().ongoing) {
         this.project_status = "Ongoing";
       } else {
         this.project_status = "Completed";
       }
+      this.formData.name = this.project_name;
       this.formData.start = this.project_start;
       this.formData.end = this.project_due;
       this.formData.goal = this.project_goals;
