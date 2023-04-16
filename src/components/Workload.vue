@@ -57,7 +57,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false; removeMember">
+                <popup v-if="showPopup" @close="showPopup = false; removeMember">
                     <h2 id = "windowTitle">Assign New Task</h2>
                    <!--  <form @submit.prevent="addTask" class="add-form"> -->
                         <div class = "form-control">
@@ -177,7 +177,13 @@ export default {
     
         async addTask() {
             try {
-            const taskId = new Date().getTime().toString();
+            const docRef = doc(db,'projects', this.projectTitle)
+            const snapshot = await getDoc(docRef)
+            const tempCount = snapshot.data().workload_count
+            console.log(tempCount)
+            const taskId = tempCount + 1
+            await updateDoc(docRef, { workload_count: tempCount });
+            /* const taskId = new Date().getTime().toString(); */
             this.tasks.push({
                 employee: this.newTask.employee,
                 title: this.newTask.title,
@@ -207,7 +213,7 @@ export default {
             this.newTask.scope = "";
             this.newTask.memberEmail = "";
             this.memberInvite = [];
-            window.location.reload();
+            window.location.reload(); 
         },
         async deleteTask(index) {
             console.log("OK")
@@ -502,4 +508,12 @@ export default {
         touch-action: manipulation;
         will-change: transform; 
     }
+    .buttonName {
+    color: black;
+    margin-right: 2px;
+    padding: 5px;
+    width: max-content;
+    background-color: #D3D3D3;
+;
+}
 </style>

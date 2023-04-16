@@ -174,6 +174,8 @@ export default {
         startdate: this.projStartDate,
         enddate: this.projEndDate,
         ongoing: true,
+        workload_count: 0,
+        feedback_count: 0,
       }
       //add to projects collection
       const colRef = collection(db, "projects")
