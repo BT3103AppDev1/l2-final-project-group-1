@@ -24,40 +24,40 @@
     </div>
 
     <div class="addEvents">
-      <h3 class="formHeader" style="color:var(--primary)">Add an Event</h3>
-      <label>Event Name:</label>
+      <h3 class="formHeader" style="color:var(--dark)">Add an Event</h3>
+      <label style="color:var(--light)">Event Name:</label>
       <br>
       <input v-model="eventName">
       <br>
-      <label>Event Day:</label>
+      <label style="color:var(--light)">Event Day:</label>
       <br>
       <input type="date" id="date-picker" :min="today" v-model="selectedDate">
       <br>
-      <label>Event Time:</label>
+      <label style="color:var(--light)">Event Time:</label>
       <br>
       <input type="time" id="time-picker" v-model="selectedTime">
       <br>
-      <label>Event Venue:</label>
+      <label style="color:var(--light)">Event Venue:</label>
       <br>
       <input v-model="selectedVenue">
       <br>
-      <label>Event Details:</label>
+      <label style="color:var(--light)">Event Details:</label>
       <br>
       <input v-model="details">
       <br>
-      <label>Invite people: (click Add)</label>
+      <label style="color:var(--light)">Invite people: (click Add)</label>
       <br>
       <input v-model="member" placeholder="abc@gmail.com">
       <button class="names" @click="addMember">Add</button>
       <br>
       <button v-for="item in invites" :key="item.id" class="buttonName" @click="removeName(item.id)">{{ item.name + " X" }}</button>
       <div class="details">
-        <h4 style="font-size:14px;margin-top:10px;">Confirm details:</h4>
-        <p>{{ "Event Name: " + eventName }}</p>
-        <p>{{ "Event Date: " + selectedDate }}</p>
-        <p>{{ "Event Time: " + selectedTime }}</p>
-        <p>{{ "Event Venue: " + selectedVenue }}</p>
-        <p>{{ "Event Details: " + details }}</p>
+        <h4 style="font-size:14px;margin-top:10px;color:var(--light);">Confirm details:</h4>
+        <p style="color:var(--light)">{{ "Event Name: " + eventName }}</p>
+        <p style="color:var(--light)"> {{ "Event Date: " + selectedDate }}</p>
+        <p style="color:var(--light)">{{ "Event Time: " + selectedTime }}</p>
+        <p style="color:var(--light)">{{ "Event Venue: " + selectedVenue }}</p>
+        <p style="color:var(--light)">{{ "Event Details: " + details }}</p>
         <button class="addEvent" @click="addEvent">Add Event</button>
       </div>
     </div>
@@ -249,8 +249,8 @@ export default {
 <style scoped> 
 
 main {
-  background-image: url(../assets/cal-aura.png);
-  background-size: cover;
+  background-image: url(../assets/cal-aura.jpg); 
+  background-size: 100%;
 }
 
 #calendar-page {
@@ -260,7 +260,7 @@ main {
   flex-direction: row;
 }
 .names {
-  color: white;
+  color: var(--dark);
   background-color: var(--primary);
   padding: 5px;
   margin: 5px;
@@ -285,7 +285,7 @@ input {
     margin-right: 2px;
   }
   .addEvent {
-    color: white;
+    color: var(--dark);
     background-color: var(--primary);
     padding: 5px;  
     margin-top: 10px;
