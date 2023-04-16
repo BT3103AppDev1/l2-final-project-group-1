@@ -50,6 +50,8 @@ export default {
       chartdata3: {},
       chartdata4: {},
       selected: "",
+      completedWork: 0,
+      uncompletedWork: 0,
     };
   },
   props: {
@@ -154,13 +156,32 @@ export default {
         }
       });
     },
+    async outstandingWorkLoad() {
+        let completedWork = 0;
+        let uncompletedWork = 0;
+        const collectionRef = collection(db, "projects", this.projectTitle, "workload")
+        const querySnapshot = await getDocs(collectionRef)
+        for (const docu of querySnapshot.docs) {
+            const oldTasks = docu.data().task;
+            for (const taskId in oldTasks) {
+                const tempTask = oldTasks[taskId];
+                if (tempTask.completed === false) {
+                    this.uncompletedWork += 1 
+                } else {
+                    this.completedWork += 1
+                }
+            }
+        }
+    },
   },
-  mounted() {
+  async mounted() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.displayaccount(user.email);
       }
     });
+    await this.outstandingWorkLoad();
+    console.log(this.completedWork);
     this.display_chart1();
     this.display_chart2();
     this.display_chart3();
