@@ -26,7 +26,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button @click="confirmChanges">Confirm Changes</button>
+            <button class="confirm" @click="confirmChanges">Confirm Changes</button>
         </div>
         <div v-if =" this.userAccount === 'Employer'">
             <div class ="tab">
@@ -57,12 +57,15 @@
                     </tr>
                     </tbody>
                 </table>
-                <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
+                <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false; removeMember">
                     <h2 id = "windowTitle">Assign New Task</h2>
-                    <form @submit.prevent="addTask" class="add-form">
+                   <!--  <form @submit.prevent="addTask" class="add-form"> -->
                         <div class = "form-control">
-                            <label for="employee">Employee:</label>
-                            <input type="text" id="employee" v-model="newTask.employee" />
+                            <label class="labels">Team Members: <button class="smallAdd" @click="addMember">Add</button></label>
+                            <input type="text" id="memberEmail" v-model="newTask.memberEmail">
+                            <button v-for="item in memberInvite" class="buttonName" @click="removeMember">{{item.name + " X" }}</button>
+                            <!-- <label for="employee">Employee:</label>
+                            <input type="text" id="employee" v-model="newTask.employee" /> -->
                             <br />
                             <label for="title">Title:</label>
                             <input type="text" id="title" v-model="newTask.title" />
@@ -74,8 +77,8 @@
                             <input type="date" id="endDate" v-model="newTask.endDate" />
                             <br />     
                         </div> 
-                    <button type="submit" id = "assign">Assign Task</button>
-                    </form>
+                    <button class="popBtn" @click="addTask">Add Project</button>
+     <!--                </form> -->
                 </popup>
             </div>
             <div v-show="activeTab === 0">
@@ -101,7 +104,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button @click="confirmChanges">Confirm Changes</button>
+                <button class="confirm" @click="confirmChanges">Confirm Changes</button>
             </div>
         </div>        
     </div>
@@ -125,9 +128,12 @@ export default {
                 endDate: "",
                 completed: false,
                 id: "",
+                memberEmail: "",
             },
+            memberInvite: [],
             userName: "",
             userAccount: "",
+            userEmail: "",
             completedTasks: [],
             incompletedTasks: [],
             tabs: ["My Work", "My Team"],
@@ -145,14 +151,14 @@ export default {
   },
     methods: {
         async fetchTasks() {
+            const userRef = doc(db, "userinfo", this.userEmail) 
+            const userSnapshot = await getDoc(userRef)
+            const employee = userSnapshot.data().name
             const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "workload"));
             querySnapshot.forEach((doc) => { 
-                console.log(doc.data())
-                    if (doc.data().member === this.userName) {
-                        console.log("OK")
-                    const employee = doc.data().member;
+                    if (doc.data().memberEmail === this.userEmail) {
+                    const employee = userSnapshot.data().name;
                     const oldTasks = doc.data().task;
-                    console.log(oldTasks)
                     Object.keys(oldTasks).forEach((taskId) => {
                         const tempTask = oldTasks[taskId];
                         this.tasks.push({
@@ -162,11 +168,11 @@ export default {
                             endDate: tempTask.endDate,
                             completed: tempTask.completed,
                             id: taskId,
+                            email: this.userEmail,
                         });
                     });
                     }
                 })
-                console.log(this.tasks[0])
             },
     
         async addTask() {
@@ -179,8 +185,9 @@ export default {
                 endDate: this.newTask.endDate,
                 completed: false,
                 id: taskId,
+                email: this.newTask.memberEmail,
             });
-            const employeeRef = doc(db, "projects", this.projectTitle, "workload", this.newTask.employee)
+            const employeeRef = doc(db, "projects", this.projectTitle, "workload", this.newTask.memberEmail)
             const querySnapshot = await getDoc(employeeRef)
                 const tempTasks = querySnapshot.data().task;
                 tempTasks[taskId] = {
@@ -198,6 +205,8 @@ export default {
             this.newTask.title = "";
             this.newTask.endDate = "";
             this.newTask.scope = "";
+            this.newTask.memberEmail = "";
+            this.memberInvite = [];
             window.location.reload();
         },
         async deleteTask(index) {
@@ -205,7 +214,7 @@ export default {
             try {
             const task = this.completedTasks[index];
             this.tasks.splice(index, 1);
-            const employeeRef = doc(db, "projects", this.projectTitle, "workload", task.employee)
+            const employeeRef = doc(db, "projects", this.projectTitle, "workload", task.email)
             const querySnapshot = await getDoc(employeeRef)
             const tempTasks = querySnapshot.data().task;
             delete tempTasks[task.id];
@@ -217,7 +226,7 @@ export default {
             };
         },
         async confirmChanges() {
-            const docRef = doc(db, "projects", this.projectTitle, "workload", this.userName)
+            const docRef = doc(db, "projects", this.projectTitle, "workload", this.userEmail)
             const querySnapshot = await getDoc(docRef)
             let newDict = querySnapshot.data().task
             this.tasks.forEach((task) => {
@@ -231,27 +240,30 @@ export default {
             
             });
             await updateDoc(docRef, {task: newDict})
-            windolocation.reload();
+            window.location.reload();
         },
         async completeTasks() {
             const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "workload"))
-            querySnapshot.forEach((doc) => { 
-                const employee = doc.data().member;
-                const oldTasks = doc.data().task;
-                console.log(oldTasks)
-                Object.keys(oldTasks).forEach((taskId) => {
+            for (const docu of querySnapshot.docs) {
+                const tempEmail = docu.data().memberEmail
+                const userRef = doc(db, "userinfo", tempEmail);
+                const userSnapshot = await getDoc(userRef)
+                const employee = userSnapshot.data().name;
+                const oldTasks = docu.data().task;
+                for (const taskId in oldTasks) {
                     const tempTask = oldTasks[taskId];
-                    this.completedTasks .push({
-                        employee: employee,
-                        title: tempTask.title,
-                        scope: tempTask.scope,
-                        endDate: tempTask.endDate,
-                        completed: tempTask.completed,
-                        id: taskId,
+                    this.completedTasks.push({
+                    employee: employee,
+                    title: tempTask.title,
+                    scope: tempTask.scope,
+                    endDate: tempTask.endDate,
+                    completed: tempTask.completed,
+                    id: taskId,
+                    email: docu.data().memberEmail
                     });
-                })
-            })
+                }
             console.log(this.completedTasks)
+            }
         },
         incompleteTasks() {
             let tempTask = this.tasks;
@@ -264,11 +276,36 @@ export default {
                 if (doc.data().email === useremail) {
                 this.userAccount = doc.data().account_type;
                 this.userName = doc.data().name;
+                this.userEmail = useremail;
                 }
             });
              await this.fetchTasks();
              await this.completeTasks();
              this.incompleteTasks();
+        },
+      
+        async addMember() {
+            const userinfo = collection(db, 'userinfo')
+            const userDocRef = doc(userinfo, this.newTask.memberEmail)
+            const docSnapshot = await getDoc(userDocRef)
+            if (!docSnapshot.exists()) {
+                alert("User does not exist.")
+            } else {
+                const projectinfo = doc(db, "projects", this.projectTitle, "workload", this.newTask.memberEmail)
+                const projectDocSnapshot = await getDoc(projectinfo)
+                if (!projectDocSnapshot.exists()) {
+                    alert("User not in project.")
+                } else {
+                    this.memberInvite.push({
+                        name:docSnapshot.data().name
+                    })
+                    this.newTask.employee = docSnapshot.data().name
+                }   
+            }
+        },
+        removeMember() {
+            this.newTask.employee = "";
+            this.memberInvite = [];
         },
     },
     props: {
@@ -348,6 +385,12 @@ export default {
     .add-form {
         margin-bottom: 40px;
     }
+    .popBtn {
+        background-color: #6d79b4;
+        color: white;
+        width: 135px;
+        height: 35px;
+    }
     .form-control {
         margin: 20px 0;
     }
@@ -424,5 +467,39 @@ export default {
         font-size: 15px;
         font-family: inherit;
         margin: auto;
+    }
+    .smallAdd {
+        width: 50px;
+        margin-left: 3px;
+        background-color: black;
+        color: white;
+        margin: 0px 2px 20px 0px;
+        padding: 0%;
+    }
+    .confirm {
+        float: right;
+        appearance: none;
+        background-color: #6d79b4;
+        border: 2px solid #1A1A1A;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        font-size: 12px;
+        font-weight: 600;
+        line-height: normal;
+        margin: 50px -10px 10px -10px;
+        min-height: 50px;
+        min-width: 0;
+        outline: none;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        will-change: transform; 
     }
 </style>
