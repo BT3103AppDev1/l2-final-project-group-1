@@ -1,6 +1,6 @@
 <template>
-  <ProfileDisplay />
   <Sidebar />
+  <ProfileDisplay />
   <main id="calendar-page">
     <div class="calendar">
       <h1>{{ currentMonth }}</h1>
@@ -247,6 +247,13 @@ export default {
 </script>
 
 <style scoped>
+
+#calendar-page {
+  margin-top: 18px;
+  width: 1200px;
+  display: flex;
+  flex-direction: row; 
+}
 .names {
   color: white;
   padding: 5px;
@@ -272,26 +279,23 @@ input {
   }
   .addEvent {
     color: white;
-    padding: 5px;
-    margin-left: 700px;
-    
+    padding: 5px;  
   }
   .addEvents {
-    margin-top: 50px;
-    text-align: left;
-    margin-left: 300px;
+    margin-top: 110px;
+    text-align: left; 
+    margin-left: 150px;
   }
   .calendar {
     font-family: Arial, sans-serif;
     text-align:left;
-    margin: 0 auto;
-    max-width: 600px;
+    margin-left: 15px;
+    width: 800px; 
     margin-top: 50px;
-    float: left;
-    margin-right: 100px;
+    float: left; 
   }
   .calendar table {
-    width: 100%;
+    width: 800px; 
     border-collapse: collapse;
     margin-top: 20px;
   }
@@ -308,7 +312,7 @@ input {
     cursor: pointer;
     text-align: right;
     vertical-align: top;
-    height: 80px;
+    height: 90px;
     width: 80px;
   }
   .calendar td:hover {
@@ -333,7 +337,7 @@ input {
 }
 
 input{
-  margin-top: 3px;
+  margin-top: 0px;
   background-color: #f7f7f7;
   border-radius: 4px;
   font-size: 16px;
