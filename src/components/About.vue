@@ -3,13 +3,43 @@
     <p id="projectTitle">&#91;Metaverse Project&#93; Competitor Analysis</p>
     <hr />
     <br />
-    <p>Project ID: {{ project_id }}</p>
-    <p>Started: {{ project_start }}</p>
-    <p>Due: {{ project_due }}</p>
-    <p>Clients involved: {{ project_clients }}</p>
-    <p>Goals: {{ project_goals }}</p>
-    <p>Scope: {{ project_scope }}</p>
-    <p>Status: {{ project_status }}</p>
+    <img src="/src/assets/office_image.jpg" class="image" />
+    <br />
+    <div class="container">
+      <p>Project ID: {{ project_id }}</p>
+      <p>Started: {{ project_start }}</p>
+      <p>Due: {{ project_due }}</p>
+      <p>Clients involved: {{ project_clients }}</p>
+      <p>Goal(s): {{ project_goals }}</p>
+      <p>Scope: {{ project_scope }}</p>
+      <p>Status: {{ project_status }}</p>
+    </div>
+    <button
+      v-if="this.userAccount === 'Employer'"
+      class="button"
+      @click="showPopup = true"
+    >
+      Edit
+    </button>
+    <div>
+      <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
+        <form @submit="onSubmit" class="add-form">
+          <div class="form-control">
+            <label>Project Start Date </label>
+            <input type="text" v-model="formData.start" name="name" />
+            <label>Project End Date</label>
+            <input type="text" v-model="formData.end" name="description" />
+            <label>Project Goal(s)</label>
+            <input type="text" v-model="formData.goal" name="goal" />
+            <label>Project Scope</label>
+            <input type="text" v-model="formData.scope" name="scope" />
+            <label>Project Status</label>
+            <input type="text" v-model="formData.status" name="status" />
+          </div>
+          <input type="submit" value="Confirm changes" class="btn btn-block" />
+        </form>
+      </popup>
+    </div>
   </header>
 </template>
 
@@ -34,11 +64,14 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
+import Popup from "./Popup.vue";
 
 export default {
-  components: {},
+  components: { Popup },
   data() {
     return {
+      showPopup: false,
+      popupTitle: "Edit details",
       userAccount: "",
       userName: "",
       userPic: "",
@@ -49,9 +82,27 @@ export default {
       project_goals: "",
       project_scope: "",
       project_status: "",
+      formData: {
+        start: "",
+        end: "",
+        scope: "",
+        goal: "",
+        status: "",
+      },
     };
   },
   methods: {
+    onSubmit(e, formData) {
+      const selectedRef = doc(db, "projects", "zkWKwHep410V9CNXcJEo");
+      updateDoc(selectedRef, {
+        status: this.formData.status,
+        startdate: this.formData.start,
+        enddate: this.formData.end,
+        scope: this.formData.scope,
+        goal: this.formData.goal,
+      });
+      this.showPopup = !this.showPopup;
+    },
     async displayProject() {
       const docRef = doc(db, "projects", "zkWKwHep410V9CNXcJEo");
       const docSnap = await getDoc(docRef);
@@ -64,6 +115,11 @@ export default {
       } else {
         this.project_status = "Completed";
       }
+      this.formData.start = this.project_start;
+      this.formData.end = this.project_due;
+      this.formData.goal = this.project_goals;
+      this.formData.scope = this.project_scope;
+      this.formData.status = this.project_status;
     },
     async displaydetails(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
@@ -113,19 +169,6 @@ button {
   text-align: left;
   vertical-align: top;
 }
-
-.container {
-  color: white;
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px 150px 30px 150px;
-  border-radius: 5px;
-  background-image: url("/src/assets/office_image.jpg");
-}
-
 #projectTitle {
   font-size: 32pt;
 }
@@ -236,5 +279,37 @@ button {
 .form-control-check input {
   flex: 2;
   height: 20px;
+}
+.container {
+  position: relative;
+  color: black;
+  margin-left: 2%;
+  overflow: auto;
+  font-size: 1.3vw;
+  padding: 2%;
+}
+.image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+.button {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 10%;
+  font-size: 1.15vw;
+  border-radius: 4px;
+  float: right;
+  margin-bottom: 10%;
+  margin-bottom: 10%;
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+}
+
+.button:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
 }
 </style>
