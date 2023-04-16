@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="issue in internal_issues" :key="issue.id">
+              <tr v-for="issue in internal_issues_current" :key="issue.id">
                 <td>{{ issue.id }}</td>
                 <td>{{ issue.date_raised }}</td>
                 <td>{{ issue.type }}</td>
@@ -50,7 +50,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="issue in external_issues" :key="issue.id">
+              <tr v-for="issue in external_issues_current" :key="issue.id">
                 <td>{{ issue.id }}</td>
                 <td>{{ issue.date_raised }}</td>
                 <td>{{ issue.type }}</td>
@@ -61,7 +61,53 @@
           </table>
         </div>
       </div>
-      <div v-show="activeTab === 1">Resolved Issues</div>
+      <div v-show="activeTab === 1">
+        <div id="Current">
+          <h3>Internal Issues</h3>
+          <table id="internal_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date raised</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in internal_issues_resolved" :key="issue.id">
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.date_raised }}</td>
+                <td>{{ issue.type }}</td>
+                <td>{{ issue.content }}</td>
+                <td>{{ issue.priority }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <h3>External Issues</h3>
+          <table id="external_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date raised</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in external_issues_resolved" :key="issue.id">
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.date_raised }}</td>
+                <td>{{ issue.type }}</td>
+                <td>{{ issue.content }}</td>
+                <td>{{ issue.priority }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -95,16 +141,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="issue in internal_issues" :key="issue.id">
+              <tr v-for="issue in internal_issues_current" :key="issue.id">
                 <td>{{ issue.id }}</td>
                 <td>{{ issue.date_raised }}</td>
                 <td>{{ issue.type }}</td>
                 <td>{{ issue.content }}</td>
                 <td>{{ issue.priority }}</td>
-                <td><input type="checkbox" v-model="issue.resolved" /></td>
+                <!-- <td><input type="checkbox" v-model="issue.resolved" /></td> -->
+                <td>
+                  <button
+                    id="internalbutton"
+                    type="button"
+                    v-on:click="internalchange(issue.id)"
+                  >
+                    Resolve
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
+          <!-- <button id="internalbutton" type="button" v-on:click="internalchange">
+            Confirm changes
+          </button> -->
           <br />
           <h3>External Issues</h3>
           <table id="external_table">
@@ -119,19 +177,142 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="issue in external_issues" :key="issue.id">
+              <tr v-for="issue in external_issues_current" :key="issue.id">
                 <td>{{ issue.id }}</td>
                 <td>{{ issue.date_raised }}</td>
                 <td>{{ issue.type }}</td>
                 <td>{{ issue.content }}</td>
                 <td>{{ issue.priority }}</td>
-                <td><input type="checkbox" v-model="issue.resolved" /></td>
+                <!-- <td><input type="checkbox" v-model="issue.resolved" /></td> -->
+                <td>
+                  <button
+                    id="externalbutton"
+                    type="button"
+                    v-on:click="externalchange(issue.id)"
+                  >
+                    Resolve
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <button id="externalbutton" type="button" v-on:click="internalchange">
+            Confirm changes
+          </button> -->
+        </div>
+      </div>
+      <div v-show="activeTab === 1">
+        <div id="Current">
+          <h3>Internal Issues</h3>
+          <table id="internal_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date raised</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in internal_issues_resolved" :key="issue.id">
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.date_raised }}</td>
+                <td>{{ issue.type }}</td>
+                <td>{{ issue.content }}</td>
+                <td>{{ issue.priority }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <h3>External Issues</h3>
+          <table id="external_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date raised</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in external_issues_resolved" :key="issue.id">
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.date_raised }}</td>
+                <td>{{ issue.type }}</td>
+                <td>{{ issue.content }}</td>
+                <td>{{ issue.priority }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div v-show="activeTab === 1">Resolved Issues</div>
+    </div>
+  </div>
+  <div v-if="this.userAccount === 'External stakeholder'">
+    <div class="nav_bar">
+      <div class="tab">
+        <button
+          v-for="(tab, index) in tabs"
+          :key="index"
+          :class="{ active: activeTab === index }"
+          @click="activeTab = index"
+        >
+          {{ tab }}
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div v-show="activeTab === 0">
+        <div id="Current">
+          <h3>External Issues</h3>
+          <table id="external_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date raised</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="issue in external_issues_current" :key="issue.id">
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.date_raised }}</td>
+                <td>{{ issue.type }}</td>
+                <td>{{ issue.content }}</td>
+                <td>{{ issue.priority }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div v-show="activeTab === 1">
+        <h3>External Issues</h3>
+        <table id="external_table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date raised</th>
+              <th>Type</th>
+              <th>Content</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="issue in external_issues_resolved" :key="issue.id">
+              <td>{{ issue.id }}</td>
+              <td>{{ issue.date_raised }}</td>
+              <td>{{ issue.type }}</td>
+              <td>{{ issue.content }}</td>
+              <td>{{ issue.priority }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -145,55 +326,140 @@ import {
   deleteDoc,
   query,
   where,
+  setDoc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+  uploadBytes,
+} from "firebase/storage";
 export default {
   data() {
     return {
       activeTab: 0,
       tabs: ["Current", "Resolved"],
-      internal_issues: [
-        {
-          id: 649,
-          date_raised: "2023-01-29",
-          type: "UI/UX Design",
-          content: "Chart's legend are not clearly defined",
-          priority: "H",
-          resolved: false,
-        },
-        {
-          id: 32,
-          date_raised: "2023-02-18",
-          type: "Report Analysis",
-          content: "References for market share analysis are missing",
-          priority: "L",
-          resolved: false,
-        },
-      ],
-      external_issues: [
-        {
-          id: 648,
-          date_raised: "2023-02-02",
-          type: "Chart Analysis",
-          content:
-            "Charts do not provide clear information on competitor's strengths",
-          priority: "H",
-          resolved: false,
-        },
-      ],
+      internal_issues_current: [],
+      external_issues_current: [],
+      internal_issues_resolved: [],
+      external_issues_resolved: [],
       userAccount: "",
       userName: "",
       userPic: "",
     };
   },
+  props: {
+    projectTitle: String,
+  },
   async mounted() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.displaydetails(user.email);
+        this.displayaccount(user.email);
       }
     });
+    this.display_internal();
+    this.display_external();
   },
   methods: {
+    async display_internal() {
+      let allDocuments = await getDocs(
+        collection(db, "projects", this.projectTitle, "Internal_Issue")
+      );
+      allDocuments.forEach((docs) => {
+        let documentData = docs.data();
+        let issue_id = documentData.issue_id;
+        let raised_date = documentData.raised_date;
+        let content = documentData.content;
+        let issue_type = documentData.issue_type;
+        let issue_priority = documentData.issue_priority;
+        let resolve_status = documentData.resolved;
+
+        if (!resolve_status) {
+          this.internal_issues_current.push({
+            id: issue_id,
+            date_raised: raised_date,
+            type: issue_type,
+            content: content,
+            priority: issue_priority,
+            resolved: resolve_status,
+          });
+        } else {
+          this.internal_issues_resolved.push({
+            id: issue_id,
+            date_raised: raised_date,
+            type: issue_type,
+            content: content,
+            priority: issue_priority,
+            resolved: resolve_status,
+          });
+        }
+      });
+    },
+    async externalchange(issue_id) {
+      //   console.log(issue_id);
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "External_Issue",
+        issue_id
+      );
+      await updateDoc(selectedRef, {
+        resolved: true,
+      });
+    },
+    async internalchange(issue_id) {
+      //   console.log(issue_id);
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "Internal_Issue",
+        issue_id
+      );
+      await updateDoc(selectedRef, {
+        resolved: true,
+      });
+    },
+    async display_external() {
+      let allDocuments = await getDocs(
+        collection(db, "projects", this.projectTitle, "External_Issue")
+      );
+      allDocuments.forEach((docs) => {
+        let documentData = docs.data();
+        let issue_id = documentData.issue_id;
+        let raised_date = documentData.raised_date;
+        let content = documentData.content;
+        let issue_type = documentData.issue_type;
+        let issue_priority = documentData.issue_priority;
+        let resolve_status = documentData.resolved;
+
+        if (!resolve_status) {
+          this.external_issues_current.push({
+            id: issue_id,
+            date_raised: raised_date,
+            type: issue_type,
+            content: content,
+            priority: issue_priority,
+            resolved: resolve_status,
+          });
+        } else {
+          this.external_issues_resolved.push({
+            id: issue_id,
+            date_raised: raised_date,
+            type: issue_type,
+            content: content,
+            priority: issue_priority,
+            resolved: resolve_status,
+          });
+        }
+      });
+    },
     async displaydetails(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
       Snapshot.forEach((doc) => {
@@ -215,22 +481,6 @@ export default {
         return !task.completed;
       });
     },
-    addTask: function () {
-      if (!this.newTask.title || !this.newTask.scope || !this.newTask.endDate) {
-        alert("Please fill in all fields.");
-        return;
-      }
-      this.tasks.push({
-        id: this.nextTaskId++,
-        title: this.newTask.title,
-        scope: this.newTask.scope,
-        endDate: this.newTask.endDate,
-        completed: false,
-      });
-      this.newTask.title = "";
-      this.newTask.scope = "";
-      this.newTask.endDate = "";
-    },
     async displayaccount(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
       Snapshot.forEach((doc) => {
@@ -239,13 +489,6 @@ export default {
         }
       });
     },
-  },
-  async mounted() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.displayaccount(user.email);
-      }
-    });
   },
 };
 </script>
@@ -350,22 +593,41 @@ th {
   font-size: 15pt;
   font-weight: bold;
 }
-#confirm-changes {
-  align-self: flex-end;
-  background-color: #4a4e69;
-  color: #ffffff;
-  border-radius: 12px;
-  text-align: center;
-  margin: 4px 2px;
-  cursor: pointer;
-  padding: 5px 10px 5px 10px;
-  border-style: solid;
-  border-color: #4a4e69;
-  float: right;
-}
 .add-button {
   position: fixed;
   top: 20%;
   right: 190px;
+}
+/* #internalbutton {
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  width: 10%;
+  font-size: 1.15vw;
+  border-radius: 4px;
+  float: right;
+  margin-top: 1%;
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+} */
+#externalbutton {
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  width: 100%;
+  font-size: 1.15vw;
+  border-radius: 4px;
+}
+#internalbutton {
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  width: 105%;
+  font-size: 1.15vw;
+  border-radius: 4px;
 }
 </style>

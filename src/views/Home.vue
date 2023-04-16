@@ -132,20 +132,20 @@ export default {
 </script>
 
 <template> 
-  <ProfileDisplay />
   <Sidebar />
-  <main id="home-page">
-    <div>
-      <div class="container1">
-        <img src="../assets/todo.png" alt="Image description" />
-        <h1 class="header" id="currDate">{{ today }}</h1>
-      </div>
-      
+  <main id="home-page"> 
+  <div class="headerCon"> 
+    <ProfileDisplay />   
+    <div class="container1">
+      <img src="../assets/home-icon.png" alt="Image description" class="image"/>
+      <h1 class="header" id="currDate">{{ today }}</h1>
+    </div>
+  </div>
       <br />
       <br />
       <br />
       <br />
-      <button @click="handleCollapseToDo">
+      <button class="triButton" @click="handleCollapseToDo">
         <div
           :class="{
             'triangle-right': !isOpenToDo,
@@ -165,12 +165,12 @@ export default {
         </div>
         <p v-else class="contents">You have no to-dos.</p>
         <input id="newData" type="text" v-model="newData" class="inbox" placeholder="New Task">
-        <button @click="addData" class="addTaskBtn"><u>+ Add Task</u></button>
+        <button @click="addData" class="addTaskBtn"> + Add Task </button>
       </Collapse>
       <br />
       <br />
 
-      <button @click="handleCollapseFollowUp">
+      <button class="triButton" @click="handleCollapseFollowUp">
         <div
           :class="{
             'triangle-right': !isOpenFollowUp,
@@ -187,7 +187,7 @@ export default {
       <br />
       <br />
 
-      <button @click="handleCollapseProjects">
+      <button class="triButton" @click="handleCollapseProjects">
         <div
           :class="{
             'triangle-right': !isOpenProjects,
@@ -200,8 +200,7 @@ export default {
         <div class="contents">
           <p>You have no projects.</p>
         </div>
-      </Collapse>
-    </div>
+      </Collapse> 
   </main>
 </template>
 
@@ -213,24 +212,34 @@ export default {
 .container1 {
   display: flex;
   align-items: center;
+  margin-top: -35px;
 }
 
-.container1 img {
-  margin-right: 10px;
-  height: 100px;
-  width: 100px;
+.container1 img { 
+  height: 150px;
+  width: 230px;
 }
 
-.container .header {
-  margin: 0;
+.headerCon {
+  display: flex; 
+  flex-direction: row;
 }
+
+
+.header {
+  color: var(--dark-purple);
+  margin-left: 20px;
+} 
 
 button {
-  height: 40px; /* Increase the height of the button */
+  height: 45px; /* Increase the height of the button */
   padding: 10px 16px; /* Add some padding to the button */
   background-color: transparent;
   margin-left: 30px;
   margin-right: 30px;
+  font-size: 20px;
+  font-weight: 550;
+  color: var(--dark);
 }
 
 .triangle-right {
@@ -240,6 +249,7 @@ button {
   border-top: 5px solid transparent;
   border-left: 7px solid #555;
   border-bottom: 5px solid transparent;
+  margin-right: 10px;
 }
 
 .triangle-down {
@@ -250,11 +260,33 @@ button {
   border-right: 5px solid transparent;
   border-top: 7px solid #555;
   margin-top: 2px; /* Add some margin to align the triangle with the button caption */
+  margin-right: 10px;
 }
 
+#newData {
+  width: 800px;
+  height: 30px;
+  margin-left: 70px;
+  margin-top: 10px;
+}
+
+#newData::placeholder {
+  font-size: 16px;
+}
+
+
+.addTaskBtn {
+  text-decoration: none;
+  background-color: var(--primary);
+  color: var(--dark);
+  border-radius: 10px;
+  height: 38px;
+  font-size: 16px;
+  margin-top: 15px;
+}
 .contents {
   margin-top: 10px;
-  margin-left: 60px;
+  margin-left: 70px;
 }
  .inbox {
   margin-left: 60px;

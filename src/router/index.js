@@ -31,6 +31,10 @@ const router = createRouter({
       component: Home,
     }, 
     {
+      path: "/login/projects/tabnavigation",
+      component: () => import("../components/TabNavigation.vue"),
+    },
+    {
       path: "/login/projects",
       component: () => import("/src/views/OngoingProjects.vue"),
     },
@@ -46,6 +50,10 @@ const router = createRouter({
       path: "/login/settings",
       component: () => import("../views/Settings.vue"),
     },
+    {
+      path: '/login/projects/tabnavigation',
+      component: () => import("/src/components/TabNavigation.vue"),
+    }
   ],
 });
 

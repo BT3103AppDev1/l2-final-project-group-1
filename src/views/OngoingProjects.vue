@@ -13,13 +13,14 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent">
+                    <button class= "container" @click="redirectToOtherComponent(project.project_name)">
                         <div class="project_name">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="popup" v-if="showPopup">
       <label class="labels">Project Name:</label>
@@ -58,11 +59,6 @@ import { onAuthStateChanged } from "firebase/auth";
 export default {
   name: "OngoingProjects",
   components: { Sidebar, ProfileDisplay, ProjectSwitcher },
-  methods: {
-      redirectToOtherComponent() {
-        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
-      },
-  },
   data() {
     return { 
       projects: [],
@@ -104,6 +100,10 @@ export default {
   },
   
   methods: {
+    redirectToOtherComponent() {
+        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
+      },
+      
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)
@@ -213,8 +213,14 @@ export default {
         await updateDoc(userDocRef, { projects: currentArray });
       });
     },
-  }
+  redirectToOtherComponent(projectName) {
+    this.$router.push({
+      path: '/login/projects/tabnavigation',
+      query: { projectTitle: projectName }
+    });
+}
 } 
+}
 </script>
 
 <style scoped>
