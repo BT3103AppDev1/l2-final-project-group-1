@@ -25,19 +25,19 @@
 
     <div class="addEvents">
       <h3 class="formHeader" style="color:var(--dark)">Add an Event</h3>
-      <label style="color:var(--light)">Event Name:</label>
+      <label style="color:var(--dark)">Event Name:</label>
       <br>
       <input v-model="eventName">
       <br>
-      <label style="color:var(--light)">Event Day:</label>
+      <label style="color:var(--dark)">Event Day:</label>
       <br>
       <input type="date" id="date-picker" :min="today" v-model="selectedDate">
       <br>
-      <label style="color:var(--light)">Event Time:</label>
+      <label style="color:var(--dark)">Event Time:</label>
       <br>
       <input type="time" id="time-picker" v-model="selectedTime">
       <br>
-      <label style="color:var(--light)">Event Venue:</label>
+      <label style="color:var(--dark)">Event Venue:</label>
       <br>
       <input v-model="selectedVenue">
       <br>
@@ -45,7 +45,7 @@
       <br>
       <input v-model="details">
       <br>
-      <label style="color:var(--light)">Invite people: (click Add)</label>
+      <label style="color:var(--light)">Invite people </label>
       <br>
       <input v-model="member" placeholder="abc@gmail.com">
       <button class="names" @click="addMember">Add</button>
@@ -249,7 +249,7 @@ export default {
 <style scoped> 
 
 main {
-  background-image: url(../assets/cal-aura.jpg); 
+  background-image: url(../assets/cal-aura.png); 
   background-size: 100%;
 }
 
