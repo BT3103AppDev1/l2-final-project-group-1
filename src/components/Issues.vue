@@ -471,7 +471,9 @@ export default {
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
               }
-            );
+            ).then(() => {
+              window.location.reload();
+            });
           } else {
             const docRef = setDoc(
               doc(db, "projects", this.projectTitle, "Internal_Issue", doc_id),
@@ -483,7 +485,9 @@ export default {
                 issue_priority: this.formData.priority,
                 resolved: false,
               }
-            );
+            ).then(() => {
+              window.location.reload();
+            });
           }
         });
       } catch (error) {
@@ -528,7 +532,9 @@ export default {
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
               }
-            );
+            ).then(() => {
+              window.location.reload();
+            });
           } else {
             const docRef = setDoc(
               doc(db, "projects", this.projectTitle, "External_Issue", doc_id),
@@ -540,7 +546,9 @@ export default {
                 issue_priority: this.formData.priority,
                 resolved: false,
               }
-            );
+            ).then(() => {
+              window.location.reload();
+            });
           }
         });
       } catch (error) {
@@ -594,6 +602,7 @@ export default {
       await updateDoc(selectedRef, {
         resolved: true,
       });
+      window.location.reload();
     },
     async internalchange(issue_id) {
       //   console.log(issue_id);
@@ -607,6 +616,7 @@ export default {
       await updateDoc(selectedRef, {
         resolved: true,
       });
+      window.location.reload();
     },
     async display_external() {
       let allDocuments = await getDocs(
