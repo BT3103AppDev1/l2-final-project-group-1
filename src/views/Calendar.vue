@@ -1,13 +1,13 @@
 <template>
-  <ProfileDisplay />
   <Sidebar />
+  <ProfileDisplay /> 
   <main id="calendar-page">
     <div class="calendar">
-      <h1>{{ currentMonth }}</h1>
+      <h1 style="color:var(--dark-purple)">{{ currentMonth }}</h1>
       <table>
         <thead>
           <tr>
-            <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+            <th v-for="day in daysOfWeek" :key="day" style="color:var(--dark-alt)">{{ day }}</th>
           </tr>
         </thead>
         <tbody>
@@ -24,44 +24,44 @@
     </div>
 
     <div class="addEvents">
-      <h3 class="formHeader">Add an Event</h3>
-      <label>Event Name:</label>
+      <h3 class="formHeader" style="color:var(--dark)">Add an Event</h3>
+      <label style="color:var(--light)">Event Name:</label>
       <br>
       <input v-model="eventName">
       <br>
-      <label>Event Day:</label>
+      <label style="color:var(--light)">Event Day:</label>
       <br>
       <input type="date" id="date-picker" :min="today" v-model="selectedDate">
       <br>
-      <label>Event Time:</label>
+      <label style="color:var(--light)">Event Time:</label>
       <br>
       <input type="time" id="time-picker" v-model="selectedTime">
       <br>
-      <label>Event Venue:</label>
+      <label style="color:var(--light)">Event Venue:</label>
       <br>
       <input v-model="selectedVenue">
       <br>
-      <label>Event Details:</label>
+      <label style="color:var(--light)">Event Details:</label>
       <br>
       <input v-model="details">
       <br>
-      <label>Invite people: (click Add)</label>
+      <label style="color:var(--light)">Invite people: (click Add)</label>
       <br>
       <input v-model="member" placeholder="abc@gmail.com">
       <button class="names" @click="addMember">Add</button>
       <br>
       <button v-for="item in invites" :key="item.id" class="buttonName" @click="removeName(item.id)">{{ item.name + " X" }}</button>
       <div class="details">
-        <h4>Confirm details:</h4>
-        <p>{{ "Event Name: " + eventName }}</p>
-        <p>{{ "Event Date: " + selectedDate }}</p>
-        <p>{{ "Event Time: " + selectedTime }}</p>
-        <p>{{ "Event Venue: " + selectedVenue }}</p>
-        <p>{{ "Event Details: " + details }}</p>
-        <button class="addEvent" @click="addEvent">+ Add Event</button>
+        <h4 style="font-size:14px;margin-top:10px;color:var(--light);">Confirm details:</h4>
+        <p style="color:var(--light)">{{ "Event Name: " + eventName }}</p>
+        <p style="color:var(--light)"> {{ "Event Date: " + selectedDate }}</p>
+        <p style="color:var(--light)">{{ "Event Time: " + selectedTime }}</p>
+        <p style="color:var(--light)">{{ "Event Venue: " + selectedVenue }}</p>
+        <p style="color:var(--light)">{{ "Event Details: " + details }}</p>
+        <button class="addEvent" @click="addEvent">Add Event</button>
       </div>
     </div>
-  </main>
+  </main> 
 </template>
 
 <script>
@@ -246,11 +246,25 @@ export default {
   };
 </script>
 
-<style scoped>
+<style scoped> 
+
+main {
+  background-image: url(../assets/cal-aura.jpg); 
+  background-size: 100%;
+}
+
+#calendar-page {
+  margin-top: 0px;
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+}
 .names {
-  color: white;
+  color: var(--dark);
+  background-color: var(--primary);
   padding: 5px;
   margin: 5px;
+  margin-top: -12px;
 }
 input {
   margin-bottom: 10px;
@@ -271,45 +285,47 @@ input {
     margin-right: 2px;
   }
   .addEvent {
-    color: white;
-    padding: 5px;
-    margin-left: 700px;
-    
+    color: var(--dark);
+    background-color: var(--primary);
+    padding: 5px;  
+    margin-top: 10px;
   }
   .addEvents {
-    margin-top: 50px;
-    text-align: left;
-    margin-left: 300px;
+    margin-top: 120px;
+    text-align: left; 
+    margin-left: 100px;
+    width: 500px;
   }
   .calendar {
     font-family: Arial, sans-serif;
     text-align:left;
-    margin: 0 auto;
-    max-width: 600px;
-    margin-top: 50px;
-    float: left;
-    margin-right: 100px;
+    margin-left: 15px; 
+    width: 1000px; 
+    margin-top: 60px;
+    float: left; 
   }
   .calendar table {
-    width: 100%;
+    width: 800px; 
     border-collapse: collapse;
     margin-top: 20px;
   }
   
   .calendar th {
-    background-color: #f5f5f5;
+    background-color: var(--very-light-purple);
     padding: 10px;
     text-align: center;
     vertical-align: top;
+    border: 1px solid var(--dark);
   }
   .calendar td {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--grey);
     cursor: pointer;
     text-align: right;
     vertical-align: top;
-    height: 80px;
+    height: 90px;
     width: 80px;
+    background-color: #ffffff;
   }
   .calendar td:hover {
     background-color: #f5f5f5;
@@ -333,8 +349,8 @@ input {
 }
 
 input{
-  margin-top: 3px;
-  background-color: #f7f7f7;
+  margin-top: 0px;
+  background-color: #ffffff;
   border-radius: 4px;
   font-size: 16px;
   padding: 3px;
