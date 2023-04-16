@@ -1,6 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">An</p>
+    <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
     <p id="header">Issues</p>
 
@@ -417,9 +417,9 @@ export default {
       userPic: "",
     };
   },
-  // props: {
-  //   projectTitle: String,
-  // },
+  props: {
+    projectTitle: String,
+  },
   components: {
     Popup,
   },
@@ -451,41 +451,45 @@ export default {
       }
       try {
         const doc_id = Math.floor(Math.random() * 101).toString();
-        getDoc(doc(db, "projects", "An", "Internal_Issue", doc_id)).then(
-          (docSnap) => {
-            if (docSnap.exists()) {
-              console.log("exist");
-              const docRef = setDoc(
-                doc(
-                  db,
-                  "projects",
-                  "An",
-                  "Internal_Issue",
-                  Math.floor(Math.random() * 101).toString()
-                ),
-                {
-                  issue_id: doc_id,
-                  raised_date: this.formData.date,
-                  content: this.formData.content,
-                  issue_type: this.formData.type,
-                  issue_priority: this.formData.priority,
-                }
-              );
-            } else {
-              const docRef = setDoc(
-                doc(db, "projects", "An", "Internal_Issue", doc_id),
-                {
-                  issue_id: doc_id,
-                  raised_date: this.formData.date,
-                  content: this.formData.content,
-                  issue_type: this.formData.type,
-                  issue_priority: this.formData.priority,
-                  resolved: false,
-                }
-              );
-            }
+        getDoc(
+          doc(db, "projects", this.projectTitle, "Internal_Issue", doc_id)
+        ).then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log("exist");
+            const docRef = setDoc(
+              doc(
+                db,
+                "projects",
+                this.projectTitle,
+                "Internal_Issue",
+                Math.floor(Math.random() * 101).toString()
+              ),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+              }
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            const docRef = setDoc(
+              doc(db, "projects", this.projectTitle, "Internal_Issue", doc_id),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+                resolved: false,
+              }
+            ).then(() => {
+              window.location.reload();
+            });
           }
-        );
+        });
       } catch (error) {
         console.error("Error adding document: ", error);
       }
@@ -508,41 +512,45 @@ export default {
       }
       try {
         const doc_id = Math.floor(Math.random() * 101).toString();
-        getDoc(doc(db, "projects", "An", "External_Issue", doc_id)).then(
-          (docSnap) => {
-            if (docSnap.exists()) {
-              console.log("exist");
-              const docRef = setDoc(
-                doc(
-                  db,
-                  "projects",
-                  "An",
-                  "External_Issue",
-                  Math.floor(Math.random() * 101).toString()
-                ),
-                {
-                  issue_id: doc_id,
-                  raised_date: this.formData.date,
-                  content: this.formData.content,
-                  issue_type: this.formData.type,
-                  issue_priority: this.formData.priority,
-                }
-              );
-            } else {
-              const docRef = setDoc(
-                doc(db, "projects", "An", "External_Issue", doc_id),
-                {
-                  issue_id: doc_id,
-                  raised_date: this.formData.date,
-                  content: this.formData.content,
-                  issue_type: this.formData.type,
-                  issue_priority: this.formData.priority,
-                  resolved: false,
-                }
-              );
-            }
+        getDoc(
+          doc(db, "projects", this.projectTitle, "External_Issue", doc_id)
+        ).then((docSnap) => {
+          if (docSnap.exists()) {
+            console.log("exist");
+            const docRef = setDoc(
+              doc(
+                db,
+                "projects",
+                this.projectTitle,
+                "External_Issue",
+                Math.floor(Math.random() * 101).toString()
+              ),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+              }
+            ).then(() => {
+              window.location.reload();
+            });
+          } else {
+            const docRef = setDoc(
+              doc(db, "projects", this.projectTitle, "External_Issue", doc_id),
+              {
+                issue_id: doc_id,
+                raised_date: this.formData.date,
+                content: this.formData.content,
+                issue_type: this.formData.type,
+                issue_priority: this.formData.priority,
+                resolved: false,
+              }
+            ).then(() => {
+              window.location.reload();
+            });
           }
-        );
+        });
       } catch (error) {
         console.error("Error adding document: ", error);
       }
@@ -550,7 +558,7 @@ export default {
     },
     async display_internal() {
       let allDocuments = await getDocs(
-        collection(db, "projects", "An", "Internal_Issue")
+        collection(db, "projects", this.projectTitle, "Internal_Issue")
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
@@ -584,21 +592,35 @@ export default {
     },
     async externalchange(issue_id) {
       //   console.log(issue_id);
-      const selectedRef = doc(db, "projects", "An", "External_Issue", issue_id);
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "External_Issue",
+        issue_id
+      );
       await updateDoc(selectedRef, {
         resolved: true,
       });
+      window.location.reload();
     },
     async internalchange(issue_id) {
       //   console.log(issue_id);
-      const selectedRef = doc(db, "projects", "An", "Internal_Issue", issue_id);
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "Internal_Issue",
+        issue_id
+      );
       await updateDoc(selectedRef, {
         resolved: true,
       });
+      window.location.reload();
     },
     async display_external() {
       let allDocuments = await getDocs(
-        collection(db, "projects", "An", "External_Issue")
+        collection(db, "projects", this.projectTitle, "External_Issue")
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
