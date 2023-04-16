@@ -183,6 +183,7 @@ export default {
       await setDoc(docRef, projData).then((docRef) => {
         projData.id = this.projName;
       })
+       //initialise workload subcollection
       const projectDocRef = await doc(db, "projects", this.projName)
       for (let i = 0; i < this.allMembers.length; i++) {
         const projectSubRef = await doc(projectDocRef, "workload", this.allMembers[i])
@@ -190,6 +191,14 @@ export default {
       }
       const projectSubRef = await doc(projectDocRef, "workload", this.email)
       await setDoc(projectSubRef,  {memberEmail: this.email, task: {}});
+      //initialise feedback subcollection
+      const projectDocRefFeed = await doc(db, "projects", this.projName)
+      for (let i = 0; i < this.allMembers.length; i++) {
+        const projectSubRefFeed = await doc(projectDocRefFeed, "feedback", this.allMembers[i])
+        await setDoc(projectSubRefFeed, {memberEmail: this.allMembers[i], memberFeedback: {}})
+      }
+      const projectSubRefFeed = await doc(projectDocRefFeed, "feedback", this.email)
+      await setDoc(projectSubRefFeed,  {memberEmail: this.email, memberFeedback: {}});
       this.projects.push(projData) 
       //clear all input box
       this.projName = ''
