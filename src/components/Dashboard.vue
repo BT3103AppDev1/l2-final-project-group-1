@@ -5,25 +5,36 @@
     <p id="header">Dashboard</p>
 </header>
 <hr>
-<select v-model ="selected ">
-<option value="">Please select one </option >
-<option >Line</option >
-<option >Pie</option >
-<option >Both</option >
-</select >,<br><br>
+<div id="pageContainer" class="container">
+    <div id="Priority Distribution">
+        <h2>Priority Distribution</h2>
+        <pie-chart class = 'user' width =500px :data = "chartdata" ></pie-chart>
+    </div>
 
-<span>Selected: {{ selected }}</span>
+    <div id="Issue_raised" class="container">
+        <h2> Number of Issues raised </h2>
+        <bar-chart class ="user" width=500px :data="chartdata2" ></bar-chart>
+    </div>
 
-<div v-if="selected =='Line' || selected =='Both' ">
-<h1>Line Chart </h1>
-<button @click="updateMe ()">Click to update the Line chart </button >
-<line-chart class = 'user' width =500px :data = "chartdata" ></line-chart >
-</div>
+    <div id="Unresolved_issues" class="container">
+        <h2> Unresolved Issues </h2>
+        <br>
+        <hr>
+        <h1>3</h1>
+    </div>
+    <br>
+    <div id="Incompleted_features" class="container">
+        <h2> Incompleted features </h2>
+        <br>
+        <hr>
+        <h1>4/6</h1>
+    </div>
+    <br>
+    <div id="Total_cost" class="container">
+        <h2> Total Cost </h2>
+    
+    </div>
 
-<div v-if="selected =='Pie' || selected =='Both' ">
-<h1>Pie Chart </h1>
-<button @click="updateMe2 ()"> Click to update the Pie Chart</button ><br><br>
-<pie-chart class ="user" width=500px :data="chartdata2" ></pie-chart >
 </div>
 
 </template>
@@ -40,8 +51,8 @@ export default {
         return {
             nextTaskId: 4,
             userAccount: "",
-            chartdata: {'Monday': 2, 'Tuesday': 5, 'Wednesday': 2, 'Thursday': 5, 'Friday':6},
-            chartdata2: {'Blueberry':44, 'Strawberry':23},
+            chartdata: {'Item 1': 20, 'Item 2': 20, 'Item 3': 20, 'Item 4': 20, 'Item 5':20},
+            chartdata2: {'Item 1': 15, 'Item 2': 20, 'Item 3': 25, 'Item 4': 40},
             selected:""
         };
     },
@@ -83,14 +94,19 @@ export default {
         align-items: center;
         height: 100vh; /* Set the height to fill the entire viewport */
     }
-    table {
-        border-collapse: collapse;
-        width: 100%;
+
+    .pageContainer {
+        margin-left: 70px;
+        margin-top: 50px;
+        display: flex; 
+        flex-direction: column; 
     }
-    th,
-    td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-    }
+
+    .container {
+    margin-top: 50px; 
+    max-width: 1000px;
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 </style>
