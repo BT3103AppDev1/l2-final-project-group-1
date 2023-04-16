@@ -14,7 +14,7 @@
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
                     <button class= "container" @click="redirectToOtherComponent(project.project_name)">
-                        <div class="project_name">{{project.project_name}} </div>
+                        <div class="project_name" style="background-color: var(--light);color:var(--dark);">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
@@ -329,6 +329,9 @@ input{
     position: absolute;
     bottom: 0;
     left: 0;
+    width: 100%; 
+    padding-bottom: 2px;
+    padding-top: 2px;
   }
   
   .container {
