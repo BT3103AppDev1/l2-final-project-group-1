@@ -119,7 +119,9 @@ export default {
   left: 30px;
 }
 #back-button-container:hover {
-  background-color: #242424;
+  background-color: #D3D3D3;
+   border-radius: 25px;
+   width: 10%;
 }
 
 #back-button-container button {
@@ -132,7 +134,8 @@ export default {
 .button-text {
   font-size: 20px; /* adjust font size as needed */
 }
-.back:hover {
+#back:hover {
   color: #ffffff;
+  transition: background-color 0.1s ease-in-out, color 0.6s ease-in-out;
 }
 </style>
