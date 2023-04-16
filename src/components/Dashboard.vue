@@ -40,6 +40,7 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 
 export default {
+<<<<<<< Updated upstream
   name: "Dashboard",
   data() {
     return {
@@ -113,6 +114,61 @@ export default {
         }
       });
       this.chartdata3 = { "to do": to_do, launched: launched };
+=======
+    name:'Dashboard',
+    data() {
+        return {
+            nextTaskId: 4,
+            userAccount: "",
+            chartdata: {'Item 1': 20, 'Item 2': 20, 'Item 3': 20, 'Item 4': 20, 'Item 5':20},
+            chartdata2: {'Item 1': 15, 'Item 2': 20, 'Item 3': 25, 'Item 4': 40},
+            selected:"",
+            uncompletedWork: 0,
+            completedWork: 0,
+        };
+    },
+    methods: {
+        updateMe: function (){
+            this.chartdata = {'Monday': Math.random()*5,'Tuesday': 5, 'Wednesday': Math.random()* 5, 'Thursday': 5,'Friday':6}
+        },
+        updateMe2: function (){
+            this.chartdata2 = {'Blueberry':Math.random()*30,'Strawberry':23,'Balckberry':23}
+        },
+        async displayaccount(useremail) {
+            const Snapshot = await getDocs(collection(db, "userinfo"));
+            Snapshot.forEach((doc) => {
+                if (doc.data().email === useremail) {
+                    this.userAccount = doc.data().account_type;
+                }
+            });
+        },
+        async outstandingWorkLoad() {
+            let completedWork = 0;
+            let uncompletedWork = 0;
+            const collectionRef = collection(db, "projects", this.projectTitle, "workload")
+            const querySnapshot = await getDocs(collectionRef)
+            for (const docu of querySnapshot.docs) {
+                const oldTasks = docu.data().task;
+                for (const taskId in oldTasks) {
+                    const tempTask = oldTasks[taskId];
+                    if (tempTask.completed === false) {
+                        this.uncompletedWork += 1 
+                    } else {
+                        this.completedWork += 1
+                    }
+                }
+            }
+        },
+    },
+    async mounted() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.displayaccount(user.email);
+            }
+        });
+        await this.outstandingWorkLoad();
+        console.log(this.uncompletedWork)
+>>>>>>> Stashed changes
     },
     async display_chart4() {
       let high = 0;
