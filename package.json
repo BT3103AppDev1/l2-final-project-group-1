@@ -17,6 +17,7 @@
     "vue": "^3.2.47",
     "vue-advanced-chat": "^2.0.7",
     "vue-chart.js": "^0.2.0",
+    "vue-chartkick": "^1.1.0",
     "vue-collapsed": "^1.1.2",
     "vue-router": "^4.1.6"
   },
