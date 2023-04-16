@@ -1,6 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">&#91;Metaverse Project&#93; Competitor Analysis</p>
+    <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
     <br />
     <img src="/src/assets/office_image.jpg" class="image" />
@@ -68,6 +68,9 @@ import Popup from "./Popup.vue";
 
 export default {
   components: { Popup },
+  props: {
+    projectTitle: String,
+  },
   data() {
     return {
       showPopup: false,
@@ -93,7 +96,7 @@ export default {
   },
   methods: {
     onSubmit(e, formData) {
-      const selectedRef = doc(db, "projects", "zkWKwHep410V9CNXcJEo");
+      const selectedRef = doc(db, "projects", this.projectTitle);
       updateDoc(selectedRef, {
         status: this.formData.status,
         startdate: this.formData.start,
@@ -104,7 +107,7 @@ export default {
       this.showPopup = !this.showPopup;
     },
     async displayProject() {
-      const docRef = doc(db, "projects", "zkWKwHep410V9CNXcJEo");
+      const docRef = doc(db, "projects", this.projectTitle);
       const docSnap = await getDoc(docRef);
       this.project_start = docSnap.data().startdate;
       this.project_due = docSnap.data().enddate;
