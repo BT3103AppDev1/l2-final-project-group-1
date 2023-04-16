@@ -159,6 +159,7 @@ export default {
       await updateDoc(selectedRef, {
         launched: true,
       });
+      window.location.reload();
     },
     async display_features() {
       let allDocuments = await getDocs(
@@ -215,7 +216,9 @@ export default {
                   description: this.formData.description,
                   launched: false,
                 }
-              );
+              ).then(() => {
+                window.location.reload();
+              });
             } else {
               const docRef = setDoc(
                 doc(db, "projects", this.projectTitle, "Feature", doc_id),
@@ -225,7 +228,9 @@ export default {
                   description: this.formData.description,
                   launched: false,
                 }
-              );
+              ).then(() => {
+                window.location.reload();
+              });
             }
           }
         );
