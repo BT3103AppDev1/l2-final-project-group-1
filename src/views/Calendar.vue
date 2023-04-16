@@ -31,7 +31,7 @@
         <p>{{ "Event Time: " + popUpSelectedTime }}</p>
         <p>{{ "Event Venue: " + popUpSelectedVenue }}</p>
         <p>{{ "Event Details: " + popUpDetails }}</p>
-        <button @click="showPopup = false">Close</button>
+        <button style="background-color: var(--primary);" @click="showPopup = false">Close</button>
       </div>
     </div>
 
