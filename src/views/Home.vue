@@ -165,7 +165,7 @@ export default {
         </div>
         <p v-else class="contents">You have no to-dos.</p>
         <input id="newData" type="text" v-model="newData" class="inbox" placeholder="New Task">
-        <button @click="addData" class="addTaskBtn"><u>+ Add Task</u></button>
+        <button @click="addData" class="addTaskBtn"> + Add Task </button>
       </Collapse>
       <br />
       <br />
@@ -263,9 +263,29 @@ button {
   margin-right: 10px;
 }
 
+#newData {
+  width: 800px;
+  height: 30px;
+  margin-left: 70px;
+  margin-top: 10px;
+}
+
+#newData::placeholder {
+  font-size: 16px;
+}
+
+
+.addTaskBtn {
+  text-decoration: none;
+  background-color: var(--primary);
+  color: var(--dark);
+  border-radius: 10px;
+  height: 38px;
+  font-size: 16px;
+}
 .contents {
   margin-top: 10px;
-  margin-left: 60px;
+  margin-left: 70px;
 }
  .inbox {
   margin-left: 60px;
