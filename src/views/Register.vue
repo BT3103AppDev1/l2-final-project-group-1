@@ -372,11 +372,11 @@ export default {
   padding-bottom: 2%;
   border: 1px solid black;
   border-radius: 3px;
-  color: #6b6969;
-  background-color: #eef1f4;
+  color: #6b6969; 
   padding-left: 2%;
   height: 35px; 
   margin-bottom: 20px;
+  background-color: #ffffff;
 }
 #signupbutton {
   padding-top: 1%;
@@ -398,7 +398,7 @@ export default {
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
-  background-color: #eef1f4;
+  background-color: #ffffff;
   padding-left: 2%; 
   height: 35px;
   margin-bottom: 20px;
@@ -411,7 +411,7 @@ export default {
   border: 1px solid black;
   border-radius: 3px;
   color: #6b6969;
-  background-color: #eef1f4; 
+  background-color: #ffffff; 
   padding-left: 1%;
   height: 35px;
   margin-bottom: 20px;
