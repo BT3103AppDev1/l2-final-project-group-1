@@ -2,31 +2,15 @@
   <header>
     <p id="projectTitle">&#91;Metaverse Project&#93; Competitor Analysis</p>
     <hr />
-    <p id="header">Features</p>
-    <FeaturesNavBar />
+    <br />
+    <p>Project ID: {{ project_id }}</p>
+    <p>Started: {{ project_start }}</p>
+    <p>Due: {{ project_due }}</p>
+    <p>Clients involved: {{ project_clients }}</p>
+    <p>Goals: {{ project_goals }}</p>
+    <p>Scope: {{ project_scope }}</p>
+    <p>Status: {{ project_status }}</p>
   </header>
-  <div v-if="this.userAccount === 'Employer'">
-    <button class="button-27" role="button" @click="showPopup = true">
-      New Feature +
-    </button>
-  </div>
-  <div>
-    <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
-      <form @submit="onSubmit" class="add-form">
-        <div class="form-control">
-          <label>Feature name</label>
-          <input type="text" v-model="formData.name" name="name" />
-          <label>Feature Description</label>
-          <input
-            type="text"
-            v-model="formData.description"
-            name="description"
-          />
-        </div>
-        <input type="submit" value="Add Issue" class="btn btn-block" />
-      </form>
-    </popup>
-  </div>
 </template>
 
 <script>
@@ -38,8 +22,9 @@ import {
   deleteDoc,
   query,
   where,
-  getDoc,
   setDoc,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -49,77 +34,36 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
-import FeaturesNavBar from "./FeaturesNavBar.vue";
-import Popup from "../components/Popup.vue";
 
 export default {
-  components: {
-    FeaturesNavBar,
-    Popup,
-  },
+  components: {},
   data() {
     return {
-      activeTab: 0,
-      showPopup: false,
-      popupTitle: "Add Feature",
-      formData: {
-        name: "",
-        description: "",
-      },
-      tabs: ["To do", "Launched"],
       userAccount: "",
       userName: "",
       userPic: "",
+      project_id: "",
+      project_start: "",
+      project_due: "",
+      project_clients: "",
+      project_goals: "",
+      project_scope: "",
+      project_status: "",
     };
   },
   methods: {
-    onSubmit(e, formData) {
-      e.preventDefault();
-      if (!this.formData.name) {
-        alert("Please add Feature name");
-        return;
-      } else if (!this.formData.description) {
-        alert("Please add Feature description");
-        return;
+    async displayProject() {
+      const docRef = doc(db, "projects", "zkWKwHep410V9CNXcJEo");
+      const docSnap = await getDoc(docRef);
+      this.project_start = docSnap.data().startdate;
+      this.project_due = docSnap.data().enddate;
+      this.project_scope = docSnap.data().scope;
+      this.project_goals = docSnap.data().goal;
+      if (docSnap.data().ongoing) {
+        this.project_status = "Ongoing";
+      } else {
+        this.project_status = "Completed";
       }
-      try {
-        const doc_id = Math.floor(Math.random() * 101).toString();
-        getDoc(
-          doc(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature", doc_id)
-        ).then((docSnap) => {
-          if (docSnap.exists()) {
-            console.log("exist");
-            const docRef = setDoc(
-              doc(
-                db,
-                "projects",
-                this.projectTitle,
-                "Feature",
-                Math.floor(Math.random() * 101).toString()
-              ),
-              {
-                feature_id: doc_id,
-                name: this.formData.name,
-                description: this.formData.description,
-                launched: false,
-              }
-            );
-          } else {
-            const docRef = setDoc(
-              doc(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature", doc_id),
-              {
-                feature_id: doc_id,
-                name: this.formData.name,
-                description: this.formData.description,
-                launched: false,
-              }
-            );
-          }
-        });
-      } catch (error) {
-        console.error("Error adding document: ", error);
-      }
-      this.showPopup = !this.showPopup;
     },
     async displaydetails(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
@@ -152,6 +96,7 @@ export default {
         this.displayaccount(user.email);
         this.displaydetails(user.email);
       }
+      this.displayProject();
     });
   },
 };
