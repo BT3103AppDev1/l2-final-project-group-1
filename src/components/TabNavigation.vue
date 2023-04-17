@@ -97,20 +97,20 @@ export default {
   margin-bottom: 20px;
 }
 
-.tab button {
-  background-color: #f2f2f2;
+.tab button { 
   color: #444;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
+  border-bottom: 1px solid var(--light-grey);
 }
 
-.tab button.active {
-  background-color: var(--light-grey);
+.tab button.active { 
   color: var(--dark);
   font-weight: 600;
+  border-bottom: 3px solid var(--dark-purple);
 }
 #back-button-container {
   position: absolute;

@@ -1,6 +1,8 @@
 <template> 
   <header>
     <p id="projectTitle">{{ projectTitle }}</p>
+    <hr />
+    <p id="projectTitle">{{ projectTitle }}</p>
     <p v-if="this.risk === 0">Your Project is On Track</p>
     <p v-if="this.risk === 1">Your Project is Slightly at Risk</p>
     <p v-if="this.risk === 2">Your Project is at Risk</p>
@@ -16,7 +18,7 @@
     </div>
     <div id="chart3">
       <h3>Incompleted features</h3>
-      <bar-chart class="user" width="500px" :data="chartdata3"></bar-chart>
+      <bar-chart class="user" width="500px" :data="chartdata3" :options="chartOptions"></bar-chart>
     </div>
     <div id="chart4">
       <h3>Issues Priority</h3>
@@ -25,7 +27,7 @@
 
     <div id="chart5">
       <h3>Workload Status</h3>
-      <bar-chart class="user" width="500px" :data="chartdata5"></bar-chart>
+      <bar-chart class="user" width="500px" :data="chartdata5" :options="chartOptions"></bar-chart>
     </div>
   </div> 
 </template>
@@ -56,6 +58,18 @@ export default {
       chartdata4: {},
       selected: "",
       chartdata5: {},
+      chartOptions: {
+        scales: {
+          yAxes: [{
+            ticks: {
+                beginAtZero: true,
+                min: 0,
+                max: 10,
+                stepSize: 1,
+            }
+          }]
+        }
+      },
       completedWordload: 0,
       uncompletedWordload: 0,
       risk: 0,
