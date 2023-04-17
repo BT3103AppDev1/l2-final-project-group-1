@@ -21,9 +21,9 @@
         <div v-show="activeTab === 0">
           <div id="Current">
             <button class="button-27" role="button" @click="showPopup = true">
-              New Issue +
+              + New Issue
             </button>
-            <h3>Internal Issues</h3>
+            <h3 style="margin-bottom:1em;">Internal Issues</h3>
             <table id="internal_table">
               <thead>
                 <tr>
@@ -47,7 +47,7 @@
               </tbody>
             </table>
             <br />
-            <h3>External Issues</h3>
+            <h3 style="margin-bottom:1em;margin-top:3em;">External Issues</h3>
             <table id="external_table">
               <thead>
                 <tr>
@@ -74,7 +74,7 @@
         </div>
         <div v-show="activeTab === 1">
           <div id="Current">
-            <h3>Internal Issues</h3>
+            <h3 style="margin-bottom:1em;">Internal Issues</h3>
             <table id="internal_table">
               <thead>
                 <tr>
@@ -98,7 +98,7 @@
               </tbody>
             </table>
             <br />
-            <h3>External Issues</h3>
+            <h3 style="margin-bottom:1em;margin-top:3em;">External Issues</h3>
             <table id="external_table">
               <thead>
                 <tr>
@@ -737,6 +737,11 @@ button {
   text-align: left;
   vertical-align: top;
 }
+
+#Current {
+  display: flex;
+  flex-direction: column;
+}
 .container {
   color: white;
   max-width: 500px;
@@ -748,13 +753,15 @@ button {
   border-radius: 5px;
   background-image: url("/src/assets/office_image.jpg");
 }
+
 #projectTitle {
-  font-size: 32pt;
-}
-#header {
-  font-size: 20pt;
-  font-weight: bold;
-}
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: -150px;
+} 
+
 #mywork {
   font-size: 15pt;
   font-weight: bold;
@@ -788,8 +795,7 @@ button {
   max-width: 700px;
   margin-bottom: 20px;
 }
-.tab button {
-  background-color: #f2f2f2;
+.tab button { 
   color: #444;
   border: none;
   padding: 10px 20px;
@@ -797,25 +803,14 @@ button {
   cursor: pointer;
   transition: 0.3s;
 }
-.tab button.active {
-  background-color: #ddd;
-  color: #444;
+.tab button.active { 
+  color: var(--dark);
+  border-bottom: 3px solid var(--primary-alt);
 }
 button {
   text-align: left;
   vertical-align: top;
-}
-.container {
-  color: white;
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px 150px 30px 150px;
-  border-radius: 5px;
-  background-image: url("/src/assets/office_image.jpg");
-}
+} 
 .tab-container {
   display: flex;
   flex-direction: row;
@@ -827,19 +822,20 @@ button {
   display: flex;
   margin-bottom: 20px;
 }
-.tab button {
-  background-color: #f2f2f2;
+.tab button { 
   color: #444;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
+  border-bottom: 1px solid var(--light-grey);
 }
-.tab button.active {
-  background-color: #ddd;
+.tab button.active { 
   color: #444;
+  background-color: none;
 }
+
 #app {
   display: flex;
   flex-direction: column;
@@ -849,7 +845,7 @@ button {
 }
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 1100px;
 }
 th,
 td {
@@ -858,11 +854,8 @@ td {
   text-align: left;
 }
 th {
-  background-color: #f2f2f2;
-}
-#projectTitle {
-  font-size: 32pt;
-}
+  background-color: var(--light-grey);
+} 
 #header {
   font-size: 20pt;
   font-weight: bold;
@@ -909,41 +902,31 @@ th {
   border-radius: 4px;
 }
 .button-27 {
-  position: fixed;
-  top: 200px;
-  right: 250px;
-  appearance: none;
-  background-color: #6d79b4;
-  border: 2px solid #ffffff;
+  position: relative; 
+  width: 150px;
+  height: 40px;
+  margin-bottom: 20px; 
+  background-color: var(--dark-purple);
   border-radius: 15px;
   box-sizing: border-box;
-  color: #ffffff;
+  color: var(--light);
   cursor: pointer;
-  display: inline-block;
-  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  display: inline-block; 
   font-size: 16px;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height: 50px;
-  min-width: 0;
-  outline: none;
-  padding: 13px 24px;
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
+  font-weight: 500;
+  line-height: normal; 
+  min-height: 30px;  
+  padding: 10px 15px;
+  text-align: center; 
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1); 
   touch-action: manipulation;
   will-change: transform;
 }
 .button-27:disabled {
   pointer-events: none;
 }
-.button-27:hover {
-  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-  transform: translateY(-2px);
+.button-27:hover { 
+  background-color: var(--dark);
 }
 .button-27:active {
   box-shadow: none;
