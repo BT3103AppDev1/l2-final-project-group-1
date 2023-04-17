@@ -1,4 +1,5 @@
 <template>
+<div class="feedbackCon"> 
 <p id = "projectTitle">{{ projectTitle }}</p> 
     <div id = "tasktable">
         <button class="button-27" @click="showPopup = true"> New+</button>
@@ -30,6 +31,7 @@
                     </form>
                 </popup>
     </div>
+</div>
 </template> 
 
 <script>
@@ -132,6 +134,17 @@ export default {
 </script>
     
 <style scoped>
+
+.feedbackCon {
+    display: flex;
+    flex-direction: column;
+}
+
+#tasktable {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
   #app {
         display: flex;
         flex-direction: column;
@@ -228,9 +241,9 @@ export default {
     }
     .button-27 {
         float: right;
+        width:100px; 
         appearance: none;
-        background-color: #6d79b4;
-        border: 2px solid #1A1A1A;
+        background-color: #6d79b4; 
         border-radius: 15px;
         box-sizing: border-box;
         color: #FFFFFF;
@@ -240,8 +253,8 @@ export default {
         font-weight: 600;
         line-height: normal;
         margin: -30px -20px 10px 40px;
-        min-height: 50px;
-        min-width: 0;
+        min-height: 35px;
+        min-width: 100px;
         outline: none;
         padding: 13px 24px;
         text-align: center;
