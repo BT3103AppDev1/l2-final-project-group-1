@@ -12,6 +12,7 @@
                         <th>Title</th>
                         <th>Scope</th>
                         <th>End Date</th>
+                        <th>Issued By</th>
                         <th>Completed</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                         <td>{{ task.title }}</td>
                         <td>{{ task.scope }}</td>
                         <td>{{ task.endDate }}</td>
+                        <td>{{ task.issuer }}</td>
                         <td><input type="checkbox" v-model="task.completed" /></td>
                     </tr>
                 </tbody>
@@ -42,6 +44,7 @@
                             <th>Title</th>
                             <th>Scope</th>
                             <th>End Date</th>
+                            <th>Issued By</th>
                             <th>Completed</th>
                         </tr>
                     </thead>
@@ -52,6 +55,7 @@
                         <td>{{ task.title }}</td>
                         <td>{{ task.scope }}</td>
                         <td>{{ task.endDate }}</td>
+                        <td>{{ task.issuer }}</td>
                         <td><input type="checkbox" v-model="task.completed" disabled /></td>
                         <td><button @click="deleteTask(index)">Delete</button></td>
                     </tr>
@@ -90,6 +94,7 @@
                             <th>Title</th>
                             <th>Scope</th>
                             <th>End Date</th>
+                            <th>Issued By</th>
                             <th>Completed</th>
                         </tr>
                     </thead>
@@ -100,6 +105,7 @@
                             <td>{{ task.title }}</td>
                             <td>{{ task.scope }}</td>
                             <td>{{ task.endDate }}</td>
+                            <td>{{ task.issuer }}</td>
                             <td><input type="checkbox" v-model="task.completed" /></td>
                         </tr>
                     </tbody>
@@ -155,12 +161,13 @@ export default {
             const userSnapshot = await getDoc(userRef)
             const employee = userSnapshot.data().name
             const querySnapshot = await getDocs(collection(db, "projects", this.projectTitle, "workload"));
-            querySnapshot.forEach((doc) => { 
-                    if (doc.data().memberEmail === this.userEmail) {
+            for (const docu of querySnapshot.docs) {
+                if (docu.data().memberEmail === this.userEmail) {
                     const employee = userSnapshot.data().name;
-                    const oldTasks = doc.data().task;
-                    Object.keys(oldTasks).forEach((taskId) => {
-                        const tempTask = oldTasks[taskId];
+                    const oldTasks = docu.data().task;
+                    for (const [taskId, tempTask] of Object.entries(oldTasks)) {
+                        const docRef = doc(db, 'userinfo', tempTask.issuerEmail)
+                        const docSnapshot = await getDoc(docRef)
                         this.tasks.push({
                             employee: employee,
                             title: tempTask.title,
@@ -169,11 +176,14 @@ export default {
                             completed: tempTask.completed,
                             id: taskId,
                             email: this.userEmail,
+                            issuerEmail: tempTask.issuerEmail,
+                            issuer: docSnapshot.data().name,
                         });
-                    });
                     }
-                })
-            },
+                }
+            }
+        },
+
     
         async addTask() {
             try {
@@ -182,7 +192,7 @@ export default {
             const tempCount = snapshot.data().workload_count
             console.log(tempCount)
             const taskId = tempCount + 1
-            await updateDoc(docRef, { workload_count: tempCount });
+            await updateDoc(docRef, { workload_count: tempCount + 1 });
             /* const taskId = new Date().getTime().toString(); */
             this.tasks.push({
                 employee: this.newTask.employee,
@@ -192,6 +202,8 @@ export default {
                 completed: false,
                 id: taskId,
                 email: this.newTask.memberEmail,
+                issuerEmail: this.userEmail,
+                issuer: this.userName,
             });
             const employeeRef = doc(db, "projects", this.projectTitle, "workload", this.newTask.memberEmail)
             const querySnapshot = await getDoc(employeeRef)
@@ -201,6 +213,7 @@ export default {
                     scope: this.newTask.scope,
                     endDate: this.newTask.endDate,
                     completed: false,
+                    issuerEmail: this.userEmail
                 };
             await updateDoc(employeeRef, { task: tempTasks });
 
@@ -242,7 +255,8 @@ export default {
                 title: task.title,
                 scope: task.scope,
                 endDate: task.endDate,
-                completed: task.completed,}
+                completed: task.completed,
+                issuerEmail : task.issuerEmail}
             
             });
             await updateDoc(docRef, {task: newDict})
@@ -258,6 +272,8 @@ export default {
                 const oldTasks = docu.data().task;
                 for (const taskId in oldTasks) {
                     const tempTask = oldTasks[taskId];
+                    const docRef = doc(db, 'userinfo', tempTask.issuerEmail)
+                    const docSnapshot = await getDoc(docRef)
                     this.completedTasks.push({
                     employee: employee,
                     title: tempTask.title,
@@ -265,7 +281,9 @@ export default {
                     endDate: tempTask.endDate,
                     completed: tempTask.completed,
                     id: taskId,
-                    email: docu.data().memberEmail
+                    email: docu.data().memberEmail,
+                    issuerEmail: tempTask.issuerEmail,
+                    issuer: docSnapshot.data().name,
                     });
                 }
             console.log(this.completedTasks)
