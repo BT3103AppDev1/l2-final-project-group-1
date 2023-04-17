@@ -1,26 +1,30 @@
 <template>
   <header>
-  <div class="aboutCon">
-    <p id="projectTitle">{{ projectTitle }}</p> 
-    <br />
-    <img style="width:400px;height:200px;margin-left:300px;" src="/src/assets/office_image.jpg" class="image" />
-    <br />
-    <div class="container2" style="margin-left:200px;">
-      <p>Project Name: {{ project_name }}</p>
-      <p>Started: {{ project_start }}</p>
-      <p>Due: {{ project_due }}</p>
-      <p>Goal(s): {{ project_goals }}</p>
-      <p>Scope: {{ project_scope }}</p>
-      <p>Status: {{ project_status }}</p>
+    <div class="aboutCon">
+      <p id="projectTitle">{{ projectTitle }}</p>
+      <br />
+      <img
+        style="width: 400px; height: 200px; margin-left: 300px"
+        src="/src/assets/office_image.jpg"
+        class="image"
+      />
+      <br />
+      <div class="container2" style="margin-left: 200px">
+        <p>Project Name: {{ project_name }}</p>
+        <p>Started: {{ project_start }}</p>
+        <p>Due: {{ project_due }}</p>
+        <p>Goal(s): {{ project_goals }}</p>
+        <p>Scope: {{ project_scope }}</p>
+        <p>Status: {{ project_status }}</p>
+      </div>
+      <button
+        v-if="this.userAccount === 'Employer'"
+        class="button"
+        @click="showPopup = true"
+      >
+        Edit
+      </button>
     </div>
-    <button
-      v-if="this.userAccount === 'Employer'"
-      class="button"
-      @click="showPopup = true"
-    >
-      Edit
-    </button>
-  </div>
     <div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
         <form @submit="onSubmit" class="add-form">
@@ -106,6 +110,7 @@ export default {
         enddate: this.formData.end,
         scope: this.formData.scope,
         goal: this.formData.goal,
+        ongoing: status === "ongoing" ? true : false,
       }).then(() => {
         window.location.reload();
       });
@@ -119,11 +124,12 @@ export default {
       this.project_scope = docSnap.data().scope;
       this.project_goals = docSnap.data().goal;
       this.project_name = docSnap.data().project_name;
-      if (docSnap.data().ongoing) {
-        this.project_status = "Ongoing";
-      } else {
-        this.project_status = "Completed";
-      }
+      this.project_status = docSnap.data().status;
+      // if (docSnap.data().ongoing) {
+      //   this.project_status = "Ongoing";
+      // } else {
+      //   this.project_status = "Completed";
+      // }
       this.formData.name = this.project_name;
       this.formData.start = this.project_start;
       this.formData.end = this.project_due;
@@ -168,10 +174,9 @@ export default {
 };
 </script>
 
-<style scoped> 
-
+<style scoped>
 .aboutCon {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -181,12 +186,12 @@ button {
   vertical-align: top;
 }
 #projectTitle {
-    font-size: 25px;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 10px; 
-    margin-left: 0px;
-} 
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 0px;
+}
 #header {
   font-size: 20pt;
   font-weight: bold;
