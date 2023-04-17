@@ -13,6 +13,17 @@ Website address: https://bt3103-thrive.web.app/
 
 Demo video: https://www.youtube.com/watch?v=Df3zmCVE9us&t=29s&ab_channel=KyriaLee
 
+## Screenshots
+
+<img width="1435" alt="image" src="https://user-images.githubusercontent.com/86298464/232549323-419bc6c6-4b9e-420c-8a43-dafbc60490aa.png">
+
+
+<img width="1429" alt="image" src="https://user-images.githubusercontent.com/86298464/232549379-8ce01fbc-ba00-4bdb-bf2c-37eac5c717b2.png">
+
+
+<img width="1436" alt="Screenshot 2023-04-18 at 12 24 14 AM" src="https://user-images.githubusercontent.com/86298464/232549584-1e2aea32-049e-4321-8ac6-fec5a25e4530.png">
+
+
 ## Contributors 
 - Kyria Lee (Developer + SCRUM Master)
 - Nicole Leow (Developer + Product Owner)
