@@ -77,7 +77,7 @@
                             <input type="date" id="endDate" v-model="newTask.endDate" />
                             <br />     
                         </div> 
-                    <button class="popBtn" @click="addTask">Add Project</button>
+                    <button class="popBtn" @click="addTask">Add Task</button>
      <!--                </form> -->
                 </popup>
             </div>
