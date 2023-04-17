@@ -2,8 +2,8 @@
   <div class="popup">
     <div class="popup-container">
       <div class="popup-header">
-        <h2>{{ title }}</h2>
-        <button @click="closePopup">X</button>
+        <h2 style="margin-left:90px;">{{ title }}</h2>
+        <button @click="closePopup" class="popupBtn">X</button>
       </div>
       <div class="popup-content">
         <slot></slot>
@@ -41,7 +41,7 @@ export default {
 
 .popup-container {
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
 }
 
@@ -54,6 +54,7 @@ export default {
 
 .popup-header h2 {
   margin: 0;
+  color: var(--dark-purple);
 }
 
 .popup-header button {
@@ -66,6 +67,11 @@ export default {
 .popup-content {
   max-height: 80vh;
   overflow-y: auto;
+}
+
+.popupBtn {
+  color: var(--primary-alt);
+  font-weight: 900;
 }
 </style>
 
