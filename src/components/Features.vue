@@ -1,18 +1,18 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <div class="nav_bar">
-      <div class="tab">
-        <button
-          v-for="(tab, index) in tabs"
-          :key="index"
-          :class="{ active: activeTab === index }"
-          @click="activeTab = index"
-        >
-          {{ tab }}
-        </button>
-      </div>
+    <p id="projectTitle">{{ projectTitle }}</p>  
+  <div class="nav_bar">
+    <div class="tab">
+      <button
+        v-for="(tab, index) in tabs"
+        :key="index"
+        :class="{ active: activeTab === index }"
+        @click="activeTab = index"
+      >
+        {{ tab }}
+      </button>
     </div>
+  </div> 
     <div>
       <div
         v-if="
@@ -93,15 +93,16 @@
             </div>
           </div>
 
-          <div v-show="activeTab === 2">
-            <div :key="feature.id" v-for="feature in terminated">
-              <div class="container">
-                Feature name: {{ feature.name }}
-                <br />
-                Feature description:{{ feature.description }}
-              </div>
+        <div v-show="activeTab === 2">
+          <div :key="feature.id" v-for="feature in terminated">
+            <div class="container">
+              Feature name: {{ feature.name }}
+              <br />
+              Feature description:{{ feature.description }}
             </div>
           </div>
+        </div>
+
         </div>
       </div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
@@ -322,7 +323,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped> 
+
 button {
   text-align: left;
   vertical-align: top;
@@ -333,7 +335,7 @@ button {
   text-align: center;
   font-weight: 600;
   margin-bottom: 20px;
-}
+} 
 
 #mywork {
   font-size: 15pt;
