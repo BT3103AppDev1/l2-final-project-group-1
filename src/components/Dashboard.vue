@@ -155,7 +155,7 @@ export default {
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
-        if (!doc.data().resolved) {
+        if (!docs.data().resolved) {
           if (documentData.issue_priority == "H") {
             high = high + 1;
           } else if (documentData.issue_priority == "M") {
@@ -170,7 +170,7 @@ export default {
       );
       allDocuments_2.forEach((docs) => {
         let documentData = docs.data();
-        if (!doc.data().resolved) {
+        if (!docs.data().resolved) {
           if (documentData.issue_priority == "H") {
             high = high + 1;
           } else if (documentData.issue_priority == "M") {
