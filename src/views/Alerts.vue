@@ -1,18 +1,16 @@
 <template>
   <Sidebar />
-  <ProfileDisplay />
-
-  <main id="alerts-page" class="page">
-    
+  <main id="alerts-page" class="page" style="background-image:url(/src/assets/aura.png);background-size:cover">
+    <ProfileDisplay />
     <h2>Notifications</h2>
     <br>
-    <h3>Today</h3>
+    <h3 style="margin-top:20px;">Today</h3>
     <hr>
 
     <div class="wrapper">
         <img src="\src\assets\defaultdp.png">
-        <p class="text">Sally mentioned you in an issue in [Metaverse Project] Competitor Analysis</p>
-        <p class="time">2h ago</p> 
+        <p class="text" style="color:var(--dark-purple);margin-top:10px;font-weight:600;">Sally mentioned you in an issue in [Metaverse Project] Competitor Analysis</p>
+        <p class="time" style="color:var(--dark-purple);margin-top:10px;font-weight:600;">2h ago</p> 
     </div>
 
     <div class="wrapper">
@@ -45,7 +43,7 @@
     <br>
     <h3>Earlier</h3>
     <hr>
-    <p>You have no notifications</p>
+    <p style="margin-top:20px;">You have no notifications</p>
   </main>
   
 </template>
@@ -67,7 +65,10 @@ export default {
 </script>
 
 <style scoped>
-
+#alerts-page {
+  width: 100vw;
+  height: 100vh;
+}
 .wrapper {
   display: flex;
   align-items: center;
@@ -83,11 +84,11 @@ export default {
 
 .wrapper .text {
   margin: 0;
-  width: 100%;
+  width: 80%;
 }
 
 .time {
-    width: 100%;
+    width: 20%;
     text-align: right;
 }
 
@@ -118,9 +119,5 @@ hr {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-}
-
-.page {
-  margin-top: 30px;
 }
 </style>
