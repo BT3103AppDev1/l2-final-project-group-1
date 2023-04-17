@@ -226,8 +226,10 @@ export default {
                 this.risk = 0;
             }
             else {
-                this.risk = 0;
+                //previously this.risk = 0 -> this may be the bug
+                console.log(this.risk)
             }
+            
         }
     },
     
