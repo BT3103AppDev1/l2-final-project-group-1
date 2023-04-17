@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+main {
+  background-image: url(../assets/cal-aura.png); 
+  background-size: 100%;
+}
 input {
   border-radius: 5px;
   padding: 5px;

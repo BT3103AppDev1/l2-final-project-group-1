@@ -205,8 +205,8 @@ export default {
         },
 
         getStatus() {
-            const issueResolutionRate = 1
-            const outstandingWorkloadPercentage = 0
+            let issueResolutionRate = 1
+            let outstandingWorkloadPercentage = 0
             if (this.resolved > 0 || this.unresolved > 0) {
                 issueResolutionRate = this.resolved / (this.resolved + this.unresolved)
             }
