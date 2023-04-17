@@ -130,18 +130,21 @@ export default {
         async display_chart3() {
             let to_do = 0;
             let launched = 0;
+            let terminated = 0;
             let allDocuments = await getDocs(
                 collection(db, "projects", this.projectTitle, "Feature")
             );
             allDocuments.forEach((docs) => {
                 let documentData = docs.data();
-                if (documentData.launched == false) {
+                if (documentData.launched == false && documentData.terminate == false) {
                 to_do = to_do + 1;
-                } else {
+                } else if (documentData.launched == true && documentData.terminate == false) {
                 launched = launched + 1;
+                } else {
+                terminated = terminated + 1;
                 }
             });
-            this.chartdata3 = { "to do": to_do, launched: launched };
+            this.chartdata3 = { "to do": to_do, launched: launched, "Terminated": terminated };
         },
         async display_chart4() {
             let high = 0;
