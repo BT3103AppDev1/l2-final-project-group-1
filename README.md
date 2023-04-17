@@ -9,6 +9,8 @@ Project management is essential for the success of any organization, but the maj
 To address these issues, there is a critical need for a web application that provides an omni-platform for all employees and stakeholders. The application would streamline project management by providing effective communication channels, risk management features, and efficient resource utilization. By addressing both internal and external issues, the application would increase the chances of project success, benefiting the organization as a whole.
 
 Website address: https://bt3103-thrive.web.app/
+Demo video: https://www.youtube.com/watch?v=Df3zmCVE9us&t=29s&ab_channel=KyriaLee
+
 ## Contributors 
 - Kyria Lee (Developer + SCRUM Master)
 - Nicole Leow (Developer + Product Owner)
