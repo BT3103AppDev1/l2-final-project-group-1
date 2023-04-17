@@ -29,18 +29,28 @@
       </div>
 
       <div v-show="activeTab === 1">
-        <div v-show="activeTab === 1">
-          <div :key="feature.id" v-for="feature in launched">
-            <div class="container">
-              Feature name: {{ feature.name }}
-              <br />
-              Feature description:{{ feature.description }}
-            </div>
+        <div :key="feature.id" v-for="feature in launched">
+          <div class="container">
+            Feature name: {{ feature.name }}
+            <br />
+            Feature description:{{ feature.description }}
           </div>
         </div>
       </div>
+
+      <div v-show="activeTab === 2">
+        <div :key="feature.id" v-for="feature in Terminated">
+          <div class="container">
+            Feature name: {{ feature.name }}
+            <br />
+            Feature description:{{ feature.description }}
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+
   <div v-if="this.userAccount === 'Employer'">
     <div class="content">
       <div v-show="activeTab === 0">
@@ -55,7 +65,15 @@
               type="button"
               v-on:click="updateLaunched(feature.id)"
             >
-              Lauched
+              Launched
+            </button>
+            <br />
+            <button
+              id="terminate_button"
+              type="button"
+              v-on:click="updateTerminate(feature.id)"
+            >
+              Terminate
             </button>
           </div>
         </div>
@@ -70,6 +88,17 @@
           </div>
         </div>
       </div>
+
+      <div v-show="activeTab === 2">
+        <div :key="feature.id" v-for="feature in Terminated">
+          <div class="container">
+            Feature name: {{ feature.name }}
+            <br />
+            Feature description:{{ feature.description }}
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -83,8 +112,8 @@ import {
   deleteDoc,
   query,
   where,
-  setDoc,
   getDoc,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
@@ -95,54 +124,62 @@ import {
   deleteObject,
   uploadBytes,
 } from "firebase/storage";
+import Popup from "../components/Popup.vue";
+
 export default {
+  components: {
+    Popup,
+  },
+  props: {
+    projectTitle: String,
+  },
   data() {
     return {
       activeTab: 0,
+      showPopup: false,
+      popupTitle: "Add Feature",
+      formData: {
+        name: "",
+        description: "",
+      },
+      tabs: ["To do", "Launched", "Terminated"],
+      to_do: [],
+      launched: [],
+      terminated: [],
       userAccount: "",
       userName: "",
       userPic: "",
-      tabs: ["To do", "Launched"],
-      to_do: [
-        // { id: 1, name: "feature 1", description: "image" },
-        // { id: 2, name: "feature 2", description: "image" },
-        // { id: 3, name: "feature 3", description: "image" },
-        // { id: 4, name: "feature 4", description: "image" },
-      ],
-      launched: [
-        // { id: 5, name: "feature 5", description: "image" },
-        // { id: 6, name: "feature 6", description: "image" },
-        // { id: 7, name: "feature 7", description: "image" },
-        // { id: 8, name: "feature 8", description: "image" },
-      ],
     };
-  },
-  async mounted() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.displayaccount(user.email);
-        this.displaydetails(user.email);
-      }
-    });
-    this.display_features();
   },
   methods: {
     async updateLaunched(feature_id) {
-      //   console.log(feature_id);
       const selectedRef = doc(
         db,
         "projects",
-        "zkWKwHep410V9CNXcJEo",
+        this.projectTitle,
         "Feature",
         feature_id
       );
       await updateDoc(selectedRef, {
         launched: true,
       });
+      window.location.reload();
+    },
+    async updateTerminate(feature_id) {
+        const selectedRef = doc(
+          db,
+          "projects",
+          this.projectTitle,
+          "Feature",
+          feature_id
+        );
+        await updateDoc(selectedRef, {
+          terminate: true,
+        });
     },
     async display_features() {
       let allDocuments = await getDocs(
-        collection(db, "projects", "zkWKwHep410V9CNXcJEo", "Feature")
+        collection(db, "projects", this.projectTitle, "Feature")
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
@@ -150,21 +187,82 @@ export default {
         let feature_name = documentData.name;
         let feature_description = documentData.description;
         let status = documentData.launched;
+        let term = documentData.terminate;
 
-        if (!status) {
+        if (!status && !term) {
           this.to_do.push({
             id: feature_id,
             name: feature_name,
             description: feature_description,
           });
-        } else {
+        } else if (status && !term) {
           this.launched.push({
+            id: feature_id,
+            name: feature_name,
+            description: feature_description,
+          });
+        } else {
+          this.terminated.push({
             id: feature_id,
             name: feature_name,
             description: feature_description,
           });
         }
       });
+    },
+    onSubmit(e, formData) {
+      e.preventDefault();
+      if (!this.formData.name) {
+        alert("Please add Feature name");
+        return;
+      } else if (!this.formData.description) {
+        alert("Please add Feature description");
+        return;
+      }
+      try {
+        const doc_id = Math.floor(Math.random() * 101).toString();
+        getDoc(doc(db, "projects", this.projectTitle, "Feature", doc_id)).then(
+          (docSnap) => {
+            if (docSnap.exists()) {
+              console.log("exist");
+              const docRef = setDoc(
+                doc(
+                  db,
+                  "projects",
+                  this.projectTitle,
+                  "Feature",
+                  Math.floor(Math.random() * 101).toString()
+                ),
+                {
+                  feature_id: doc_id,
+                  name: this.formData.name,
+                  description: this.formData.description,
+                  launched: false,
+                  terminate: false,
+                }
+              ).then(() => {
+                window.location.reload();
+              });
+            } else {
+              const docRef = setDoc(
+                doc(db, "projects", this.projectTitle, "Feature", doc_id),
+                {
+                  feature_id: doc_id,
+                  name: this.formData.name,
+                  description: this.formData.description,
+                  launched: false,
+                  terminate: false,
+                }
+              ).then(() => {
+                window.location.reload();
+              });
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
+      this.showPopup = !this.showPopup;
     },
     async displaydetails(useremail) {
       const Snapshot = await getDocs(collection(db, "userinfo"));
@@ -190,6 +288,15 @@ export default {
         }
       });
     },
+  },
+  async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displayaccount(user.email);
+        this.displaydetails(user.email);
+      }
+    });
+    this.display_features();
   },
 };
 </script>
@@ -242,6 +349,17 @@ button {
   font-size: 1.3vw;
 }
 #launched_button {
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 20%;
+  font-size: 1.15vw;
+  margin-top: 3%;
+  border-radius: 4px;
+}
+#terminate_button {
   background-color: #4a4e69;
   color: #ffffff;
   text-align: center;
