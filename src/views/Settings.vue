@@ -223,4 +223,8 @@ input {
 .header {
   color: var(--dark-purple);
 }
+
+#confirmHeader {
+  color: black;
+}
 </style>

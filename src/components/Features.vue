@@ -187,16 +187,17 @@ export default {
       window.location.reload();
     },
     async updateTerminate(feature_id) {
-        const selectedRef = doc(
-          db,
-          "projects",
-          this.projectTitle,
-          "Feature",
-          feature_id
-        );
-        await updateDoc(selectedRef, {
-          terminate: true,
-        });
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "Feature",
+        feature_id
+      );
+      await updateDoc(selectedRef, {
+        terminate: true,
+      });
+      window.location.reload();
     },
     async display_features() {
       let allDocuments = await getDocs(
@@ -457,7 +458,7 @@ button {
   text-align: center;
   padding-top: 1%;
   padding-bottom: 1%;
-  width: 20%;
+  width: 30%;
   font-size: 1.15vw;
   margin-top: 3%;
   border-radius: 4px;
@@ -468,7 +469,7 @@ button {
   text-align: center;
   padding-top: 1%;
   padding-bottom: 1%;
-  width: 20%;
+  width: 30%;
   font-size: 1.15vw;
   margin-top: 3%;
   border-radius: 4px;
