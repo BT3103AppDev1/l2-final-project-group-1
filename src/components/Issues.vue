@@ -1,6 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>  
+    <p id="projectTitle">{{ projectTitle }}</p>
 
     <div v-if="this.userAccount === 'Employee'">
       <div class="nav_bar">
@@ -23,7 +23,7 @@
             <button class="button-27" role="button" @click="showPopup = true">
               + New Issue
             </button>
-            <h3 style="margin-bottom:1em;">Internal Issues</h3>
+            <h3 style="margin-bottom: 1em">Internal Issues</h3>
             <table id="internal_table">
               <thead>
                 <tr>
@@ -47,7 +47,7 @@
               </tbody>
             </table>
             <br />
-            <h3 style="margin-bottom:1em;margin-top:3em;">External Issues</h3>
+            <h3 style="margin-bottom: 1em; margin-top: 3em">External Issues</h3>
             <table id="external_table">
               <thead>
                 <tr>
@@ -74,7 +74,7 @@
         </div>
         <div v-show="activeTab === 1">
           <div id="Current">
-            <h3 style="margin-bottom:1em;">Internal Issues</h3>
+            <h3 style="margin-bottom: 1em">Internal Issues</h3>
             <table id="internal_table">
               <thead>
                 <tr>
@@ -98,7 +98,7 @@
               </tbody>
             </table>
             <br />
-            <h3 style="margin-bottom:1em;margin-top:3em;">External Issues</h3>
+            <h3 style="margin-bottom: 1em; margin-top: 3em">External Issues</h3>
             <table id="external_table">
               <thead>
                 <tr>
@@ -360,6 +360,7 @@
               type="text"
               v-model="formData.priority"
               name="add-priority"
+              placeholder="H/M/L"
             />
           </div>
           <input type="submit" value="Add Issue" class="btnBlock" />
@@ -741,15 +742,15 @@ button {
 #Current {
   display: flex;
   flex-direction: column;
-} 
+}
 
 #projectTitle {
-    font-size: 25px;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 10px;
-    margin-left: -150px;
-} 
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: -150px;
+}
 
 #mywork {
   font-size: 15pt;
@@ -784,7 +785,7 @@ button {
   max-width: 700px;
   margin-bottom: 20px;
 }
-.tab button { 
+.tab button {
   color: #444;
   border: none;
   padding: 10px 20px;
@@ -792,14 +793,14 @@ button {
   cursor: pointer;
   transition: 0.3s;
 }
-.tab button.active { 
+.tab button.active {
   color: var(--dark);
   border-bottom: 3px solid var(--primary-alt);
 }
 button {
   text-align: left;
   vertical-align: top;
-} 
+}
 .tab-container {
   display: flex;
   flex-direction: row;
@@ -811,7 +812,7 @@ button {
   display: flex;
   margin-bottom: 20px;
 }
-.tab button { 
+.tab button {
   color: #444;
   border: none;
   padding: 10px 20px;
@@ -820,7 +821,7 @@ button {
   transition: 0.3s;
   border-bottom: 1px solid var(--light-grey);
 }
-.tab button.active { 
+.tab button.active {
   color: #444;
   background-color: none;
 }
@@ -844,7 +845,7 @@ td {
 }
 th {
   background-color: var(--light-grey);
-} 
+}
 #header {
   font-size: 20pt;
   font-weight: bold;
@@ -891,30 +892,30 @@ th {
   border-radius: 4px;
 }
 .button-27 {
-  position: relative; 
+  position: relative;
   width: 150px;
   height: 40px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   background-color: var(--dark-purple);
   border-radius: 15px;
   box-sizing: border-box;
   color: var(--light);
   cursor: pointer;
-  display: inline-block; 
+  display: inline-block;
   font-size: 16px;
   font-weight: 500;
-  line-height: normal; 
-  min-height: 30px;  
+  line-height: normal;
+  min-height: 30px;
   padding: 10px 15px;
-  text-align: center; 
-  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1); 
+  text-align: center;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
   touch-action: manipulation;
   will-change: transform;
 }
 .button-27:disabled {
   pointer-events: none;
 }
-.button-27:hover { 
+.button-27:hover {
   background-color: var(--dark);
 }
 
@@ -941,7 +942,7 @@ th {
   background-color: white;
   padding: 15px;
   border: 1px solid black;
-  z-index: 9999; 
+  z-index: 9999;
   flex-direction: column;
   align-items: center;
 }
@@ -953,7 +954,7 @@ th {
 .add-button {
   position: fixed;
   top: 200px;
-  right: 250px; 
+  right: 250px;
 }
 .form-control {
   margin: 20px 0;
