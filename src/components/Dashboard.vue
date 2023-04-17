@@ -1,7 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr /> 
+    <p id="projectTitle">{{ projectTitle }}</p> 
   </header>
   <div class="chart-container">
     <div id="chart1">

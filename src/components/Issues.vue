@@ -1,8 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
-    <p id="header">Issues</p>
+    <p id="projectTitle">{{ projectTitle }}</p>  
 
     <div v-if="this.userAccount === 'Employee'">
       <div class="nav_bar">
