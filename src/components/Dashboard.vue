@@ -15,7 +15,7 @@
       <h1>{{ unresolved }}</h1>
     </div>
     <div id="chart3">
-      <h3>Incompleted features</h3>
+      <h3>Features Overview</h3>
       <bar-chart class="user" width="500px" :data="chartdata3" :options="chartOptions"></bar-chart>
     </div>
     <div id="chart4">
@@ -24,7 +24,7 @@
     </div>
 
     <div id="chart5">
-      <h3>Workload Status</h3>
+      <h3>Workload Overview</h3>
       <bar-chart class="user" width="500px" :data="chartdata5" :options="chartOptions"></bar-chart>
     </div>
   </div> 
