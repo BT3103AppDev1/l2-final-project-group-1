@@ -362,7 +362,7 @@
               name="add-priority"
             />
           </div>
-          <input type="submit" value="Add Issue" class="btn btn-block" />
+          <input type="submit" value="Add Issue" class="btnBlock" />
         </form>
       </popup>
     </div>
@@ -383,7 +383,7 @@
               name="add-priority"
             />
           </div>
-          <input type="submit" value="Add Issue" class="btn btn-block" />
+          <input type="submit" value="Add Issue" class="btnBlock" />
         </form>
       </popup>
     </div>
@@ -741,18 +741,7 @@ button {
 #Current {
   display: flex;
   flex-direction: column;
-}
-.container {
-  color: white;
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px 150px 30px 150px;
-  border-radius: 5px;
-  background-image: url("/src/assets/office_image.jpg");
-}
+} 
 
 #projectTitle {
     font-size: 25px;
@@ -928,35 +917,47 @@ th {
 .button-27:hover { 
   background-color: var(--dark);
 }
+
+.btnBlock {
+  color: var(--dark);
+  background-color: var(--primary-light);
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+}
 .button-27:active {
   box-shadow: none;
   transform: translateY(0);
 }
 .popup {
-  width: 50%;
-  height: 90%;
+  width: 750px;
+  height: 500px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid black;
-  z-index: 9999;
-  justify-content: center;
+  z-index: 9999; 
   flex-direction: column;
   align-items: center;
 }
 .add-form {
-  margin-bottom: 40px;
+  margin-left: 90px;
+  margin-bottom: 20px;
+  width: 600px;
 }
 .add-button {
   position: fixed;
   top: 200px;
-  right: 250px;
+  right: 250px; 
 }
 .form-control {
   margin: 20px 0;
+  width: 500px;
 }
 .form-control label {
   display: block;

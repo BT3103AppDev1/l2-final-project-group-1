@@ -1,7 +1,6 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
+    <p id="projectTitle">{{ projectTitle }}</p> 
     <br />
     <img src="/src/assets/office_image.jpg" class="image" />
     <br />
@@ -179,8 +178,12 @@ button {
   vertical-align: top;
 }
 #projectTitle {
-  font-size: 32pt;
-}
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px; 
+    margin-left: 150px;
+} 
 #header {
   font-size: 20pt;
   font-weight: bold;
