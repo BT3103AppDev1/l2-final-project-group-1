@@ -15,8 +15,8 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent">
-                        <div class="project_name">{{project.project_name}} </div>
+                    <button class= "container" @click="redirectToOtherComponent(projectName)" :style="{'background-image': randomImage()}" style="background-size:100%;">
+                        <div class="project_name" style="background-color: var(--light);color:var(--dark);">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
@@ -56,22 +56,56 @@ import ProfileDisplay from '/src/components/ProfileDisplay.vue';
 import ProjectSwitcher from '/src/components/ProjectSwitcher.vue';
 
 // Back-end
-import { doc, setDoc, getDocs, collection } from "firebase/firestore";
-import firebaseApp from "/src/database/firebase.js";
 import { auth, db } from "/src/database/firebase.js";
+import { collection, query, where, getDocs, doc, addDoc, setDoc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
 
 export default {
   name: "OngoingProjects",
   components: { Sidebar, ProfileDisplay, ProjectSwitcher },
+  async mounted() {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.email = user.email;
+          //this.getAcc(this.email);
+          this.getMyProjects(this.email);
+        }
+      });
+    },
   methods: {
-      redirectToOtherComponent() {
-        this.$router.push('/login/projects/tabnavigation') // Replace '/other-component' with the path to your desired component
-      },
+    randomImage() {
+      return `url("${this.images[Math.floor(Math.random() * this.images.length)]}")`;
+    },
+    redirectToOtherComponent(projectName) {
+    this.$router.push({
+      path: '/login/projects/tabnavigation',
+      query: { projectTitle: projectName }
+    });
+  },
+
+      async getMyProjects(email) {
+      const userinfoRef = collection(db, 'userinfo')
+      const userDocRef = doc(userinfoRef, email)
+      const docSnapshot = await getDoc(userDocRef)
+      const myProjects = docSnapshot.data().projects
+
+      const projColRef = collection(db, 'projects')
+      myProjects.forEach(async projId => {
+        const currDocRef = doc(projColRef, projId)
+        const currSnapshot = await getDoc(currDocRef)
+        const currData = currSnapshot.data()
+        currData.id = projId
+        this.projects.push(currData)
+      })
+    },
   },
   data() {
     return { 
       projects: [],
       searchQuery: "",
+      email: '',
+      images: ['/src/assets/office-1.jpg', '/src/assets/office-2.jpg', '/src/assets/office-3.jpg', '/src/assets/office-4.jpg', '/src/assets/office-5.jpg', '/src/assets/office-6.jpg', '/src/assets/office-7.jpg'],
     };
   },
   computed: {
@@ -84,16 +118,6 @@ export default {
       });
     }
   },
-  async created() {
-    try {
-      const querySnapshot = await getDocs(collection(db, "projects"));
-      querySnapshot.forEach((doc) => {
-        this.projects.push(doc.data());
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  },
 } 
 </script>
 
@@ -102,12 +126,20 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  background-image: url('/src/assets/aura.png');
+  background-size: cover;
 }
 
 .searchbar {
     margin-top: 20px; 
     width: 500px;
     height: 30px;
+}
+
+.searchbar::placeholder {
+  font-size: 18px;
+  margin-top: 5px;
+  margin-left: 2px;
 }
 
 .pageContainer {

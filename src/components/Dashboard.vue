@@ -39,19 +39,44 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-    export default {
-    name: "Dashboard",
-    data() {
-        return {
-        unresolved: 0,
-        userAccount: "",
-        chartdata: {},
-        //   chartdata2: { "Item 1": 15, "Item 2": 20, "Item 3": 25, "Item 4": 40 },
-        chartdata3: {},
-        chartdata4: {},
-        selected: "",
-        uncompleted_work: [],
-        };
+export default {
+  name: "Dashboard",
+  data() {
+    return {
+      unresolved: 0,
+      userAccount: "",
+      chartdata: {},
+      //   chartdata2: { "Item 1": 15, "Item 2": 20, "Item 3": 25, "Item 4": 40 },
+      chartdata3: {},
+      chartdata4: {},
+      selected: "",
+      completedWork: 0,
+      uncompletedWork: 0,
+    };
+  },
+  props: {
+    projectTitle: String,
+  },
+  methods: {
+    async display_chart1() {
+      let internal = 0;
+      let external = 0;
+      let allDocuments = await getDocs(
+        collection(db, "projects", this.projectTitle, "Internal_Issue")
+      );
+      allDocuments.forEach((docs) => {
+        internal = internal + 1;
+      });
+      let allDocuments_2 = await getDocs(
+        collection(db, "projects", this.projectTitle, "External_Issue")
+      );
+      allDocuments_2.forEach((docs) => {
+        external = external + 1;
+      });
+      this.chartdata = {
+        "Internal Issues": internal,
+        "External Issues": external,
+      };
     },
     props: {
         projectTitle: String,
@@ -170,8 +195,42 @@ import { onAuthStateChanged } from "firebase/auth";
     props: {
         projectTitle: String,
     },
-    };
-    </script>
+    async outstandingWorkLoad() {
+        let completedWork = 0;
+        let uncompletedWork = 0;
+        const collectionRef = collection(db, "projects", this.projectTitle, "workload")
+        const querySnapshot = await getDocs(collectionRef)
+        for (const docu of querySnapshot.docs) {
+            const oldTasks = docu.data().task;
+            for (const taskId in oldTasks) {
+                const tempTask = oldTasks[taskId];
+                if (tempTask.completed === false) {
+                    this.uncompletedWork += 1 
+                } else {
+                    this.completedWork += 1
+                }
+            }
+        }
+    },
+  },
+  async mounted() {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.displayaccount(user.email);
+      }
+    });
+    await this.outstandingWorkLoad();
+    console.log(this.completedWork);
+    this.display_chart1();
+    this.display_chart2();
+    this.display_chart3();
+    this.display_chart4();
+  },
+  props: {
+    projectTitle: String,
+  },
+};
+</script>
 
     <style scoped>
     #projectTitle {

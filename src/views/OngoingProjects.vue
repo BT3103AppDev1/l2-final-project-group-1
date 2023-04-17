@@ -13,8 +13,8 @@
             </div>
             <div class="projContainer">
                 <div :key="project.id" v-for="project in filteredProjects">
-                    <button class= "container" @click="redirectToOtherComponent(project.project_name)">
-                        <div class="project_name">{{project.project_name}} </div>
+                    <button class= "container" @click="redirectToOtherComponent(project.project_name)" :style="{'background-image': randomImage()}" style="background-size:100%;">
+                        <div class="project_name" style="background-color: var(--light);color:var(--dark);">{{project.project_name}} </div>
                     </button>
                 </div>
             </div>
@@ -77,6 +77,7 @@ export default {
       clientInvites: [],
       allMembers: [],
       today: new Date().toISOString().substr(0, 10),
+      images: ['/src/assets/office-1.jpg', '/src/assets/office-2.jpg', '/src/assets/office-3.jpg', '/src/assets/office-4.jpg', '/src/assets/office-5.jpg', '/src/assets/office-6.jpg', '/src/assets/office-7.jpg'],
     };
   },
 
@@ -102,6 +103,9 @@ export default {
   },
   
   methods: {
+    randomImage() {
+      return `url("${this.images[Math.floor(Math.random() * this.images.length)]}")`;
+    },
     async getAcc(email) {
       const colRef = collection(db, 'userinfo')
       const docRef = doc(colRef, email)
@@ -183,6 +187,7 @@ export default {
       await setDoc(docRef, projData).then((docRef) => {
         projData.id = this.projName;
       })
+       //initialise workload subcollection
       const projectDocRef = await doc(db, "projects", this.projName)
       for (let i = 0; i < this.allMembers.length; i++) {
         const projectSubRef = await doc(projectDocRef, "workload", this.allMembers[i])
@@ -190,6 +195,14 @@ export default {
       }
       const projectSubRef = await doc(projectDocRef, "workload", this.email)
       await setDoc(projectSubRef,  {memberEmail: this.email, task: {}});
+      //initialise feedback subcollection
+      const projectDocRefFeed = await doc(db, "projects", this.projName)
+      for (let i = 0; i < this.allMembers.length; i++) {
+        const projectSubRefFeed = await doc(projectDocRefFeed, "feedback", this.allMembers[i])
+        await setDoc(projectSubRefFeed, {memberEmail: this.allMembers[i], memberFeedback: {}})
+      }
+      const projectSubRefFeed = await doc(projectDocRefFeed, "feedback", this.email)
+      await setDoc(projectSubRefFeed,  {memberEmail: this.email, memberFeedback: {}});
       this.projects.push(projData) 
       //clear all input box
       this.projName = ''
@@ -262,6 +275,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-size: contain;
   cursor: pointer;
 }
+.searchbar::placeholder {
+  font-size: 18px;
+}
 
 input{
   margin-top: 5px;
@@ -288,6 +304,8 @@ input{
   display: flex;
   flex-direction: row;
   width: 100vw;
+  background-image: url('/src/assets/aura.png');
+  background-size: cover;
 }
 
 .searchbar {
@@ -320,6 +338,9 @@ input{
     position: absolute;
     bottom: 0;
     left: 0;
+    width: 100%; 
+    padding-bottom: 2px;
+    padding-top: 2px;
   }
   
   .container {
@@ -331,8 +352,7 @@ input{
     min-height: 300px;
     border: 1px solid steelblue;
     padding: 30px 150px 30px 150px;
-    border-radius: 5px;
-    background-image: url("/src/assets/office_image.jpg");
+    border-radius: 5px; 
     margin-left: 50px;
 }
 </style>
