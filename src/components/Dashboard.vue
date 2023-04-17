@@ -1,7 +1,6 @@
 <template> 
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
+    <p id="projectTitle">{{ projectTitle }}</p> 
     <p v-if="this.risk === 0" class="riskStatus" id="low"><strong style="font-weight: 500;">Your Project is On Track</strong></p>
     <p v-if="this.risk === 1" class="riskStatus" id="slight"><strong style="font-weight: 500;">Your Project is Slightly at Risk</strong></p>
     <p v-if="this.risk === 2" class="riskStatus" id="high"><strong style="font-weight: 500;">Your Project is at Risk</strong></p>
