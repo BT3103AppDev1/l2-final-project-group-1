@@ -1,4 +1,4 @@
-<template>
+<template> 
   <header>
     <p id="projectTitle">{{ projectTitle }}</p> 
   </header>
@@ -24,7 +24,7 @@
       <h3>Workload Status</h3>
       <bar-chart class="user" width="500px" :data="chartdata5"></bar-chart>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script scoped>
@@ -197,6 +197,11 @@ export default {
 </script>
 
     <style scoped>
+
+    .dashCon {
+        background-image: url('/src/assets/aura.png');
+        background-size: cover;
+    }
     #projectTitle {
     font-size: 25px;
     font-weight: 600;

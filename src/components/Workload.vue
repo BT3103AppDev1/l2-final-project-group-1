@@ -341,7 +341,7 @@ th, td {
 }
 
 th {
-    background-color: var(--light-green); 
+    background-color: var(--primary-light); 
 }
 
 #projectTitle {

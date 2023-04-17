@@ -33,8 +33,7 @@
       <div v-show="activeTab === 4">
         <Feedback :projectTitle="this.$route.query.projectTitle" />
       </div>
-      <div v-show="activeTab === 5">OKR Content</div>
-      <div v-show="activeTab === 6">
+      <div v-show="activeTab === 5">
         <About :projectTitle="this.$route.query.projectTitle" />
       </div>
     </div>
@@ -59,8 +58,7 @@ export default {
         "Issues",
         "Workload",
         "Features",
-        "Feedback",
-        "OKR",
+        "Feedback", 
         "About",
       ],
     };
