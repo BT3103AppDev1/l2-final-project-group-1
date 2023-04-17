@@ -1,7 +1,5 @@
 <template>
-<p id = "projectTitle">{{ projectTitle }}</p>
-    <hr>
-    <p id = "header">Feedback</p>
+<p id = "projectTitle">{{ projectTitle }}</p> 
     <div id = "tasktable">
         <button class="button-27" @click="showPopup = true"> New+</button>
                 <table>
@@ -154,8 +152,11 @@ export default {
         background-color: #f2f2f2;
     }
     #projectTitle {
-        font-size: 32pt;
-    }
+        font-size: 25px;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 10px;
+    } 
     #header {
         font-size: 20pt;
         font-weight: bold;

@@ -341,14 +341,15 @@ th, td {
 }
 
 th {
-    background-color: var(--primary-light); 
+    background-color: var(--light-grey); 
 }
 
 #projectTitle {
     font-size: 25px;
-    text-align: center; 
     font-weight: 600;
-}
+    text-align: center;
+    margin-top: 10px;
+} 
  
 #mywork {
     font-size: 15pt;
