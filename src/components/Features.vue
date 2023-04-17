@@ -1,18 +1,18 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>  
-  <div class="nav_bar">
-    <div class="tab">
-      <button
-        v-for="(tab, index) in tabs"
-        :key="index"
-        :class="{ active: activeTab === index }"
-        @click="activeTab = index"
-      >
-        {{ tab }}
-      </button>
+    <p id="projectTitle">{{ projectTitle }}</p>
+    <div class="nav_bar">
+      <div class="tab">
+        <button
+          v-for="(tab, index) in tabs"
+          :key="index"
+          :class="{ active: activeTab === index }"
+          @click="activeTab = index"
+        >
+          {{ tab }}
+        </button>
+      </div>
     </div>
-  </div> 
     <div>
       <div
         v-if="
@@ -93,16 +93,15 @@
             </div>
           </div>
 
-        <div v-show="activeTab === 2">
-          <div :key="feature.id" v-for="feature in terminated">
-            <div class="container">
-              Feature name: {{ feature.name }}
-              <br />
-              Feature description:{{ feature.description }}
+          <div v-show="activeTab === 2">
+            <div :key="feature.id" v-for="feature in terminated">
+              <div class="container">
+                Feature name: {{ feature.name }}
+                <br />
+                Feature description:{{ feature.description }}
+              </div>
             </div>
           </div>
-        </div>
-
         </div>
       </div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
@@ -187,16 +186,18 @@ export default {
       window.location.reload();
     },
     async updateTerminate(feature_id) {
-        const selectedRef = doc(
-          db,
-          "projects",
-          this.projectTitle,
-          "Feature",
-          feature_id
-        );
-        await updateDoc(selectedRef, {
-          terminate: true,
-        });
+      const selectedRef = doc(
+        db,
+        "projects",
+        this.projectTitle,
+        "Feature",
+        feature_id
+      );
+      await updateDoc(selectedRef, {
+        terminate: true,
+      }).then(() => {
+        window.location.reload();
+      });
     },
     async display_features() {
       let allDocuments = await getDocs(
@@ -322,8 +323,7 @@ export default {
 };
 </script>
 
-<style scoped> 
-
+<style scoped>
 button {
   text-align: left;
   vertical-align: top;
@@ -334,7 +334,7 @@ button {
   text-align: center;
   font-weight: 600;
   margin-bottom: 20px;
-} 
+}
 
 #mywork {
   font-size: 15pt;
