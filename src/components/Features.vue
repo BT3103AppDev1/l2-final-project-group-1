@@ -117,7 +117,7 @@
               name="description"
             />
           </div>
-          <input type="submit" value="Add Feature" class="btn btn-block" />
+          <input type="submit" value="Add Feature" class="btnBlock" />
         </form>
       </popup>
     </div>
@@ -393,6 +393,16 @@ button {
 .button-27:disabled {
   pointer-events: none;
 }
+
+.btnBlock {
+  background-color:var(--primary);
+  color:var(--dark);
+  border: none;
+  width: 150px;
+  height: 30px;
+  border-radius: 10px;
+  font-weight: 600;
+}
 .button-27:hover {
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
@@ -401,9 +411,9 @@ button {
   box-shadow: none;
   transform: translateY(0);
 }
-.popup {
-  width: 50%;
-  height: 90%;
+.popup { 
+  width: 600px;
+  height: 400px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -418,12 +428,13 @@ button {
 }
 .form-control {
   margin: 20px 0;
+  width: 500px;
 }
 .form-control label {
   display: block;
 }
 .form-control input {
-  width: 100%;
+  width: 450px;
   height: 40px;
   margin: 5px;
   padding: 3px 7px;
