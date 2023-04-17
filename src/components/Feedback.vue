@@ -87,7 +87,7 @@ export default {
             const snapshot = await getDoc(docRef)
             const tempCount = snapshot.data().feedback_count
             const responseId = tempCount + 1
-            await updateDoc(docRef, { feedback_count: tempCount });
+            await updateDoc(docRef, { feedback_count: tempCount + 1});
             this.allResponses.push({
                 employee: this.userName,
                 id: responseId,
