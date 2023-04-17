@@ -6,15 +6,15 @@
     <br>
     <h3 class="header">{{ "Hello, " + this.userName }}</h3>
     <div class="changeDetailsContainer">
-      <label>Name: </label>
+      <label style="font-weight:600;">Name: </label>
       <br>
       <input type="text" v-model="userName">
       <br>
-      <label>Number: </label>
+      <label style="font-weight:600;">Number: </label>
       <br>
       <input type="text" v-model="number">
       <br>
-      <label for="gender">Gender: </label>
+      <label for="gender" style="font-weight:600;">Gender: </label>
       <br>
       <select id="gender" v-model="this.gender" class="oneSelect">
         <option disabled value="">Please select one</option>
@@ -22,7 +22,7 @@
         <option value="Female">Female</option>
       </select>
       <br>
-      <label for="salutation">Salutation: </label>
+      <label for="salutation" style="font-weight:600;">Salutation: </label>
       <br>
       <select id="salutation" v-model="this.salutation" class="oneSelect">
         <option disabled value="">Please select one</option>
@@ -33,18 +33,18 @@
         <option value="mdm">Mdm</option>
       </select>
       <br>
-      <label>Date of Birth:</label>
+      <label style="font-weight:600;">Date of Birth:</label>
       <br>
       <div class="select-container">
         <select id="dayDropdown" v-model="day"></select>
         <select id="monthDropdown" v-model="month"></select>
         <select id="yearDropdown" v-model="year"></select>
       </div>
-      <button @click="update"><u>Update DOB</u></button>
+      <button @click="update" style="font-weight:600;"><u>Update DOB</u></button>
     </div>
 
     <div id="confirmDetails">
-      <h4 class="header">Confirm your details below:</h4>
+      <h4 class="header" style="color:var(--dark);">Confirm your details below:</h4>
       <p class="details">{{ "Name: " + this.userName }}</p>
       <p class="details">{{ "Number: " + this.number }}</p> 
       <p class="details">{{ "Gender: " + this.gender }}</p>
@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+main {
+  background-image: url(../assets/cal-aura.png); 
+  background-size: 100%;
+}
 input {
   border-radius: 5px;
   padding: 5px;
@@ -208,7 +212,9 @@ input {
 .confirmBtn {
   margin-left: 350px;
   background-color: var(--primary);
-  color: white;
+  color: var(--light);
+  font-size: 15px;
+  font-weight: 500;
   padding: 10px;
   border-radius: 20px;
   width: 150px;
