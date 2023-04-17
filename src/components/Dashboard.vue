@@ -174,10 +174,7 @@ export default {
                     }
                 }
             }
-            console.log(this.completedWork);
-            console.log(this.uncompletedWork);
-            this.chartdata5["Completed Work"] = completedWork
-            this.chartdata5["Uncompleted Work"] = uncompletedWork
+            this.chartdata5 = { "Completed Work": completedWork, "Uncompleted Work" : uncompletedWork }
         },
     },
     
