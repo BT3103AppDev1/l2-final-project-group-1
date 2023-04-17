@@ -74,7 +74,7 @@
         </div>
         <div v-show="activeTab === 1">
           <div id="Current">
-            <h3>Internal Issues</h3>
+            <h3 style="margin-bottom:1em;">Internal Issues</h3>
             <table id="internal_table">
               <thead>
                 <tr>
@@ -98,7 +98,7 @@
               </tbody>
             </table>
             <br />
-            <h3>External Issues</h3>
+            <h3 style="margin-bottom:1em;margin-top:3em;">External Issues</h3>
             <table id="external_table">
               <thead>
                 <tr>
@@ -795,8 +795,7 @@ button {
   max-width: 700px;
   margin-bottom: 20px;
 }
-.tab button {
-  background-color: #f2f2f2;
+.tab button { 
   color: #444;
   border: none;
   padding: 10px 20px;
@@ -804,25 +803,14 @@ button {
   cursor: pointer;
   transition: 0.3s;
 }
-.tab button.active {
-  background-color: var(--light-grey);
+.tab button.active { 
   color: var(--dark);
+  border-bottom: 3px solid var(--primary-alt);
 }
 button {
   text-align: left;
   vertical-align: top;
-}
-.container {
-  color: white;
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px 150px 30px 150px;
-  border-radius: 5px;
-  background-image: url("/src/assets/office_image.jpg");
-}
+} 
 .tab-container {
   display: flex;
   flex-direction: row;
@@ -834,19 +822,20 @@ button {
   display: flex;
   margin-bottom: 20px;
 }
-.tab button {
-  background-color: #f2f2f2;
+.tab button { 
   color: #444;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
+  border-bottom: 1px solid var(--light-grey);
 }
-.tab button.active {
-  background-color: #ddd;
+.tab button.active { 
   color: #444;
+  background-color: none;
 }
+
 #app {
   display: flex;
   flex-direction: column;
