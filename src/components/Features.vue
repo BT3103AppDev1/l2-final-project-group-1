@@ -1,21 +1,18 @@
 <template>
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
-    <p id="header">Features</p>
-    <div class="nav_bar">
-      <div class="tab">
-        <button
-          v-for="(tab, index) in tabs"
-          :key="index"
-          :class="{ active: activeTab === index }"
-          @click="activeTab = index"
-        >
-          {{ tab }}
-        </button>
-      </div>
+    <p id="projectTitle">{{ projectTitle }}</p>  
+  <div class="nav_bar">
+    <div class="tab">
+      <button
+        v-for="(tab, index) in tabs"
+        :key="index"
+        :class="{ active: activeTab === index }"
+        @click="activeTab = index"
+      >
+        {{ tab }}
+      </button>
     </div>
-    <br />
+  </div> 
     <div>
       <div
         v-if="
@@ -325,12 +322,7 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  position: absolute;
-  margin-top: 0px;
-  margin-left: -500px;
-}
+<style scoped> 
 
 button {
   text-align: left;
@@ -338,12 +330,12 @@ button {
 }
 
 #projectTitle {
-  font-size: 32pt;
-}
-#header {
-  font-size: 20pt;
-  font-weight: bold;
-}
+  font-size: 25px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+} 
+
 #mywork {
   font-size: 15pt;
   font-weight: bold;
