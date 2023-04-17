@@ -2,6 +2,10 @@
   <header>
     <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
+    <p id="projectTitle">{{ projectTitle }}</p>
+    <p v-if="this.risk === 0">Your Project is On Track</p>
+    <p v-if="this.risk === 1">Your Project is Slightly at Risk</p>
+    <p v-if="this.risk === 2">Your Project is at Risk</p>
   </header>
   <div class="chart-container">
     <div id="chart1">
@@ -46,6 +50,7 @@ export default {
   data() {
     return {
       unresolved: 0,
+      resolved: 0,
       userAccount: "",
       chartdata: {},
       //   chartdata2: { "Item 1": 15, "Item 2": 20, "Item 3": 25, "Item 4": 40 },
@@ -65,6 +70,9 @@ export default {
           }]
         }
       },
+      completedWordload: 0,
+      uncompletedWordload: 0,
+      risk: 0,
     };
   },
   props: {
@@ -93,6 +101,7 @@ export default {
         },
         async display_chart2() {
             let unresolved_internal = 0;
+            let resolvedIssues = 0;
             let allDocuments = await getDocs(
                 collection(db, "projects", this.projectTitle, "Internal_Issue")
             );
@@ -100,6 +109,9 @@ export default {
                 let documentData = docs.data();
                 if (documentData.resolved == false) {
                 unresolved_internal = unresolved_internal + 1;
+                }
+                else {
+                    resolvedIssues = resolvedIssues + 1;
                 }
             });
             let allDocuments_2 = await getDocs(
@@ -110,8 +122,12 @@ export default {
                 if (documentData.resolved == false) {
                 unresolved_internal = unresolved_internal + 1;
                 }
+                else {
+                    resolvedIssues = resolvedIssues + 1;
+                }
             });
             this.unresolved = unresolved_internal;
+            this.resolved = resolvedIssues;
         },
         async display_chart3() {
             let to_do = 0;
@@ -186,7 +202,32 @@ export default {
                 }
             }
             this.chartdata5 = { "Completed Work": completedWork, "Uncompleted Work" : uncompletedWork }
+            this.completedWordload = completedWork;
+            this.uncompletedWordload = uncompletedWork;
         },
+
+        getStatus() {
+            const issueResolutionRate = 1
+            const outstandingWorkloadPercentage = 0
+            if (this.resolved > 0 || this.unresolved > 0) {
+                issueResolutionRate = this.resolved / (this.resolved + this.unresolved)
+            }
+            if (this.completedWordload > 0 || this.uncompletedWordload > 0) {
+                outstandingWorkloadPercentage = this.uncompletedWordload / (this.completedWordload + this.uncompletedWordload)
+            }
+            if (issueResolutionRate <= 0.5 || outstandingWorkloadPercentage >= 0.2) {
+                this.risk = 2;
+            }
+            if (issueResolutionRate >= 0.7 && outstandingWorkloadPercentage < 0.1) {
+                this.risk = 1;
+            }
+            if (this.resolved === 0 && this.unresolved === 0 && this.completedWordload === 0 && this.uncompletedWordload === 0) {
+                this.risk = 0;
+            }
+            else {
+                this.risk = 0;
+            }
+        }
     },
     
     async mounted() {
@@ -202,6 +243,7 @@ export default {
         this.display_chart3();
         this.display_chart4();
         console.log(this.chartdata5);
+        this.getStatus();
     },
     props: {
         projectTitle: String,
@@ -247,7 +289,8 @@ export default {
     #chart1,
     #chart2,
     #chart3,
-    #chart4 {
+    #chart4,
+    #chart5 {
     position: relative;
     color: black;
     width: 100%;
