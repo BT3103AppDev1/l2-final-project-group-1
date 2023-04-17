@@ -1,6 +1,32 @@
 <template>
     <p id = "projectTitle">{{ projectTitle }}</p> 
     <div id = "tasktable">
+        <div v-if ="this.userAccount === 'External stakeholder'">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Scope</th>
+                        <th>End Date</th>
+                        <th>Issued By</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(task, index) in this.completedTasks" :key="index">
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.employee }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.scope }}</td>
+                    <td>{{ task.endDate }}</td>
+                    <td>{{ task.issuer }}</td>
+                    <td><input type="checkbox" v-model="task.completed" disabled /></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div v-if ="this.userAccount === 'Employee'">
             <table>
                 <thead>
