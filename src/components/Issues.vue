@@ -28,6 +28,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Raised by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -37,6 +38,7 @@
               <tbody>
                 <tr v-for="issue in internal_issues_current" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.raised }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -50,6 +52,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Raised by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -59,6 +62,7 @@
               <tbody>
                 <tr v-for="issue in external_issues_current" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.raised }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -75,6 +79,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Resolved by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -84,6 +89,7 @@
               <tbody>
                 <tr v-for="issue in internal_issues_resolved" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.resolved_by }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -97,6 +103,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Resolved by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -106,6 +113,7 @@
               <tbody>
                 <tr v-for="issue in external_issues_resolved" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.resolved_by }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -140,6 +148,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Raised by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -150,6 +159,7 @@
               <tbody>
                 <tr v-for="issue in internal_issues_current" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.raised }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -176,6 +186,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Raised by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -186,6 +197,7 @@
               <tbody>
                 <tr v-for="issue in external_issues_current" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.raised }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -215,6 +227,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Resolved by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -224,6 +237,7 @@
               <tbody>
                 <tr v-for="issue in internal_issues_resolved" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.resolved_by }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -237,6 +251,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Resolved by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -246,6 +261,7 @@
               <tbody>
                 <tr v-for="issue in external_issues_resolved" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.resolved_by }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -282,6 +298,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Raised by</th>
                   <th>Date raised</th>
                   <th>Type</th>
                   <th>Content</th>
@@ -291,6 +308,7 @@
               <tbody>
                 <tr v-for="issue in external_issues_current" :key="issue.id">
                   <td>{{ issue.id }}</td>
+                  <td>{{ issue.raised }}</td>
                   <td>{{ issue.date_raised }}</td>
                   <td>{{ issue.type }}</td>
                   <td>{{ issue.content }}</td>
@@ -306,6 +324,7 @@
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Resolved by</th>
                 <th>Date raised</th>
                 <th>Type</th>
                 <th>Content</th>
@@ -315,6 +334,7 @@
             <tbody>
               <tr v-for="issue in external_issues_resolved" :key="issue.id">
                 <td>{{ issue.id }}</td>
+                <td>{{ issue.resolved_by }}</td>
                 <td>{{ issue.date_raised }}</td>
                 <td>{{ issue.type }}</td>
                 <td>{{ issue.content }}</td>
@@ -468,6 +488,9 @@ export default {
                 content: this.formData.content,
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
+                raised_by: this.userName,
+                resolved: false,
+                resolved_by: "",
               }
             ).then(() => {
               window.location.reload();
@@ -482,6 +505,8 @@ export default {
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
                 resolved: false,
+                raised_by: this.userName,
+                resolved_by: "",
               }
             ).then(() => {
               window.location.reload();
@@ -529,6 +554,9 @@ export default {
                 content: this.formData.content,
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
+                resolved: false,
+                raised_by: this.userName,
+                resolved_by: "",
               }
             ).then(() => {
               window.location.reload();
@@ -543,6 +571,8 @@ export default {
                 issue_type: this.formData.type,
                 issue_priority: this.formData.priority,
                 resolved: false,
+                raised_by: this.userName,
+                resolved_by: "",
               }
             ).then(() => {
               window.location.reload();
@@ -560,6 +590,8 @@ export default {
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
+        let issue_raised = documentData.raised_by;
+        let issue_resolved = documentData.resolved_by;
         let issue_id = documentData.issue_id;
         let raised_date = documentData.raised_date;
         let content = documentData.content;
@@ -570,6 +602,8 @@ export default {
         if (!resolve_status) {
           this.internal_issues_current.push({
             id: issue_id,
+            raised: issue_raised,
+            resolved_by: issue_resolved,
             date_raised: raised_date,
             type: issue_type,
             content: content,
@@ -579,6 +613,8 @@ export default {
         } else {
           this.internal_issues_resolved.push({
             id: issue_id,
+            raised: issue_raised,
+            resolved_by: issue_resolved,
             date_raised: raised_date,
             type: issue_type,
             content: content,
@@ -599,6 +635,7 @@ export default {
       );
       await updateDoc(selectedRef, {
         resolved: true,
+        resolved_by: this.userName,
       });
       window.location.reload();
     },
@@ -613,6 +650,7 @@ export default {
       );
       await updateDoc(selectedRef, {
         resolved: true,
+        resolved_by: this.userName,
       });
       window.location.reload();
     },
@@ -622,6 +660,8 @@ export default {
       );
       allDocuments.forEach((docs) => {
         let documentData = docs.data();
+        let issue_raised = documentData.raised_by;
+        let issue_resolved = documentData.resolved_by;
         let issue_id = documentData.issue_id;
         let raised_date = documentData.raised_date;
         let content = documentData.content;
@@ -632,6 +672,8 @@ export default {
         if (!resolve_status) {
           this.external_issues_current.push({
             id: issue_id,
+            raised: issue_raised,
+            resolved_by: issue_resolved,
             date_raised: raised_date,
             type: issue_type,
             content: content,
@@ -641,6 +683,8 @@ export default {
         } else {
           this.external_issues_resolved.push({
             id: issue_id,
+            raised: issue_raised,
+            resolved_by: issue_resolved,
             date_raised: raised_date,
             type: issue_type,
             content: content,
