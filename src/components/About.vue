@@ -1,5 +1,6 @@
 <template>
   <header>
+  <div class="aboutCon">
     <p id="projectTitle">{{ projectTitle }}</p> 
     <br />
     <img style="width:400px;height:200px;margin-left:300px;" src="/src/assets/office_image.jpg" class="image" />
@@ -19,6 +20,7 @@
     >
       Edit
     </button>
+  </div>
     <div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
         <form @submit="onSubmit" class="add-form">
@@ -166,11 +168,12 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  position: absolute;
-  margin-top: 0px;
-  margin-left: -500px;
+<style scoped> 
+
+.aboutCon {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -310,6 +313,7 @@ button {
   overflow: auto;
   font-size: 1.3vw;
   padding: 2%;
+  width: 800px;
 }
 .image {
   display: block;
