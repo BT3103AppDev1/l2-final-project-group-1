@@ -5,7 +5,7 @@
     <br />
     <img src="/src/assets/office_image.jpg" class="image" />
     <br />
-    <div class="container">
+    <div class="container2">
       <p>Project Name: {{ project_name }}</p>
       <p>Started: {{ project_start }}</p>
       <p>Due: {{ project_due }}</p>
@@ -289,7 +289,7 @@ button {
   flex: 2;
   height: 20px;
 }
-.container {
+.container2 {
   position: relative;
   color: black;
   margin-left: 2%;
