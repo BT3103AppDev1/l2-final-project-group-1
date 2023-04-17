@@ -1,8 +1,6 @@
-<template>
+<template> 
   <header>
-    <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
-    <p id="header">Dashboard</p>
+    <p id="projectTitle">{{ projectTitle }}</p> 
   </header>
   <div class="chart-container">
     <div id="chart1">
@@ -26,7 +24,7 @@
       <h3>Workload Status</h3>
       <bar-chart class="user" width="500px" :data="chartdata5"></bar-chart>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script scoped>
@@ -199,15 +197,18 @@ export default {
 </script>
 
     <style scoped>
+
+    .dashCon {
+        background-image: url('/src/assets/aura.png');
+        background-size: cover;
+    }
     #projectTitle {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
-    }
-    #header {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 20px;
-    }
+    text-align: center;
+    margin-top: 10px;
+    } 
+
     #app {
     display: flex;
     flex-direction: column;
@@ -217,7 +218,7 @@ export default {
     }
 
     .chart-container {
-    margin: 0em 0em 2em 2em;
+    margin: 2em 0em 2em 2em;
     display: grid;
     grid-template-columns: 45% 45%;
     grid-row-gap: 2em;

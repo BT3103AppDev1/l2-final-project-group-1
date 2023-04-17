@@ -1,7 +1,5 @@
 <template>
-    <p id = "projectTitle">{{ projectTitle }}</p>
-    <hr>
-    <p id = "header">Workload Tracker</p>
+    <p id = "projectTitle">{{ projectTitle }}</p> 
     <div id = "tasktable">
         <div v-if ="this.userAccount === 'Employee'">
             <table>
@@ -343,195 +341,192 @@ export default {
 </script>
 
 <style scoped>
-    #app {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; /* Set the height to fill the entire viewport */
-    }
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-    #projectTitle {
-        font-size: 32pt;
-    }
-    #header {
-        font-size: 20pt;
-        font-weight: bold;
-    }
-    #mywork {
-        font-size: 15pt;
-        font-weight: bold;
-        margin: 0px;
-    }
-    #confirm-changes {
-        align-self: flex-end;
-        background-color: #6d79b4;
-        color: #FFFFFF;
-        border-radius: 12px; 
-        text-align: center;
-        margin: 4px 2px;
-        cursor: pointer;
-        padding: 5px 10px 5px 10px;
-        border-style: solid;
-        border-color: #4a4e69;
-        float: right;
-    } 
-    .changeBtn {
-        color: #FFFFFF;
-    }
-    .popup {
-        width: 400px;
-        height: 600px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border: 1px solid black;
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        }
-    .add-form {
-        margin-bottom: 40px;
-    }
-    .popBtn {
-        background-color: #6d79b4;
-        color: white;
-        width: 135px;
-        height: 35px;
-    }
-    .form-control {
-        margin: 20px 0;
-    }
-    .form-control label {
-        display: block;
-    }
-    .form-control input {
-        width: 95%;
-        height: 40px;
-        margin: 5px;
-        padding: 3px 7px;
-        font-size: 17px;
-    }
-    .form-control-check {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .form-control-check label {
-        flex: 1;
-    }
-    .form-control-check input {
-        flex: 2;
-        height: 20px;
-    }
-    .button-27 {
-        float: right;
-        appearance: none;
-        background-color: #6d79b4;
-        border: 2px solid #1A1A1A;
-        border-radius: 15px;
-        box-sizing: border-box;
-        color: #FFFFFF;
-        cursor: pointer;
-        font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-        font-size: 16px;
-        font-weight: 600;
-        line-height: normal;
-        margin: -50px -10px 10px -10px;
-        min-height: 50px;
-        min-width: 0;
-        outline: none;
-        padding: 13px 24px;
-        text-align: center;
-        text-decoration: none;
-        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        will-change: transform; 
-    }
-    .button-27:disabled {
-        pointer-events: none;
-    }
 
-    .button-27:hover {
-        box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-        transform: translateY(-2px);
-    }
-    .button-27:active {
-        box-shadow: none;
-        transform:  translateY(0);
+#tasktable {
+    margin-top: 25px;
+    width: 1100px;
+}
 
-    }
-    #assign {
-        display: inline-block;
-        background: #000;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 15px;
-        font-family: inherit;
-        margin: auto;
-    }
-    .smallAdd {
-        width: 50px;
-        margin-left: 3px;
-        background-color: black;
-        color: white;
-        margin: 0px 2px 20px 0px;
-        padding: 0%;
-    }
-    .confirm {
-        float: right;
-        appearance: none;
-        background-color: #6d79b4;
-        border: 2px solid #1A1A1A;
-        border-radius: 15px;
-        box-sizing: border-box;
-        color: #FFFFFF;
-        cursor: pointer;
-        font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-        font-size: 12px;
-        font-weight: 600;
-        line-height: normal;
-        margin: 50px -10px 10px -10px;
-        min-height: 50px;
-        min-width: 0;
-        outline: none;
-        padding: 5px 15px;
-        text-align: center;
-        text-decoration: none;
-        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        will-change: transform; 
-    }
-    .buttonName {
-    color: black;
-    margin-right: 2px;
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black; 
     padding: 5px;
-    width: max-content;
-    background-color: #D3D3D3;
-;
+    text-align: center;
+}
+
+th {
+    background-color: var(--primary-light); 
+}
+
+#projectTitle {
+    font-size: 25px;
+    text-align: center; 
+    font-weight: 600;
+}
+ 
+#mywork {
+    font-size: 15pt;
+    font-weight: bold;
+    margin: 0px;
+}
+
+#confirm-changes {
+    align-self: flex-end;
+    background-color: #6d79b4;
+    color: #FFFFFF;
+    border-radius: 20px; 
+    text-align: center;
+    margin: 4px 2px;
+    cursor: pointer;
+    padding: 5px 10px 5px 10px;  
+    border: none;
+    float: right;
+} 
+.changeBtn {
+    color: #FFFFFF;
+}
+.popup {
+    width: 400px;
+    height: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid black;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    }
+.add-form {
+    margin-bottom: 40px;
+}
+.popBtn {
+    background-color: #6d79b4;
+    color: white;
+    width: 135px;
+    height: 35px;
+}
+.form-control {
+    margin: 20px 0;
+}
+.form-control label {
+    display: block;
+}
+.form-control input {
+    width: 95%;
+    height: 40px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+}
+.form-control-check {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.form-control-check label {
+    flex: 1;
+}
+.form-control-check input {
+    flex: 2;
+    height: 20px;
+}
+.button-27 {
+    float: right;
+    appearance: none;
+    background-color: #6d79b4;
+    border: 2px solid #1A1A1A;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: -50px -10px 10px -10px;
+    min-height: 50px;
+    min-width: 0;
+    outline: none;
+    padding: 13px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform; 
+}
+.button-27:disabled {
+    pointer-events: none;
+}
+
+.button-27:hover {
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+.button-27:active {
+    box-shadow: none;
+    transform:  translateY(0);
+
+}
+#assign {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
+    margin: auto;
+}
+.smallAdd {
+    width: 50px;
+    margin-left: 3px;
+    background-color: black;
+    color: white;
+    margin: 0px 2px 20px 0px;
+    padding: 0%;
+}
+.confirm {
+    float: right;
+    appearance: none;
+    background-color: var(--dark-alt); 
+    border-radius: 20px;
+    box-sizing: border-box;
+    color: var(--light);
+    cursor: pointer; 
+    font-size: 15px;
+    font-weight: 500; 
+    margin: 50px -10px 10px -10px; 
+    height: 40px;
+    min-width: 0;
+    outline: none;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform; 
+}
+.buttonName {
+color: black;
+margin-right: 2px;
+padding: 5px;
+width: max-content;
+background-color: #D3D3D3;
 }
 </style>
