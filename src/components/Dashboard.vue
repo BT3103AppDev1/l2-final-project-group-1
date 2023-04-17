@@ -148,6 +148,7 @@ export default {
       });
       this.unresolved = unresolved_internal;
       this.resolved = resolvedIssues;
+      //console.log(this.unresolved);
     },
     async display_chart3() {
       let to_do = 0;
@@ -251,10 +252,20 @@ export default {
     getStatus() {
       let issueResolutionRate = 1;
       let outstandingWorkloadPercentage = 0;
-      if (this.resolved > 0 || this.unresolved > 0) {
+        if (
+            this.resolved === 0 &&
+            this.unresolved === 0 &&
+            this.completedWordload === 0 &&
+            this.uncompletedWordload === 0
+        ) {
+            this.risk = 0;
+        }
+        //console.log(this.resolved);
+        //console.log(this.unresolved);
+      if (this.resolved >= 0 && this.unresolved > 0) {
         issueResolutionRate = this.resolved / (this.resolved + this.unresolved);
       }
-      if (this.completedWordload > 0 || this.uncompletedWordload > 0) {
+      if (this.completedWordload >= 0 && this.uncompletedWordload > 0) {
         outstandingWorkloadPercentage =
           this.uncompletedWordload /
           (this.completedWordload + this.uncompletedWordload);
@@ -262,19 +273,10 @@ export default {
       if (issueResolutionRate <= 0.5 || outstandingWorkloadPercentage >= 0.2) {
         this.risk = 2;
       }
-      if (issueResolutionRate >= 0.7 && outstandingWorkloadPercentage < 0.1) {
+      if (issueResolutionRate < 0.9 && issueResolutionRate > 0.7 && outstandingWorkloadPercentage < 0.1) {
         this.risk = 1;
       }
-      if (
-        this.resolved === 0 &&
-        this.unresolved === 0 &&
-        this.completedWordload === 0 &&
-        this.uncompletedWordload === 0
-      ) {
-        this.risk = 0;
-      } else {
-        this.risk = 0;
-      }
+      // console.log(issueResolutionRate);
     },
   },
 
@@ -287,7 +289,7 @@ export default {
     await this.outstandingWorkLoad();
     console.log(this.chartdata5);
     this.display_chart1();
-    this.display_chart2();
+    await this.display_chart2();
     this.display_chart3();
     this.display_chart4();
     console.log(this.chartdata5);
