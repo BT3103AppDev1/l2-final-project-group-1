@@ -29,21 +29,22 @@ export default {
   align-items: center;
   justify-content: center;
   width: 150px; 
-  height: 50px; 
-  background-color: var(--light); 
+  height: 45px; 
+  background-color: none; 
   text-decoration: none;
+  border-radius: 25px;
 } 
 
 .text {
   text-align: center;  
   font-size: 18px; 
-  color: var(--primary-alt);
+  color: var(--dark-purple);
 }
 
 
 .router-link-active {
   font-weight: bold;
-  background-color: #faeded; 
+  background-color: var(--alt-purple); 
 }
 
 </style>

@@ -8,7 +8,7 @@
   </div>
   <div class="tab-container">
     <div class="tab">
-      <button
+      <button 
         v-for="(tab, index) in tabs"
         :key="index"
         :class="{ active: activeTab === index }"
@@ -33,8 +33,7 @@
       <div v-show="activeTab === 4">
         <Feedback :projectTitle="this.$route.query.projectTitle" />
       </div>
-      <div v-show="activeTab === 5">OKR Content</div>
-      <div v-show="activeTab === 6">
+      <div v-show="activeTab === 5">
         <About :projectTitle="this.$route.query.projectTitle" />
       </div>
     </div>
@@ -59,8 +58,7 @@ export default {
         "Issues",
         "Workload",
         "Features",
-        "Feedback",
-        "OKR",
+        "Feedback", 
         "About",
       ],
     };
@@ -110,32 +108,34 @@ export default {
 }
 
 .tab button.active {
-  background-color: #ddd;
-  color: #444;
+  background-color: var(--light-grey);
+  color: var(--dark);
+  font-weight: 600;
 }
 #back-button-container {
   position: absolute;
   top: 20px;
   left: 30px;
+  height: 30px;
+  margin-top: 10px;
 }
-#back-button-container:hover {
-  background-color: #D3D3D3;
-   border-radius: 25px;
-   width: 10%;
+#back-button-container:hover { 
+  border-radius: 20px; 
 }
 
 #back-button-container button {
   font-size: 15px;
 }
 .button-text-one {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .button-text {
-  font-size: 20px; /* adjust font size as needed */
+  font-size: 18px; /* adjust font size as needed */
 }
 #back:hover {
-  color: #ffffff;
+  color: var(--dark);
+  font-weight: 600;
   transition: background-color 0.1s ease-in-out, color 0.6s ease-in-out;
 }
 </style>
