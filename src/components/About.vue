@@ -1,10 +1,11 @@
 <template>
   <header>
+  <div class="aboutCon">
     <p id="projectTitle">{{ projectTitle }}</p> 
     <br />
-    <img src="/src/assets/office_image.jpg" class="image" />
+    <img style="width:400px;height:200px;margin-left:300px;" src="/src/assets/office_image.jpg" class="image" />
     <br />
-    <div class="container2">
+    <div class="container2" style="margin-left:200px;">
       <p>Project Name: {{ project_name }}</p>
       <p>Started: {{ project_start }}</p>
       <p>Due: {{ project_due }}</p>
@@ -19,6 +20,7 @@
     >
       Edit
     </button>
+  </div>
     <div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
         <form @submit="onSubmit" class="add-form">
@@ -36,7 +38,7 @@
             <label>Project Status</label>
             <input type="text" v-model="formData.status" name="status" />
           </div>
-          <input type="submit" value="Confirm changes" class="btn btn-block" />
+          <input type="submit" value="Confirm changes" class="btnBlock" />
         </form>
       </popup>
     </div>
@@ -166,11 +168,12 @@ export default {
 };
 </script>
 
-<style scoped>
-header {
-  position: absolute;
-  margin-top: 0px;
-  margin-left: -500px;
+<style scoped> 
+
+.aboutCon {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
 }
 
 button {
@@ -182,7 +185,7 @@ button {
     font-weight: 600;
     text-align: center;
     margin-top: 10px; 
-    margin-left: 150px;
+    margin-left: 0px;
 } 
 #header {
   font-size: 20pt;
@@ -253,8 +256,8 @@ button {
   transform: translateY(0);
 }
 .popup {
-  width: 50%;
-  height: 90%;
+  width: 750px;
+  height: 600px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -269,12 +272,23 @@ button {
 }
 .form-control {
   margin: 20px 0;
+  width: 620px;
 }
 .form-control label {
   display: block;
 }
+
+.btnBlock {
+  color: var(--dark);
+  background-color: var(--primary-light);
+  width: 200px;
+  height: 40px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+}
 .form-control input {
-  width: 100%;
+  width: 600px;
   height: 40px;
   margin: 5px;
   padding: 3px 7px;
@@ -299,6 +313,7 @@ button {
   overflow: auto;
   font-size: 1.3vw;
   padding: 2%;
+  width: 800px;
 }
 .image {
   display: block;
