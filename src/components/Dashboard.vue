@@ -1,8 +1,7 @@
 <template>
   <header>
     <p id="projectTitle">{{ projectTitle }}</p>
-    <hr />
-    <p id="header">Dashboard</p>
+    <hr /> 
   </header>
   <div class="chart-container">
     <div id="chart1">
@@ -200,14 +199,12 @@ export default {
 
     <style scoped>
     #projectTitle {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
-    }
-    #header {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 20px;
-    }
+    text-align: center;
+    margin-top: 10px;
+    } 
+
     #app {
     display: flex;
     flex-direction: column;
@@ -217,7 +214,7 @@ export default {
     }
 
     .chart-container {
-    margin: 0em 0em 2em 2em;
+    margin: 2em 0em 2em 2em;
     display: grid;
     grid-template-columns: 45% 45%;
     grid-row-gap: 2em;
