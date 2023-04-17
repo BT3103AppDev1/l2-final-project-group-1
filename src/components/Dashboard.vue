@@ -212,11 +212,13 @@ export default {
 
     <style scoped>
     #projectTitle {
-    font-size: 32pt;
+    font-size: 30px;
+    font-weight: 600;
     }
     #header {
-    font-size: 20pt;
+    font-size: 20px;
     font-weight: bold;
+    margin-top: 20px;
     }
     #app {
     display: flex;
