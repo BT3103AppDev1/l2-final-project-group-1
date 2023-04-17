@@ -147,37 +147,41 @@ export default {
             this.chartdata3 = { "to do": to_do, launched: launched, "Terminated": terminated };
         },
         async display_chart4() {
-            let high = 0;
-            let medium = 0;
-            let low = 0;
-            let allDocuments = await getDocs(
-                collection(db, "projects", this.projectTitle, "Internal_Issue")
-            );
-            allDocuments.forEach((docs) => {
-                let documentData = docs.data();
-                if (documentData.issue_priority == "H") {
-                high = high + 1;
-                } else if (documentData.issue_priority == "H") {
-                medium = medium + 1;
-                } else {
-                low = low + 1;
-                }
-            });
-            let allDocuments_2 = await getDocs(
-                collection(db, "projects", this.projectTitle, "External_Issue")
-            );
-            allDocuments_2.forEach((docs) => {
-                let documentData = docs.data();
-                if (documentData.issue_priority == "H") {
-                high = high + 1;
-                } else if (documentData.issue_priority == "H") {
-                medium = medium + 1;
-                } else {
-                low = low + 1;
-                }
-            });
-            this.chartdata4 = { High: high, Medium: medium, Low: low };
-        },
+      let high = 0;
+      let medium = 0;
+      let low = 0;
+      let allDocuments = await getDocs(
+        collection(db, "projects", this.projectTitle, "Internal_Issue")
+      );
+      allDocuments.forEach((docs) => {
+        let documentData = docs.data();
+        if (!doc.data().resolved) {
+          if (documentData.issue_priority == "H") {
+            high = high + 1;
+          } else if (documentData.issue_priority == "M") {
+            medium = medium + 1;
+          } else {
+            low = low + 1;
+          }
+        }
+      });
+      let allDocuments_2 = await getDocs(
+        collection(db, "projects", this.projectTitle, "External_Issue")
+      );
+      allDocuments_2.forEach((docs) => {
+        let documentData = docs.data();
+        if (!doc.data().resolved) {
+          if (documentData.issue_priority == "H") {
+            high = high + 1;
+          } else if (documentData.issue_priority == "M") {
+            medium = medium + 1;
+          } else {
+            low = low + 1;
+          }
+        }
+      });
+      this.chartdata4 = { High: high, Medium: medium, Low: low };
+    },
         async displayaccount(useremail) {
             const Snapshot = await getDocs(collection(db, "userinfo"));
             Snapshot.forEach((doc) => {
