@@ -61,7 +61,15 @@
                   type="button"
                   v-on:click="updateLaunched(feature.id)"
                 >
-                  Lauched
+                  Launched
+                </button>
+                <br />
+                <button
+                  id="terminate_button"
+                  type="button"
+                  v-on:click="updateTerminate(feature.id)"
+                >
+                  Terminate
                 </button>
               </div>
             </div>
@@ -73,9 +81,28 @@
                 <u> {{ feature.name }} </u>
                 <br />
                 Feature description: {{ feature.description }}
+                <br />
+                <button
+                  id="terminate_button"
+                  type="button"
+                  v-on:click="updateTerminate(feature.id)"
+                >
+                  Terminate
+                </button>
               </div>
             </div>
           </div>
+
+        <div v-show="activeTab === 2">
+          <div :key="feature.id" v-for="feature in terminated">
+            <div class="container">
+              Feature name: {{ feature.name }}
+              <br />
+              Feature description:{{ feature.description }}
+            </div>
+          </div>
+        </div>
+
         </div>
       </div>
       <popup :title="popupTitle" v-if="showPopup" @close="showPopup = false">
@@ -136,9 +163,10 @@ export default {
         name: "",
         description: "",
       },
-      tabs: ["To do", "Launched"],
+      tabs: ["To do", "Launched", "Terminated"],
       to_do: [],
       launched: [],
+      terminated: [],
       userAccount: "",
       userName: "",
       userPic: "",
@@ -158,6 +186,18 @@ export default {
       });
       window.location.reload();
     },
+    async updateTerminate(feature_id) {
+        const selectedRef = doc(
+          db,
+          "projects",
+          this.projectTitle,
+          "Feature",
+          feature_id
+        );
+        await updateDoc(selectedRef, {
+          terminate: true,
+        });
+    },
     async display_features() {
       let allDocuments = await getDocs(
         collection(db, "projects", this.projectTitle, "Feature")
@@ -168,15 +208,22 @@ export default {
         let feature_name = documentData.name;
         let feature_description = documentData.description;
         let status = documentData.launched;
+        let term = documentData.terminate;
 
-        if (!status) {
+        if (!status && !term) {
           this.to_do.push({
             id: feature_id,
             name: feature_name,
             description: feature_description,
           });
-        } else {
+        } else if (status && !term) {
           this.launched.push({
+            id: feature_id,
+            name: feature_name,
+            description: feature_description,
+          });
+        } else {
+          this.terminated.push({
             id: feature_id,
             name: feature_name,
             description: feature_description,
@@ -212,6 +259,7 @@ export default {
                   name: this.formData.name,
                   description: this.formData.description,
                   launched: false,
+                  terminate: false,
                 }
               ).then(() => {
                 window.location.reload();
@@ -224,6 +272,7 @@ export default {
                   name: this.formData.name,
                   description: this.formData.description,
                   launched: false,
+                  terminate: false,
                 }
               ).then(() => {
                 window.location.reload();
@@ -392,6 +441,17 @@ button {
   height: 20px;
 }
 #launched_button {
+  background-color: #4a4e69;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 20%;
+  font-size: 1.15vw;
+  margin-top: 3%;
+  border-radius: 4px;
+}
+#terminate_button {
   background-color: #4a4e69;
   color: #ffffff;
   text-align: center;
