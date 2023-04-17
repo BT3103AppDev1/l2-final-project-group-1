@@ -24,7 +24,7 @@
 
     <div id="chart5">
       <h3>Workload Status</h3>
-      <pie-chart class="user" width="500px" :data="chartdata5"></pie-chart>
+      <bar-chart class="user" width="500px" :data="chartdata5"></bar-chart>
     </div>
   </div>
 </template>
@@ -53,9 +53,7 @@ export default {
       chartdata3: {},
       chartdata4: {},
       selected: "",
-      completedWork: 0,
-      uncompletedWork: 0,
-      chartdata5: {"Completed Work": this.completedWork, "Uncompleted Work": this.uncompletedWork},
+      chartdata5: {},
     };
   },
   props: {
@@ -170,16 +168,19 @@ export default {
                 for (const taskId in oldTasks) {
                     const tempTask = oldTasks[taskId];
                     if (tempTask.completed === false) {
-                        this.uncompletedWork += 1 
+                        uncompletedWork += 1 
                     } else {
-                        this.completedWork += 1
+                        completedWork += 1
                     }
                 }
             }
             console.log(this.completedWork);
             console.log(this.uncompletedWork);
+            this.chartdata5["Completed Work"] = completedWork
+            this.chartdata5["Uncompleted Work"] = uncompletedWork
         },
     },
+    
     async mounted() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -187,7 +188,7 @@ export default {
             }
         });
         await this.outstandingWorkLoad();
-        console.log(this.completedWork);
+        console.log(this.chartdata5);
         this.display_chart1();
         this.display_chart2();
         this.display_chart3();
