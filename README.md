@@ -34,4 +34,8 @@ To run this app, run these lines
 
 `npm i vue-router`
 
+`npm install --save vue-advanced-chat`
+
+`npm install vue-chartkick chart.js`
+
 `npm run dev`
