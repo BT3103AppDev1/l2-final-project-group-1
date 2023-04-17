@@ -44,7 +44,7 @@
     </div>
 
     <div id="confirmDetails">
-      <h4 class="header">Confirm your details below:</h4>
+      <h4 class="header" id="confirmHeader">Confirm your details below:</h4>
       <p class="details">{{ "Name: " + this.userName }}</p>
       <p class="details">{{ "Number: " + this.number }}</p> 
       <p class="details">{{ "Gender: " + this.gender }}</p>
@@ -220,5 +220,9 @@ input {
 
 .header {
   color: var(--dark-purple);
+}
+
+#confirmHeader {
+  color: black;
 }
 </style>
