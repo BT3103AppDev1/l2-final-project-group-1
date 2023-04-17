@@ -2,7 +2,6 @@
   <header>
     <p id="projectTitle">{{ projectTitle }}</p>
     <hr />
-    <p id="header">Dashboard</p>
   </header>
   <div class="chart-container">
     <div id="chart1">
